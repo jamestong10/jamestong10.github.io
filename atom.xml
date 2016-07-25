@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[JamesTong-rrt Blog]]></title>
+  <link href="http://jamestong10.github.io/atom.xml" rel="self"/>
+  <link href="http://jamestong10.github.io/"/>
+  <updated>2016-07-26T00:23:55+08:00</updated>
+  <id>http://jamestong10.github.io/</id>
+  <author>
+    <name><![CDATA[T.R.R]]></name>
+    
+  </author>
+
+  
+</feed>
