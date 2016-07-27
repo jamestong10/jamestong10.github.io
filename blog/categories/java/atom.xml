@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Java | JamesTong Blog]]></title>
+  <link href="http://jamestong10.github.io/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://jamestong10.github.io/"/>
+  <updated>2016-07-28T00:53:00+08:00</updated>
+  <id>http://jamestong10.github.io/</id>
+  <author>
+    <name><![CDATA[T.R.R]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Java Enum]]></title>
+    <link href="http://jamestong10.github.io/blog/2016/07/28/java-enum/"/>
+    <updated>2016-07-28T00:44:15+08:00</updated>
+    <id>http://jamestong10.github.io/blog/2016/07/28/java-enum</id>
+    <content type="html"><![CDATA[<h3>在J2SE 5.0 之前，沒有Enum</h3>
+
+<p>使用<code>static</code>與<code>final</code>兩個修飾詞建立常數變數</p>
+
+<ul>
+<li>static：class variable, class 未被instance 就被宣告完成且可以使用、所有class 是參考同一個變數</li>
+<li>final：使用之後此變數即是常數，無法被繼承也無法被修改</li>
+</ul>
+
+
+<pre><code>public Class StateMachines {
+    public static final String ORDER_PLACED = "1";
+    public static final String PAID = "2";
+    public static final String SHIPPING = "3";
+    public static final String SHIPPED = "4";
+    public static final String ORDER_CANCELLED = "5";
+    public static final String GOOD_RETURNED = "6";
+}
+</code></pre>
+
+<h3>Enum 使用方法</h3>
+
+<ol>
+<li><p>定義常數，例如要定義購買流程狀態，就定出已下訂、已付款&hellip;等代碼
+<code>
+public enum StateMachines {
+ ORDER_PLACED,PAID,SHIPPING,SHIPPED,ORDER_CANCELLED,GOOD_RETURNED;
+}
+</code></p></li>
+<li><p>定義常數內容、overriding、switch case
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public enum StateMachines {
+</span><span class='line'>   ORDER_PLACED(1),PAID(2),SHIPPING(3),SHIPPED(4),ORDER_CANCELLED(5),GOOD_RETURNED(6);&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt; private int step;
+</span><span class='line'>
+</span><span class='line'> private Direction(int step) {
+</span><span class='line'>   this.step = step;
+</span><span class='line'> }
+</span><span class='line'>
+</span><span class='line'> @Override
+</span><span class='line'> public String toString() {
+</span><span class='line'>   return String.valueOf(this.step);
+</span><span class='line'> }
+</span><span class='line'>
+</span><span class='line'> public String getChName() {
+</span><span class='line'>   switch(this) {
+</span><span class='line'>   case ORDER_PLACED:
+</span><span class='line'>     return "已下訂";
+</span><span class='line'>   case PAID:
+</span><span class='line'>     return "已付款";
+</span><span class='line'>     // 略
+</span><span class='line'>   }
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;   }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p></li>
+</ol>
+
+
+<h3>結論</h3>
+
+<ol>
+<li>enum 不可繼承其他類別</li>
+<li>可新增method 在enum 內</li>
+<li>可overriding 原enum 的method</li>
+<li>switch 可使用enum 作為判斷</li>
+<li>歸納同性質的常數，並可以衍生共用method</li>
+<li>常數的泛型化應用</li>
+</ol>
+
+
+<h3>References:</h3>
+
+<ul>
+<li><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html">Enum Java Docs</a></li>
+<li><a href="http://www.cnblogs.com/happyPawpaw/archive/2013/04/09/3009553.html">Java enum的用法详解</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
