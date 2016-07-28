@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[JamesTong Blog]]></title>
+  <title><![CDATA[JT's Blog]]></title>
   <link href="http://jamestong10.github.io/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-07-28T00:53:00+08:00</updated>
+  <updated>2016-07-28T13:23:01+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -268,6 +268,32 @@ BitBucket 點選<a href="https://bitbucket.org/repo/create">Create</a> 建立新
 </span><span class='line'>subscribe_email:    # Url to subscribe by email (service required)
 </span><span class='line'>category_feeds:     # Enable per category RSS feeds (defaults to false in 2.1)
 </span><span class='line'>email:              # Email address for the RSS feed if you want it.</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>增加About Me</h3>
+
+<p>想在navbar 加入about 的link</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake new_page["about"]
+</span><span class='line'># 檔案產生在 source/about/index.markdown</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Navbar 加入about link</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># /source/_includes/custom/navigation.html
+</span><span class='line'>&lt;ul class="main-navigation"&gt;
+</span><span class='line'>  &lt;li&gt;&lt;a href="http://jamestong10.github.io/"&gt;Blog&lt;/a&gt;&lt;/li&gt;
+</span><span class='line'>  &lt;li&gt;&lt;a href="http://jamestong10.github.io/blog/archives"&gt;Archives&lt;/a&gt;&lt;/li&gt;
+</span><span class='line'>  &lt;li&gt;&lt;a href="http://jamestong10.github.io/about"&gt;About&lt;/a&gt;&lt;/li&gt;
+</span><span class='line'>&lt;/ul&gt;</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>References</h3>
