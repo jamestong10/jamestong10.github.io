@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="http://jamestong10.github.io/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-07-29T12:12:29+08:00</updated>
+  <updated>2016-08-01T14:31:03+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -12,6 +12,259 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Git Commands]]></title>
+    <link href="http://jamestong10.github.io/blog/2016/08/01/git-commands/"/>
+    <updated>2016-08-01T00:43:42+08:00</updated>
+    <id>http://jamestong10.github.io/blog/2016/08/01/git-commands</id>
+    <content type="html"><![CDATA[<blockquote><p>本篇並非Git 教學，只是記錄常用的Git 指令，有學到新的指令會再更新上來
+如果不太熟悉可在指令後加入 &ndash;help 查詢用法</p></blockquote>
+
+<h3>Git 基本設定</h3>
+
+<p>查詢設定資訊</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git config --list</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定使用者與Email</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git config --global user.name [author_name]
+</span><span class='line'>git config --global user.email [contact_email_address]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定別名</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git config --global alias.st status   # git st
+</span><span class='line'>$ git config --global alias.ci commit   # git ci
+</span><span class='line'>$ git config --global alias.co checkout # git co
+</span><span class='line'>$ git config --global alias.br branch   # git br</span></code></pre></td></tr></table></div></figure>
+
+
+<p>本機建立新的repository</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git init</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看工作區(Working Directory)的異動紀錄</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git status
+</span><span class='line'>$ git st</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看檔案異動差異</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff</span></code></pre></td></tr></table></div></figure>
+
+
+<p>加入暫存區</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git add [--] [file_path | file_name]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>提交並加上註解</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git commit -m [comments]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>開啟editor 修改近期已經commit 的註解 (建議少用，除非必要)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git commit --amend</span></code></pre></td></tr></table></div></figure>
+
+
+<p>快速修正前一次 commit 的錯誤，只要修 typo 之後打這行，就會替換掉前一次的 commit-level-operations</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git commit -C HEAD -a –amend</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看提交紀錄</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git log</span></code></pre></td></tr></table></div></figure>
+
+
+<p>砍掉commit 重來</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git reset [--soft | --hard] [-q] [&lt;commit&gt;]
+</span><span class='line'>
+</span><span class='line'>$ git reset --soft HEAD^ # HEAD^ 表示前一個版本</span></code></pre></td></tr></table></div></figure>
+
+
+<p>soft: commit 內容會退回暫存區(staging area)，並保留工作區(working directory)</p>
+
+<p>hard: 工作區(working directory) 與暫存區(staging area) 會更新到指定的commit 狀態</p>
+
+<h3>Git Branch</h3>
+
+<p>列出所有分支且正在使用哪個分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch</span></code></pre></td></tr></table></div></figure>
+
+
+<p>建立新的分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch [branch_name]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>切換分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout [branch_name]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>建立新的分支並切換到此分支 (等於 git branch + git checkout)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout -b [branch_name]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>修改分支名稱與刪除分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch -m [old_branch_name] [new_branch_name]
+</span><span class='line'>$ git branch -d [branch_name]</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Git Merge &amp; Git Rebase</h3>
+
+<blockquote><p>merge 分支的功能加master，同時會產生新的HEAD
+合併分支到master</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout master
+</span><span class='line'>$ git merge feature1
+</span><span class='line'>
+</span><span class='line'># 上下相同
+</span><span class='line'>$ git merge master feature1</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>rebase 是基於某一分支的內容合併，又稱為分支衍合，一樣是合併的動作，但是會銜接著mater 最新的狀態</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout [branch]
+</span><span class='line'>$ git rebase master</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Merge v.s. Rebase</p>
+
+<p><strong>使用時機：如果conflict 較多時，建議使用merge</strong></p>
+
+<p>假設以下例子要做合併，可以看出merge與rebase 有何差異</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>maser:  A -&gt; B -&gt; C
+</span><span class='line'>branch: D -&gt; E
+</span><span class='line'>
+</span><span class='line'>after rebase: A -&gt; B -&gt; C -&gt; D -&gt; E
+</span><span class='line'>after merge:  A -&gt; B -&gt; C -&gt; D -&gt; E -&gt; F</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Git Remote</h3>
+
+<p>列出當初加入遠端儲存庫時指定的名稱</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote</span></code></pre></td></tr></table></div></figure>
+
+
+<p>本機加入遠端repository</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote add [remote_name] [url]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>修改遠端repository url</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote set-url [new_remote_name] [url]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>拷貝一個已經存在的repository</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone [repository_url]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>變更遠端簡稱</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote rename [old_remote_name] [new_remote_name]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看remote 資訊</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote show [remote_name]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>移除遠端repository</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote remove [remote_name]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上傳至遠端repository</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git push [remote_name] [branch_name]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>合併遠端repository 至本機</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git pull [remote_name] [branch_name]
+</span><span class='line'>
+</span><span class='line'># 上下相同
+</span><span class='line'>
+</span><span class='line'>$ git pull</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://git-scm.com/doc">GitDoc</a></li>
+<li><a href="https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf">Git cheat sheet</a></li>
+<li><a href="https://ihower.tw/git/basic.html">ihower Git Basic</a></li>
+<li><a href="https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting/commit-level-operations">tutorial reset, checkout, revert</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Java Enum]]></title>

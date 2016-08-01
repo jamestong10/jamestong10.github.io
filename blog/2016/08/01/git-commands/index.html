@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>JT's Blog</title>
+  <title>Git Commands - JT's Blog</title>
   <meta name="author" content="T.R.R">
 
   
@@ -22,7 +22,7 @@ git config --global user. &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://jamestong10.github.io">
+  <link rel="canonical" href="http://jamestong10.github.io/blog/2016/08/01/git-commands">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="" rel="alternate" title="JT's Blog" type="application/atom+xml">
@@ -99,15 +99,14 @@ git config --global user. &hellip;">
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/08/01/git-commands/">Git Commands</a></h1>
+      
+        <h1 class="entry-title">Git Commands</h1>
+      
     
     
       <p class="meta">
@@ -124,7 +123,7 @@ git config --global user. &hellip;">
   </header>
 
 
-  <div class="entry-content"><blockquote><p>本篇並非Git 教學，只是記錄常用的Git 指令，有學到新的指令會再更新上來
+<div class="entry-content"><blockquote><p>本篇並非Git 教學，只是記錄常用的Git 指令，有學到新的指令會再更新上來
 如果不太熟悉可在指令後加入 &ndash;help 查詢用法</p></blockquote>
 
 <h3>Git 基本設定</h3>
@@ -370,357 +369,60 @@ git config --global user. &hellip;">
 </ul>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/07/28/java-enum/">Java Enum</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-07-28T00:44:15+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:44 am</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>在J2SE 5.0 之前，沒有Enum</h3>
-
-<p>使用<code>static</code>與<code>final</code>兩個修飾詞建立常數變數</p>
-
-<ul>
-<li>static：class variable, class 未被instance 就被宣告完成且可以使用、所有class 是參考同一個變數</li>
-<li>final：使用之後此變數即是常數，無法被繼承也無法被修改</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public Class StateMachines {
-</span><span class='line'>    public static final String ORDER_PLACED = "1";
-</span><span class='line'>    public static final String PAID = "2";
-</span><span class='line'>    public static final String SHIPPING = "3";
-</span><span class='line'>    public static final String SHIPPED = "4";
-</span><span class='line'>    public static final String ORDER_CANCELLED = "5";
-</span><span class='line'>    public static final String GOOD_RETURNED = "6";
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Enum 使用方法</h3>
-
-<ol>
-<li>定義常數，例如要定義購買流程狀態，就定出已下訂、已付款&hellip;等代碼</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public enum StateMachines {
-</span><span class='line'>    ORDER_PLACED,PAID,SHIPPING,SHIPPED,ORDER_CANCELLED,GOOD_RETURNED;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>定義常數內容、overriding、switch case</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public enum StateMachines {
-</span><span class='line'>      ORDER_PLACED(1),PAID(2),SHIPPING(3),SHIPPED(4),ORDER_CANCELLED(5),GOOD_RETURNED(6);
-</span><span class='line'>
-</span><span class='line'>        private int step;
-</span><span class='line'>
-</span><span class='line'>        private Direction(int step) {
-</span><span class='line'>          this.step = step;
-</span><span class='line'>        }
-</span><span class='line'>
-</span><span class='line'>        @Override
-</span><span class='line'>        public String toString() {
-</span><span class='line'>          return String.valueOf(this.step);
-</span><span class='line'>        }
-</span><span class='line'>
-</span><span class='line'>        public String getChName() {
-</span><span class='line'>          switch(this) {
-</span><span class='line'>          case ORDER_PLACED:
-</span><span class='line'>            return "已下訂";
-</span><span class='line'>          case PAID:
-</span><span class='line'>            return "已付款";
-</span><span class='line'>            // 略
-</span><span class='line'>          }
-</span><span class='line'>      }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>結論</h3>
-
-<ol>
-<li>enum 不可繼承其他類別</li>
-<li>可新增method 在enum 內</li>
-<li>可overriding 原enum 的method</li>
-<li>switch 可使用enum 作為判斷</li>
-<li>歸納同性質的常數，並可以衍生共用method</li>
-<li>常數的泛型化應用</li>
-</ol>
-
-
-<h3>References:</h3>
-
-<ul>
-<li><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html">Enum Java Docs</a></li>
-<li><a href="http://www.cnblogs.com/happyPawpaw/archive/2013/04/09/3009553.html">Java enum的用法详解</a></li>
-</ul>
-
-</div>
-  
   
 
 
-    </article>
+
+  <span class="byline author vcard">Authored by <span class="fn">
   
+    T.R.R
   
-    <article>
+  </span></span>
+
+
       
-  <header>
+
+
+
+
+<time class='entry-date' datetime='2016-08-01T00:43:42+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>12:43 am</span></time>
+      
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/git/'>git</a>
+  
+</span>
+
+
+    </p>
     
-      <h1 class="entry-title"><a href="/blog/2016/07/26/octopress-plus-github/">Using Octopress and Github to Write Blog</a></h1>
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://jamestong10.github.io/blog/2016/08/01/git-commands/" data-via="" data-counturl="http://jamestong10.github.io/blog/2016/08/01/git-commands/" >Tweet</a>
+  
+  
+  
+</div>
+
     
-    
-      <p class="meta">
-        
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/07/28/java-enum/" title="Previous Post: java enum">&laquo; java enum</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-
-
-
-<time class='entry-date' datetime='2016-07-26T13:51:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:51 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>新增GitHub Repository</h3>
-
-<p>點選<a href="https://github.com/new">new</a> 建立新的Repository，命名為 username.github.io</p>
-
-<h3>取得Octopress</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone git@github.com:imathis/octopress.git username.github.io
-</span><span class='line'>$ cd username.github.io
-</span><span class='line'>$ bundle install</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>設定GitHub Repository Pages</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec rake setup_github_pages
-</span><span class='line'>
-</span><span class='line'># (For example, 'git@github.com:your_username/your_username.github.io.git)
-</span><span class='line'>#            or 'https://github.com/your_username/your_username.github.io')</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>安裝預設主題</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake install</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>Octopress 已經安裝好了！可以執行<code>$rake preview</code>，輸入<a href="http://localhost:4000/">http://localhost:4000/</a> 在本機看一下效果！</p></blockquote>
-
-<h3>新增BitBucket Repository</h3>
-
-<ol>
-<li>不想讓使用者看到編輯中的文章或是編輯紀錄</li>
-<li>節省成本暫不考慮GitHub Private 方案
-BitBucket 點選<a href="https://bitbucket.org/repo/create">Create</a> 建立新的Repository，命名為username.github.com，在本機加入remote repository</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote add bitbucket git@bitbucket.org:username/username.github.io.git
-</span><span class='line'>
-</span><span class='line'># push to bitbucket
-</span><span class='line'>$ git add .
-</span><span class='line'>$ git commit -m "Initial Commit"
-</span><span class='line'>$ git push -u bitbucket --all</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>新增文章</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake new_post
-</span><span class='line'># Enter a title for your post:
-</span><span class='line'>
-</span><span class='line'># 上下相同
-</span><span class='line'>$ rake new_post['article-title']</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>預覽文章</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake preview</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>產生網頁與發佈文章</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake generate
-</span><span class='line'>$ rake deploy</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>其他</h2>
-
-<h3><em>安裝其他主題</em></h3>
-
-<p>可到<a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">Wiki</a> 選擇喜歡的主題</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake install['主題名稱']
-</span><span class='line'>$ rake generate</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Octopress 設定檔</h3>
-
-<p>可參考<a href="http://octopress.org/docs/configuring/">官網設定說明</a>調整設定檔</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># _config.yml
-</span><span class='line'>url:                # For rewriting urls for RSS, etc
-</span><span class='line'>title:              # Used in the header and title tags
-</span><span class='line'>subtitle:           # A description used in the header
-</span><span class='line'>author:             # Your name, for RSS, Copyright, Metadata
-</span><span class='line'>simple_search:      # Search engine for simple site search
-</span><span class='line'>description:        # A default meta description for your site
-</span><span class='line'>date_format:        # Format dates using Ruby's date strftime syntax
-</span><span class='line'>subscribe_rss:      # Url for your blog's feed, defauts to /atom.xml
-</span><span class='line'>subscribe_email:    # Url to subscribe by email (service required)
-</span><span class='line'>category_feeds:     # Enable per category RSS feeds (defaults to false in 2.1)
-</span><span class='line'>email:              # Email address for the RSS feed if you want it.</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>增加About Me</h3>
-
-<p>先產生about page</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake new_page["about"]
-</span><span class='line'># source/about/index.markdown</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Navbar 加入about link</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># /source/_includes/custom/navigation.html
-</span><span class='line'>&lt;ul class="main-navigation"&gt;
-</span><span class='line'>  &lt;li&gt;&lt;a href="/"&gt;Blog&lt;/a&gt;&lt;/li&gt;
-</span><span class='line'>  &lt;li&gt;&lt;a href="/blog/archives"&gt;Archives&lt;/a&gt;&lt;/li&gt;
-</span><span class='line'>  &lt;li&gt;&lt;a href="/about"&gt;About&lt;/a&gt;&lt;/li&gt;
-</span><span class='line'>&lt;/ul&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>References</h3>
-
-<ul>
-<li><a href="http://blog.jex.tw/blog/2015/03/24/octopress/">使用 Octopress 寫 Blog</a></li>
-</ul>
 
 </div>
-  
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    
-  
-</aside>
 
     </div>
   </div>
