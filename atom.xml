@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="http://jamestong10.github.io/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-03T10:10:04+08:00</updated>
+  <updated>2016-08-04T11:02:06+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -12,6 +12,195 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Basic]]></title>
+    <link href="http://jamestong10.github.io/blog/2016/08/04/ruby-basic/"/>
+    <updated>2016-08-04T10:41:35+08:00</updated>
+    <id>http://jamestong10.github.io/blog/2016/08/04/ruby-basic</id>
+    <content type="html"><![CDATA[<h2>必須知道的網站</h2>
+
+<ol>
+<li><a href="http://ruby-doc.org/">http://ruby-doc.org/</a>
+
+<ol>
+<li>core：核心程式，也就是執行ruby 一定要載入的程式</li>
+<li>std-lib：標準套件，要使用require 載入，例如：Time</li>
+</ol>
+</li>
+<li><a href="https://www.ruby-toolbox.com/">https://www.ruby-toolbox.com/</a>
+
+<ol>
+<li>ruby gems</li>
+<li>D.R.Y. 不要自己造輪子</li>
+</ol>
+</li>
+</ol>
+
+
+<h2>Ruby Object</h2>
+
+<p>Ruby 萬物皆物件，所以要先知道物件屬於什麼Class，有哪些methods 可以使用</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ "123".class
+</span><span class='line'>$ String.methods
+</span><span class='line'># 如果method 不熟，就可以到doc 查詢說明與用法</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>變數命名規則</h2>
+
+<ul>
+<li>local variable：以英文字或是下底線開頭</li>
+<li>global variable：以$ 開頭</li>
+<li>instance variable：以＠開頭命名</li>
+<li>class variable：以＠＠開頭命名</li>
+<li>constant：常量，為全英文大寫命名，常用設定環境變數</li>
+</ul>
+
+
+<h2>多重賦值</h2>
+
+<p>只要等號兩邊結構一致，在複雜的結構，多重賦值皆可輕鬆對應</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>a,b,c = 1,2,3
+</span><span class='line'>
+</span><span class='line'>a,*b,c = 1,2,3,4,5,6
+</span><span class='line'># [1,[2,3,4,5],6]
+</span><span class='line'>
+</span><span class='line'>a,b,*c = 1,2,3,4,5,6
+</span><span class='line'># [1,2,[3,4,5,6]
+</span><span class='line'>
+</span><span class='line'># 交換值
+</span><span class='line'>a,b=0,1
+</span><span class='line'>a,b=b,a
+</span><span class='line'>
+</span><span class='line'># 分配陣列值
+</span><span class='line'>ary = [1,2]
+</span><span class='line'>a,b = ary
+</span><span class='line'>
+</span><span class='line'># 取得槽狀陣列元素
+</span><span class='line'>ary = [1,[2,3],4]
+</span><span class='line'>a,b,c = ary
+</span><span class='line'>
+</span><span class='line'># 取得槽狀陣列組合
+</span><span class='line'>ary = [1,[2,3],4]
+</span><span class='line'>a,(b1,b2),c = ary</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>三元判斷式(if)</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if x &gt; 10
+</span><span class='line'>  puts "bigger"
+</span><span class='line'>else
+</span><span class='line'>  puts "smaller"
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'># 上下相同
+</span><span class='line'>(x&gt;10) ? "bigger" : "smaller"</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>if Condition, unless Condition</h2>
+
+<p>if 和unless 可以放在希望執行的程式後面</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>puts "a is bigger than b" if a &gt; b
+</span><span class='line'>
+</span><span class='line'>puts "a is bigger than b" unless a &lt; b</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Array</h2>
+
+<p>使用<code>[]</code>表示</p>
+
+<h2>Hash</h2>
+
+<p>key, value 的組合，使用<code>{}</code>表示</p>
+
+<h2>Symbol vs. String</h2>
+
+<ul>
+<li>每建立一個String 物件，就會產生一個新的String 物件</li>
+<li>Symbol 是有名字的物件，一個名字只會有一個，不可修改(immutable)，也不能賦予值，當作hash key</li>
+<li><a href="http://stackoverflow.com/questions/2341837/understanding-symbols-in-ruby">#很多人也搞不懂Symbol</a></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># String
+</span><span class='line'>3.times { puts "foo".object_id }
+</span><span class='line'># 70094949931660
+</span><span class='line'># 70094949931540
+</span><span class='line'># 70094949931480
+</span><span class='line'>
+</span><span class='line'># Symbol-1
+</span><span class='line'>3.times { puts :foo.object_id }
+</span><span class='line'># 1149788
+</span><span class='line'># 1149788
+</span><span class='line'># 1149788
+</span><span class='line'>
+</span><span class='line'># Symbol-2
+</span><span class='line'>present1 = { :toy =&gt; "cars"}
+</span><span class='line'>present2 = { :toy =&gt; "dolls"}
+</span><span class='line'>p present1[:toy] # cars
+</span><span class='line'>p present2[:toy] # dolls</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Git Commands]]></title>
