@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | JT's Blog]]></title>
   <link href="http://jamestong10.github.io/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-04T11:02:06+08:00</updated>
+  <updated>2016-08-04T13:10:15+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -18,7 +18,7 @@
     <link href="http://jamestong10.github.io/blog/2016/07/28/java-enum/"/>
     <updated>2016-07-28T00:44:15+08:00</updated>
     <id>http://jamestong10.github.io/blog/2016/07/28/java-enum</id>
-    <content type="html"><![CDATA[<h3>在J2SE 5.0 之前，沒有Enum</h3>
+    <content type="html"><![CDATA[<h2>在J2SE 5.0 之前，沒有Enum</h2>
 
 <p>使用<code>static</code>與<code>final</code>兩個修飾詞建立常數變數</p>
 
@@ -38,7 +38,7 @@
 }
 </code></pre>
 
-<h3>Enum 使用方法</h3>
+<h2>Enum 使用方法</h2>
 
 <ol>
 <li><p>定義常數，例如要定義購買流程狀態，就定出已下訂、已付款&hellip;等代碼
@@ -103,7 +103,7 @@ public enum StateMachines {
 </ol>
 
 
-<h3>結論</h3>
+<h2>結論</h2>
 
 <ol>
 <li>enum 不可繼承其他類別</li>
@@ -115,7 +115,7 @@ public enum StateMachines {
 </ol>
 
 
-<h3>References:</h3>
+<h2>References:</h2>
 
 <ul>
 <li><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html">Enum Java Docs</a></li>

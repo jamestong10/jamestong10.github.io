@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | JT's Blog]]></title>
   <link href="http://jamestong10.github.io/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-04T11:02:06+08:00</updated>
+  <updated>2016-08-04T13:10:15+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -21,7 +21,7 @@
     <content type="html"><![CDATA[<blockquote><p>本篇並非Git 教學，只是記錄常用的Git 指令，有學到新的指令會再更新上來
 如果不太熟悉可在指令後加入 &ndash;help 查詢用法</p></blockquote>
 
-<h3>Git 基本設定</h3>
+<h2>Git 基本設定</h2>
 
 <p>查詢設定資訊
 <code>
@@ -84,7 +84,7 @@ $ git log
 
 <p>hard: 工作區(working directory) 與暫存區(staging area) 會更新到指定的commit 狀態</p>
 
-<h3>Git Branch</h3>
+<h2>Git Branch</h2>
 
 <p>列出所有分支且正在使用哪個分支
 <code>
@@ -108,7 +108,7 @@ $ git branch -m [old_branch_name] [new_branch_name]
 $ git branch -d [branch_name]
 </code></p>
 
-<h3>Git Merge &amp; Git Rebase</h3>
+<h2>Git Merge &amp; Git Rebase</h2>
 
 <blockquote><p>merge 分支的功能加master，同時會產生新的HEAD
 合併分支到master
@@ -146,7 +146,7 @@ Merge v.s. Rebase</p></blockquote>
 </span><span class='line'>&lt;p&gt;after rebase: A -&gt; B -&gt; C -&gt; D -&gt; E
 </span><span class='line'>after merge:  A -&gt; B -&gt; C -&gt; D -&gt; E -&gt; F</span></code></pre></td></tr></table></div></figure></p>
 
-<h3>Git Remote</h3>
+<h2>Git Remote</h2>
 
 <p>列出當初加入遠端儲存庫時指定的名稱
 <code>
@@ -192,7 +192,7 @@ $ git push [remote_name] [branch_name]
 </span><span class='line'>
 </span><span class='line'>&lt;p&gt;$ git pull</span></code></pre></td></tr></table></div></figure></p>
 
-<h3>References</h3>
+<h2>References</h2>
 
 <ul>
 <li><a href="https://git-scm.com/doc">GitDoc</a></li>
