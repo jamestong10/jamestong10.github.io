@@ -9,12 +9,10 @@
   <meta name="author" content="T.R.R">
 
   
-  <meta name="description" content="用來包裝邏輯處理，算是最初階的DRY 精神 語法 1
-2
-3
-def method_name # logical processes
-end 用法 module: module_name.method_name()
-instance_method: class_name.new. &hellip;">
+  <meta name="description" content="Ruby 萬物皆物件 Class 可以生成(new) 物件 抽象化的概念很重要 宣告 Class name 第一個字必需大寫
+initialize 只在初始化設定
+instance variable：以＠開頭命名，使用域在instance
+class variable：以＠＠開頭命名， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -108,6 +106,326 @@ instance_method: class_name.new. &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/08/06/ruby-class/">Ruby Class</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-06T11:42:18+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:42 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>Ruby 萬物皆物件</p>
+
+<p>Class 可以生成(new) 物件</p>
+
+<p>抽象化的概念很重要</p></blockquote>
+
+<h2>宣告</h2>
+
+<ul>
+<li>Class name 第一個字必需大寫</li>
+<li>initialize 只在初始化設定</li>
+<li>instance variable：以＠開頭命名，使用域在instance</li>
+<li>class variable：以＠＠開頭命名，等同此class 的全域變數，也就是class 的instance 都可以存取此變數</li>
+<li>class method 也可以設定pubic, protected, private 等存取權限</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Class_name
+</span><span class='line'>   def initialize(input=defalt_value)
+</span><span class='line'>     #...
+</span><span class='line'>   end
+</span><span class='line'>
+</span><span class='line'>   def methodA
+</span><span class='line'>     #...
+</span><span class='line'>   end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以使用 <code>.class</code> 查看instance 是哪個class</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>p [].class    # Array
+</span><span class='line'>p "abc".class # String</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>存取類別資料</h2>
+
+<ul>
+<li>method 直接設定</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass
+</span><span class='line'>  @name
+</span><span class='line'>
+</span><span class='line'>  def name  # getter
+</span><span class='line'>    @name
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def name=(name) # setter
+</span><span class='line'>    @name = name
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>設定Accessor</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass
+</span><span class='line'>  attr_reader  :name  // 同MyClass#name
+</span><span class='line'>  attr_writer  :name  // 同MyClass#name=
+</span><span class='line'>  attr_acessor :name  // 等於以上兩種方法
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Class Method</h2>
+
+<p>不需要instance 就可以呼叫class.method，同Java 的static</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 方法一
+</span><span class='line'>class &lt;&lt; MyClass
+</span><span class='line'>  def methodA
+</span><span class='line'>    puts "Hello"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'># 方法二
+</span><span class='line'>class MyClass
+</span><span class='line'> class &lt;&lt; self
+</span><span class='line'>   def methodA
+</span><span class='line'>     puts "Hello"
+</span><span class='line'>   end
+</span><span class='line'> end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'># 方法三
+</span><span class='line'>class MyClass
+</span><span class='line'>  def self.methodA
+</span><span class='line'>    puts "Hello"
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>繼承</h2>
+
+<ul>
+<li>只能單一繼承，也就是一個子類別只能有一個父類別（很重要！）</li>
+<li>Object 是Ruby 所有class 的父類別，而Object 繼承BasicObject</li>
+<li>如果沒有繼承，Ruby 默認所有class 為Object 的子類別</li>
+<li>使用<code>is_a?</code> 或<code>.instance_of?</code> 確認是否為屬於（繼承）此類別</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[].is_a?(Array)  # true
+</span><span class='line'>"".is_a?(String) # true
+</span><span class='line'>
+</span><span class='line'>p [].instance_of?(Array)  # true
+</span><span class='line'>p [].instance_of?(String) # false
+</span><span class='line'>p "".instance_of?(String) # true</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>使用 <code>&lt;</code> 繼承super class</li>
+<li>使用<code>super()</code> 呼叫父類別中同名稱的method</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class RingAry &lt; Array
+</span><span class='line'>  def [](i)
+</span><span class='line'>   idx = i % size
+</span><span class='line'>   super(idx)
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>CLASS_EVAL、INSTANCE_EVAL</h2>
+
+<ul>
+<li>instance_eval 定義class method，也可以使用 &lt;&lt; 替代</li>
+<li>class_eval 定義instance method</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Foo = Class.new
+</span><span class='line'>Foo.class_eval do
+</span><span class='line'>  def class_bar
+</span><span class='line'>    "class_bar"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>Foo.instance_eval do
+</span><span class='line'>  def instance_bar
+</span><span class='line'>    "instance_bar"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>Foo.class_bar       #=&gt; undefined method ‘class_bar’ for Foo:Class
+</span><span class='line'>Foo.new.class_bar   #=&gt; "class_bar"
+</span><span class='line'>Foo.instance_bar       #=&gt; "instance_bar"
+</span><span class='line'>Foo.new.instance_bar   #=&gt; undefined method ‘instance_bar’ for #&lt;Foo:0x7dce8&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>alias、 undef</h2>
+
+<p>設定或取消 method 的別名</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># alias origin_name new_name
+</span><span class='line'># alias :origin_name :new_name
+</span><span class='line'>class C1
+</span><span class='line'>  def hello
+</span><span class='line'>   "hello"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>class C2 &lt; C1
+</span><span class='line'>  alias super_hello hello
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>p C2.new.super_hello # "hello"
+</span><span class='line'>
+</span><span class='line'># undef method
+</span><span class='line'># undef :method
+</span><span class='line'>class C1
+</span><span class='line'>  def methodA
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>class C2 &lt; C1
+</span><span class='line'>  undef methodA
+</span><span class='line'>  # ...
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>References</h2>
+
+<ul>
+<li>Ruby Programming ver.4</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/08/05/ruby-method/">Ruby Method</a></h1>
     
     
@@ -127,7 +445,7 @@ instance_method: class_name.new. &hellip;">
 
   <div class="entry-content"><blockquote><p>用來包裝邏輯處理，算是最初階的DRY 精神</p></blockquote>
 
-<h3>語法</h3>
+<h2>語法</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -137,7 +455,7 @@ instance_method: class_name.new. &hellip;">
 </span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>用法</h3>
+<h2>用法</h2>
 
 <ul>
 <li>module: module_name.method_name()</li>
@@ -237,6 +555,13 @@ instance_method: class_name.new. &hellip;">
 </pre></td><td class='code'><pre><code class=''><span class='line'>def func(a, b=0, c:0, d:0)
 </span><span class='line'>  # ...
 </span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>References</h2>
+
+<ul>
+<li>Ruby Programming ver.4</li>
+</ul>
 
 </div>
   

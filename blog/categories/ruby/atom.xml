@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | JT's Blog]]></title>
   <link href="http://jamestong10.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-06T11:39:25+08:00</updated>
+  <updated>2016-08-06T12:08:28+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -14,20 +14,250 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Ruby Class]]></title>
+    <link href="http://jamestong10.github.io/blog/2016/08/06/ruby-class/"/>
+    <updated>2016-08-06T11:42:18+08:00</updated>
+    <id>http://jamestong10.github.io/blog/2016/08/06/ruby-class</id>
+    <content type="html"><![CDATA[<blockquote><p>Ruby 萬物皆物件</p>
+
+<p>Class 可以生成(new) 物件</p>
+
+<p>抽象化的概念很重要</p></blockquote>
+
+<h2>宣告</h2>
+
+<ul>
+<li>Class name 第一個字必需大寫</li>
+<li>initialize 只在初始化設定</li>
+<li>instance variable：以＠開頭命名，使用域在instance</li>
+<li>class variable：以＠＠開頭命名，等同此class 的全域變數，也就是class 的instance 都可以存取此變數</li>
+<li>class method 也可以設定pubic, protected, private 等存取權限</li>
+</ul>
+
+
+<pre><code>class Class_name
+   def initialize(input=defalt_value)
+     #...
+   end
+
+   def methodA
+     #...
+   end
+end
+</code></pre>
+
+<p>可以使用 <code>.class</code> 查看instance 是哪個class
+<code>
+p [].class    # Array
+p "abc".class # String
+</code></p>
+
+<h2>存取類別資料</h2>
+
+<ul>
+<li><p>method 直接設定
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass
+</span><span class='line'>@name&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;def name  # getter
+</span><span class='line'>  @name
+</span><span class='line'>end&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;def name=(name) # setter
+</span><span class='line'>  @name = name
+</span><span class='line'>end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p></li>
+<li>設定Accessor
+<code>
+class MyClass
+attr_reader  :name  // 同MyClass#name
+attr_writer  :name  // 同MyClass#name=
+attr_acessor :name  // 等於以上兩種方法
+end
+</code></li>
+</ul>
+
+
+<h2>Class Method</h2>
+
+<p>不需要instance 就可以呼叫class.method，同Java 的static</p>
+
+<pre><code># 方法一
+class &lt;&lt; MyClass
+  def methodA
+    puts "Hello"
+  end
+end
+
+# 方法二
+class MyClass
+ class &lt;&lt; self
+   def methodA
+     puts "Hello"
+   end
+ end
+end
+
+# 方法三
+class MyClass
+  def self.methodA
+    puts "Hello"
+  end
+end
+</code></pre>
+
+<h2>繼承</h2>
+
+<ul>
+<li>只能單一繼承，也就是一個子類別只能有一個父類別（很重要！）</li>
+<li>Object 是Ruby 所有class 的父類別，而Object 繼承BasicObject</li>
+<li>如果沒有繼承，Ruby 默認所有class 為Object 的子類別</li>
+<li>使用<code>is_a?</code> 或<code>.instance_of?</code> 確認是否為屬於（繼承）此類別
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[].is_a?(Array)  # true
+</span><span class='line'>&ldquo;&rdquo;.is_a?(String) # true&lt;/li&gt;
+</span><span class='line'>&lt;/ul&gt;
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;p [].instance_of?(Array)  # true
+</span><span class='line'>p [].instance_of?(String) # false
+</span><span class='line'>p &ldquo;&rdquo;.instance_of?(String) # true
+</span><span class='line'>&lt;code&gt;
+</span><span class='line'>- 使用 `&lt;` 繼承super class
+</span><span class='line'>- 使用`super()` 呼叫父類別中同名稱的method
+</span><span class='line'>&lt;/code&gt;
+</span><span class='line'>class RingAry &lt; Array
+</span><span class='line'>  def &lt;a href="i"&gt;&lt;/a&gt;
+</span><span class='line'>   idx = i % size
+</span><span class='line'>   super(idx)
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>CLASS_EVAL、INSTANCE_EVAL</h2>
+
+<ul>
+<li>instance_eval 定義class method，也可以使用 &lt;&lt; 替代</li>
+<li>class_eval 定義instance method
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Foo = Class.new
+</span><span class='line'>Foo.class_eval do
+</span><span class='line'>def class_bar
+</span><span class='line'>  &ldquo;class_bar&rdquo;
+</span><span class='line'>end
+</span><span class='line'>end&lt;/li&gt;
+</span><span class='line'>&lt;/ul&gt;
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;Foo.instance_eval do
+</span><span class='line'>  def instance_bar
+</span><span class='line'>    &ldquo;instance_bar&rdquo;
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>Foo.class_bar       #=&gt; undefined method ‘class_bar’ for Foo:Class
+</span><span class='line'>Foo.new.class_bar   #=&gt; &ldquo;class_bar&rdquo;
+</span><span class='line'>Foo.instance_bar       #=&gt; &ldquo;instance_bar&rdquo;
+</span><span class='line'>Foo.new.instance_bar   #=&gt; undefined method ‘instance_bar’ for #&lt;Foo:0x7dce8&gt;</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>alias、 undef</h2>
+
+<p>設定或取消 method 的別名</p>
+
+<pre><code># alias origin_name new_name
+# alias :origin_name :new_name
+class C1
+  def hello
+   "hello"
+  end
+end
+
+class C2 &lt; C1
+  alias super_hello hello
+end
+
+p C2.new.super_hello # "hello"
+
+# undef method
+# undef :method
+class C1
+  def methodA
+  end
+end
+
+class C2 &lt; C1
+  undef methodA
+  # ...
+end
+</code></pre>
+
+<h2>References</h2>
+
+<ul>
+<li>Ruby Programming ver.4</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Ruby Method]]></title>
     <link href="http://jamestong10.github.io/blog/2016/08/05/ruby-method/"/>
     <updated>2016-08-05T08:36:06+08:00</updated>
     <id>http://jamestong10.github.io/blog/2016/08/05/ruby-method</id>
     <content type="html"><![CDATA[<blockquote><p>用來包裝邏輯處理，算是最初階的DRY 精神</p></blockquote>
 
-<h3>語法</h3>
+<h2>語法</h2>
 
 <pre><code>def method_name
   # logical processes
 end
 </code></pre>
 
-<h3>用法</h3>
+<h2>用法</h2>
 
 <ul>
 <li>module: module_name.method_name()</li>
@@ -104,6 +334,13 @@ end
   # ...
 end
 </code></pre>
+
+<h2>References</h2>
+
+<ul>
+<li>Ruby Programming ver.4</li>
+</ul>
+
 ]]></content>
   </entry>
   
