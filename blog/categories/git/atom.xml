@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | JT's Blog]]></title>
   <link href="http://jamestong10.github.io/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-08T14:08:32+08:00</updated>
+  <updated>2016-08-08T14:17:35+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -38,10 +38,16 @@ $ git config --global alias.st status   # git st
 $ git config --global alias.ci commit   # git ci
 $ git config --global alias.co checkout # git co
 $ git config --global alias.br branch   # git br
-</code>
-本機建立新的repository
+</code></p>
+
+<p>建立一個全新的Git Repository
 <code>
 $ git init --bare project_name.git
+</code></p>
+
+<p>本機建立新的repository
+<code>
+$ git init
 </code></p>
 
 <p>查看工作區(Working Directory)的異動紀錄
