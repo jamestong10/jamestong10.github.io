@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | JT's Blog]]></title>
   <link href="http://jamestong10.github.io/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-06T12:08:28+08:00</updated>
+  <updated>2016-08-08T14:08:32+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -41,38 +41,46 @@ $ git config --global alias.br branch   # git br
 </code>
 本機建立新的repository
 <code>
-$ git init
-</code>
-查看工作區(Working Directory)的異動紀錄
+$ git init --bare project_name.git
+</code></p>
+
+<p>查看工作區(Working Directory)的異動紀錄
 <code>
 $ git status
 $ git st
-</code>
-查看檔案異動差異
+</code></p>
+
+<p>查看檔案異動差異
 <code>
 $ git diff
-</code>
-加入暫存區
+</code></p>
+
+<p>加入暫存區
 <code>
 $ git add [--] [file_path | file_name]
-</code>
-提交並加上註解
+</code></p>
+
+<p>提交並加上註解
 <code>
 $ git commit -m [comments]
-</code>
-開啟editor 修改近期已經commit 的註解 (建議少用，除非必要)
+</code></p>
+
+<p>開啟editor 修改近期已經commit 的註解 (建議少用，除非必要)
 <code>
 $ git commit --amend
-</code>
-快速修正前一次 commit 的錯誤，只要修 typo 之後打這行，就會替換掉前一次的 commit-level-operations
+</code></p>
+
+<p>快速修正前一次 commit 的錯誤，只要修 typo 之後打這行，就會替換掉前一次的 commit-level-operations
 <code>
 $ git commit -C HEAD -a –amend
-</code>
-查看提交紀錄
+</code></p>
+
+<p>查看提交紀錄
 <code>
 $ git log
-</code>
-砍掉commit 重來
+</code></p>
+
+<p>砍掉commit 重來
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>

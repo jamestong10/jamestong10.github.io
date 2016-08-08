@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | JT's Blog]]></title>
   <link href="http://jamestong10.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-06T12:08:28+08:00</updated>
+  <updated>2016-08-08T14:08:32+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -418,12 +418,18 @@ end
 <span class='line-number'>44</span>
 <span class='line-number'>45</span>
 <span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$ &ldquo;123&rdquo;.class
 </span><span class='line'>$ String.methods&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;如果method 不熟，就可以到doc 查詢說明與用法&lt;/h1&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;pre&gt;&lt;code&gt;
+</span><span class='line'>## 基本型別
+</span><span class='line'>Fixnum/Bignum, Float, Array, String, Nil, True, False
+</span><span class='line'>
 </span><span class='line'>## 變數命名規則
 </span><span class='line'>- local variable：以英文字或是下底線開頭
 </span><span class='line'>- global variable：以$ 開頭
@@ -559,6 +565,10 @@ end
 </span><span class='line'>present2 = { :toy =&gt; &ldquo;dolls&rdquo;}
 </span><span class='line'>p present1[:toy] # cars
 </span><span class='line'>p present2[:toy] # dolls</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>深入了解Classes</h2>
+
+<p>如果在使用上有問題，可以到<a href="http://ruby-doc.org/core-2.3.1/">Ruby Doc</a> Classes 查看說明</p>
 
 <h2>References</h2>
 

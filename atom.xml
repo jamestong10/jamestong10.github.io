@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="http://jamestong10.github.io/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-06T12:08:28+08:00</updated>
+  <updated>2016-08-08T14:08:32+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -477,6 +477,10 @@
 </span><span class='line'># 如果method 不熟，就可以到doc 查詢說明與用法</span></code></pre></td></tr></table></div></figure>
 
 
+<h2>基本型別</h2>
+
+<p>Fixnum/Bignum, Float, Array, String, Nil, True, False</p>
+
 <h2>變數命名規則</h2>
 
 <ul>
@@ -625,6 +629,10 @@
 </span><span class='line'>p present2[:toy] # dolls</span></code></pre></td></tr></table></div></figure>
 
 
+<h2>深入了解Classes</h2>
+
+<p>如果在使用上有問題，可以到<a href="http://ruby-doc.org/core-2.3.1/">Ruby Doc</a> Classes 查看說明</p>
+
 <h2>References</h2>
 
 <ul>
@@ -674,7 +682,7 @@
 <p>本機建立新的repository</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git init</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git init --bare project_name.git</span></code></pre></td></tr></table></div></figure>
 
 
 <p>查看工作區(Working Directory)的異動紀錄</p>
