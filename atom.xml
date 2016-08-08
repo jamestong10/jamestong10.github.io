@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="http://jamestong10.github.io/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-08T14:17:35+08:00</updated>
+  <updated>2016-08-08T15:47:41+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -12,6 +12,159 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Module]]></title>
+    <link href="http://jamestong10.github.io/blog/2016/08/08/ruby-module/"/>
+    <updated>2016-08-08T15:26:54+08:00</updated>
+    <id>http://jamestong10.github.io/blog/2016/08/08/ruby-module</id>
+    <content type="html"><![CDATA[<blockquote><p>module 算是Ruby 的獨有特色，瞭解後在程式開發或是閱讀原始碼有很大的幫助</p></blockquote>
+
+<h2>宣告</h2>
+
+<p>示範module 內是可以包含多種內容，但實際在設計時，還是依照功能分類</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Module name 第一個字必需大寫
+</span><span class='line'>module Module_name
+</span><span class='line'>  # adding class
+</span><span class='line'>  class MyClass
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  # adding method
+</span><span class='line'>  def myMethod
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  # namespace
+</span><span class='line'>  module another_moudle_name
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>用途</h2>
+
+<ul>
+<li>NameSpace</li>
+<li>Mixin</li>
+</ul>
+
+
+<h3>NameSpace</h3>
+
+<p>用來區分命名空間，當有相同命名時，可透過module 區分命名空間</p>
+
+<h3>Mixin</h3>
+
+<p>因為Ruby Class有單一繼承的限制。所以就可透過此方法，擴充Class 的功能</p>
+
+<p>Mixin 分成兩類：</p>
+
+<ol>
+<li><p>include：class instance 才能操作</p></li>
+<li><p>extend：不需instance 就可以透過 <code>class_name.method_name</code> 操作</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>module Power
+</span><span class='line'>  def calPower(num)
+</span><span class='line'>    num ** num
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>module StringUtil
+</span><span class='line'>  def repeating(num, string)
+</span><span class='line'>    string * num
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>class Example
+</span><span class='line'>  include Power
+</span><span class='line'>  extend StringUtil
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>p Example.new.calPower(2) # 4
+</span><span class='line'>p Example.repeating(2,"a") # "aa"</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>單獨操作Module</h2>
+
+<p>以上介紹都是把module 放在class 內，再透過mixin 方式操作，但如果想要直接操作可以根據以下方式：</p>
+
+<ul>
+<li>module_function</li>
+<li>self.method</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>module CompanyA
+</span><span class='line'>  def greeting(name)
+</span><span class='line'>    "Hello #{name} at CompanyA"
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  module_function :greeting
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'># 上下功能相同
+</span><span class='line'>module CompanyB
+</span><span class='line'>  def self.greeting(name)
+</span><span class='line'>    "Hello #{name} at CompanyB"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>p CompanyA.greeting("JT") # "Hello JT at CompanyA"
+</span><span class='line'>p CompanyB.greeting("JT") # "Hello JT at CompanyB"</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ruby Class]]></title>
@@ -785,8 +938,11 @@
 
 <h2>Git Merge &amp; Git Rebase</h2>
 
-<blockquote><p>merge 分支的功能加master，同時會產生新的HEAD
-合併分支到master</p></blockquote>
+<h3>觀念：只要branch 調整完畢，應先將master merge 至branch，測試無誤後，在merge 回master</h3>
+
+<blockquote><p>merge 分支的功能加master，同時會產生新的HEAD</p></blockquote>
+
+<p>合併分支到master</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | JT's Blog]]></title>
   <link href="http://jamestong10.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-08T14:17:35+08:00</updated>
+  <updated>2016-08-08T15:47:41+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -12,6 +12,109 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Module]]></title>
+    <link href="http://jamestong10.github.io/blog/2016/08/08/ruby-module/"/>
+    <updated>2016-08-08T15:26:54+08:00</updated>
+    <id>http://jamestong10.github.io/blog/2016/08/08/ruby-module</id>
+    <content type="html"><![CDATA[<blockquote><p>module 算是Ruby 的獨有特色，瞭解後在程式開發或是閱讀原始碼有很大的幫助</p></blockquote>
+
+<h2>宣告</h2>
+
+<p>示範module 內是可以包含多種內容，但實際在設計時，還是依照功能分類</p>
+
+<pre><code># Module name 第一個字必需大寫
+module Module_name
+  # adding class
+  class MyClass
+  end
+
+  # adding method
+  def myMethod
+  end
+
+  # namespace
+  module another_moudle_name
+  end
+end
+</code></pre>
+
+<h2>用途</h2>
+
+<ul>
+<li>NameSpace</li>
+<li>Mixin</li>
+</ul>
+
+
+<h3>NameSpace</h3>
+
+<p>用來區分命名空間，當有相同命名時，可透過module 區分命名空間</p>
+
+<h3>Mixin</h3>
+
+<p>因為Ruby Class有單一繼承的限制。所以就可透過此方法，擴充Class 的功能</p>
+
+<p>Mixin 分成兩類：</p>
+
+<ol>
+<li><p>include：class instance 才能操作</p></li>
+<li><p>extend：不需instance 就可以透過 <code>class_name.method_name</code> 操作</p></li>
+</ol>
+
+
+<pre><code>module Power
+  def calPower(num)
+    num ** num
+  end
+end
+
+module StringUtil
+  def repeating(num, string)
+    string * num
+  end
+end
+
+class Example
+  include Power
+  extend StringUtil
+end
+
+p Example.new.calPower(2) # 4
+p Example.repeating(2,"a") # "aa"
+</code></pre>
+
+<h2>單獨操作Module</h2>
+
+<p>以上介紹都是把module 放在class 內，再透過mixin 方式操作，但如果想要直接操作可以根據以下方式：</p>
+
+<ul>
+<li>module_function</li>
+<li>self.method</li>
+</ul>
+
+
+<pre><code>module CompanyA
+  def greeting(name)
+    "Hello #{name} at CompanyA"
+  end
+
+  module_function :greeting
+end
+
+# 上下功能相同
+module CompanyB
+  def self.greeting(name)
+    "Hello #{name} at CompanyB"
+  end
+end
+
+p CompanyA.greeting("JT") # "Hello JT at CompanyA"
+p CompanyB.greeting("JT") # "Hello JT at CompanyB"
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ruby Class]]></title>

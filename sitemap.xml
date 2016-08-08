@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://jamestong10.github.io/blog/2016/08/08/ruby-module/</loc>
+<lastmod>2016-08-08T15:26:54+08:00</lastmod>
+</url>
+<url>
 <loc>http://jamestong10.github.io/blog/2016/08/06/ruby-class/</loc>
 <lastmod>2016-08-06T11:42:18+08:00</lastmod>
 </url>

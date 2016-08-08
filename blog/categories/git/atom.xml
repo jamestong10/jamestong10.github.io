@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | JT's Blog]]></title>
   <link href="http://jamestong10.github.io/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-08T14:17:35+08:00</updated>
+  <updated>2016-08-08T15:47:41+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -124,8 +124,11 @@ $ git branch -d [branch_name]
 
 <h2>Git Merge &amp; Git Rebase</h2>
 
-<blockquote><p>merge 分支的功能加master，同時會產生新的HEAD
-合併分支到master
+<h3>觀念：只要branch 調整完畢，應先將master merge 至branch，測試無誤後，在merge 回master</h3>
+
+<blockquote><p>merge 分支的功能加master，同時會產生新的HEAD</p></blockquote>
+
+<p>合併分支到master
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -133,7 +136,7 @@ $ git branch -d [branch_name]
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout master
-</span><span class='line'>$ git merge feature1&lt;/p&gt;&lt;/blockquote&gt;
+</span><span class='line'>$ git merge feature1&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;上下相同&lt;/h1&gt;
 </span><span class='line'>
