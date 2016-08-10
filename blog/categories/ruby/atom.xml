@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | JT's Blog]]></title>
   <link href="http://jamestong10.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-10T10:55:05+08:00</updated>
+  <updated>2016-08-10T11:05:00+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Ruby Module]]></title>
+    <title type="html"><![CDATA[Ruby Module - Namespace | Mixin | Include | Extend]]></title>
     <link href="http://jamestong10.github.io/blog/2016/08/08/ruby-module/"/>
     <updated>2016-08-08T15:26:54+08:00</updated>
     <id>http://jamestong10.github.io/blog/2016/08/08/ruby-module</id>
@@ -124,7 +124,7 @@ p CompanyB.greeting("JT") # "Hello JT at CompanyB"
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Ruby Class]]></title>
+    <title type="html"><![CDATA[Ruby Class - Inheritance | Class_method | Instance_method | Class_eval | Instance_eval]]></title>
     <link href="http://jamestong10.github.io/blog/2016/08/06/ruby-class/"/>
     <updated>2016-08-06T11:42:18+08:00</updated>
     <id>http://jamestong10.github.io/blog/2016/08/06/ruby-class</id>
@@ -354,7 +354,7 @@ end
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Ruby Method *argv &block Yield]]></title>
+    <title type="html"><![CDATA[Ruby Method - *argv | &block]]></title>
     <link href="http://jamestong10.github.io/blog/2016/08/05/ruby-method/"/>
     <updated>2016-08-05T08:36:06+08:00</updated>
     <id>http://jamestong10.github.io/blog/2016/08/05/ruby-method</id>
