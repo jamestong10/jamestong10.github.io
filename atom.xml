@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="http://jamestong10.github.io/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-09T12:27:47+08:00</updated>
+  <updated>2016-08-10T10:55:05+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -12,6 +12,254 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Proc Lamdba Yield]]></title>
+    <link href="http://jamestong10.github.io/blog/2016/08/10/ruby-proc-lamdba-yield/"/>
+    <updated>2016-08-10T00:07:13+08:00</updated>
+    <id>http://jamestong10.github.io/blog/2016/08/10/ruby-proc-lamdba-yield</id>
+    <content type="html"><![CDATA[<blockquote><p>繼<a href="http://jamestong10.github.io/blog/2016/08/05/ruby-method/">Ruby Method</a> <code>&amp;block</code> 提到要傳入 <a href="http://ruby-doc.org/core-2.3.1/Proc.html">Proc Class</a> 執行邏輯運算</p>
+
+<p>順便寫一篇記錄Proc Class 的基本應用，不是很好入門，但是多看幾次就能慢慢了解其中意義</p></blockquote>
+
+<h2>Proc</h2>
+
+<p>Proc 為一種<strong>匿名</strong>區塊(Block) 物件，根據傳入的參數執行邏輯運算</p>
+
+<p>如果傳入數量與宣告不同，則以<code>nil</code> 替代</p>
+
+<h3>宣告 &amp; 執行</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 宣告1
+</span><span class='line'>proc1 = Proc.new do |x|
+</span><span class='line'>    puts x
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'># 宣告2
+</span><span class='line'>proc2 = proc do |x|
+</span><span class='line'>    puts x
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'># Proc#call
+</span><span class='line'>proc1.call("hello world")  # hello world
+</span><span class='line'>
+</span><span class='line'># Proc#[]
+</span><span class='line'>proc2["hey, how are you?"] # hey, how are you?</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Feature of Closure</h3>
+
+<p>可透過Proc 達到closure 的目的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def counter
+</span><span class='line'> c=0
+</span><span class='line'> Proc.new do c += 1 end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>c1 = counter
+</span><span class='line'>c2 = counter
+</span><span class='line'>
+</span><span class='line'>c1.call # 1
+</span><span class='line'>c1.call # 2
+</span><span class='line'>c2.call # 1</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Lambda</h2>
+
+<p>Proc 的另一種寫法，稱為lambda。創建出來的也是Proc 物件，通過lambda 建立的Proc 其行為更接近method。</p>
+
+<h3>宣告 &amp; 執行</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lambda1 = lambda do |x|
+</span><span class='line'>  return x
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>lambda1.call("hello world")
+</span><span class='line'>lambda1["hey, ok"]
+</span><span class='line'>
+</span><span class='line'># 另一種宣告方式 -&gt;(參數) { 邏輯處理 }
+</span><span class='line'>lambda2 = -&gt;(x) { return x * 2 }
+</span><span class='line'>lambda2.call("hello world")
+</span><span class='line'>lambda2["ok, fine!"]</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>與Proc 差異</h3>
+
+<ol>
+<li>傳入參數數量需與宣告時一致</li>
+<li><strong>(重要)可以使用return 將值傳回 (Proc 遇到return  就會跳出區域並結束)</strong></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def power_of(n)
+</span><span class='line'>  lambda do |x|
+</span><span class='line'>    return x ** n
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>cube = power_of(3)
+</span><span class='line'>cube.call(5)  # 125
+</span><span class='line'>
+</span><span class='line'># using Proc
+</span><span class='line'>def power_of(n)
+</span><span class='line'>  Proc.new do |x|
+</span><span class='line'>    return x ** n
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>cube = power_of(3)
+</span><span class='line'>cube.call(5)  # LocalJumpError</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>to_proc 方法</h3>
+
+<p>有些object 可以使用<code>#to_proc</code>，如果傳入的參數有加上 <code>&amp;</code> Symbol，則#to_proc 就會自動調用，進而生成Proc Object</p>
+
+<p>可能需要一點時間熟悉這樣的寫法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>%w(42 52 14).map { |n| n.to_i }
+</span><span class='line'>
+</span><span class='line'># 上下相同
+</span><span class='line'>
+</span><span class='line'>%w(42 52 14).map(&:to_i)</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>yield</h2>
+
+<p>蠻頭痛的，這題不知道要寫在ruby method 還是在這，但思考之後，認為先有了Proc 的觀念，再來討論這個，或許會更了解吧！</p>
+
+<p>這有點類似 Java 的abstract class，將method 要實作的部分放<code>yield</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def my_method_no_arg
+</span><span class='line'>  puts "warm up 1"
+</span><span class='line'>  yield
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>def my_method_with_arg
+</span><span class='line'>  puts "warm up 2"
+</span><span class='line'>  # yield('james')
+</span><span class='line'>  yield(%W(a b))
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>my_method_no_arg do
+</span><span class='line'>  puts "running alone"
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>my_method_with_arg do |friends|
+</span><span class='line'>    # puts friends.class
+</span><span class='line'>    if friends.class == String
+</span><span class='line'>      puts "running with #{friends}"
+</span><span class='line'>    else
+</span><span class='line'>      friends.each do |friend|
+</span><span class='line'>        puts "running with #{friend}"
+</span><span class='line'>      end
+</span><span class='line'>    end
+</span><span class='line'>end
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>總結</h2>
+
+<ul>
+<li><code>yield = &amp;block + block.call()</code></li>
+<li><code>&amp;block = Proc | Lambda</code></li>
+</ul>
+
+
+<h2>References</h2>
+
+<ul>
+<li>RailsFun.tw 新手教學</li>
+<li>Ruby Programming ver.4</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ruby Module]]></title>
@@ -162,6 +410,13 @@
 </span><span class='line'>
 </span><span class='line'>p CompanyA.greeting("JT") # "Hello JT at CompanyA"
 </span><span class='line'>p CompanyB.greeting("JT") # "Hello JT at CompanyB"</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>References</h2>
+
+<ul>
+<li>Ruby Programming ver.4</li>
+</ul>
 
 ]]></content>
   </entry>
@@ -466,7 +721,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Ruby Method]]></title>
+    <title type="html"><![CDATA[Ruby Method *argv &block Yield]]></title>
     <link href="http://jamestong10.github.io/blog/2016/08/05/ruby-method/"/>
     <updated>2016-08-05T08:36:06+08:00</updated>
     <id>http://jamestong10.github.io/blog/2016/08/05/ruby-method</id>
@@ -546,7 +801,7 @@
 </span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>關鍵字參數</h3>
+<h2>關鍵字參數</h2>
 
 <p>Ruby ver.2.0 加入，參數有key-value 的關係</p>
 

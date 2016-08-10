@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | JT's Blog]]></title>
   <link href="http://jamestong10.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-09T12:27:47+08:00</updated>
+  <updated>2016-08-10T10:55:05+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -113,6 +113,13 @@ end
 p CompanyA.greeting("JT") # "Hello JT at CompanyA"
 p CompanyB.greeting("JT") # "Hello JT at CompanyB"
 </code></pre>
+
+<h2>References</h2>
+
+<ul>
+<li>Ruby Programming ver.4</li>
+</ul>
+
 ]]></content>
   </entry>
   
@@ -347,7 +354,7 @@ end
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Ruby Method]]></title>
+    <title type="html"><![CDATA[Ruby Method *argv &block Yield]]></title>
     <link href="http://jamestong10.github.io/blog/2016/08/05/ruby-method/"/>
     <updated>2016-08-05T08:36:06+08:00</updated>
     <id>http://jamestong10.github.io/blog/2016/08/05/ruby-method</id>
@@ -403,7 +410,7 @@ def_by_myself(('a'..'z').to_a) do |n|
 end
 </code></pre>
 
-<h3>關鍵字參數</h3>
+<h2>關鍵字參數</h2>
 
 <p>Ruby ver.2.0 加入，參數有key-value 的關係</p>
 
