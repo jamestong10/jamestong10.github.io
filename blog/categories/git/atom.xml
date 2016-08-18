@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | JT's Blog]]></title>
   <link href="http://jamestong10.github.io/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-16T20:52:45+08:00</updated>
+  <updated>2016-08-18T11:32:32+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -27,12 +27,19 @@
 <code>
 git config --list
 </code>
-設定使用者與Email
+設定全域的使用者與Email (個人使用)
 <code>
 git config --global user.name [author_name]
 git config --global user.email [contact_email_address]
 </code>
-設定別名
+設定區域的使用者與Email (參與計劃或公司專案)
+<code>
+cd local_repo
+git config --local user.name [author_name]
+git config --local user.email [contact_email_address]
+</code></p>
+
+<p>設定別名
 <code>
 $ git config --global alias.st status   # git st
 $ git config --global alias.ci commit   # git ci
