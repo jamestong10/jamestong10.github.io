@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://jamestong10.github.io/blog/2016/08/21/logic-show-184/</loc>
+<lastmod>2016-08-21T10:54:21+08:00</lastmod>
+</url>
+<url>
 <loc>http://jamestong10.github.io/blog/2016/08/10/ruby-proc-lamdba-yield/</loc>
 <lastmod>2016-08-10T00:07:13+08:00</lastmod>
 </url>
@@ -58,5 +62,14 @@
 </url>
 <url>
 <loc>http://jamestong10.github.io/blog/categories/ruby/</loc>
+</url>
+<url>
+<loc>http://jamestong10.github.io/blog/categories/logic/</loc>
+</url>
+<url>
+<loc>http://jamestong10.github.io/blog/categories/show/</loc>
+</url>
+<url>
+<loc>http://jamestong10.github.io/blog/categories/ep-dot-184/</loc>
 </url>
 </urlset>

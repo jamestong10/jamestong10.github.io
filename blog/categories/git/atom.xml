@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | JT's Blog]]></title>
   <link href="http://jamestong10.github.io/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-18T11:32:32+08:00</updated>
+  <updated>2016-08-21T18:52:58+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -220,6 +220,13 @@ $ git push [remote_name] [branch_name]
 </span><span class='line'>&lt;h1&gt;上下相同&lt;/h1&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;p&gt;$ git pull</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>實用資訊</h2>
+
+<ul>
+<li><a href="https://github.com/RailsApps/rails-composer/blob/master/files/gitignore.txt">gitignore lists</a></li>
+</ul>
+
 
 <h2>References</h2>
 
