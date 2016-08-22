@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | JT's Blog]]></title>
   <link href="http://jamestong10.github.io/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-21T18:52:58+08:00</updated>
+  <updated>2016-08-22T10:45:52+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -86,6 +86,28 @@ $ git commit --amend
 <p>儲存工作：專案開發到一半，要去別的brach，可使用stash 把修改記錄暫存起來
 <code>
 $ git stash
+</code></p>
+
+<p>查看暫存的紀錄
+<code>
+$ git stash list
+</code></p>
+
+<p>取回暫存的紀錄
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git apply&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;取回較舊的暫存紀錄&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;$ git stash apply stash@{2}</span></code></pre></td></tr></table></div></figure></p>
+
+<p>刪除暫存紀錄：apply 只是取回紀錄，但沒有執行刪除的動作
+<code>
+$ git stash drop [stash_name]
 </code></p>
 
 <p>快速修正前一次 commit 的錯誤，只要修 typo 之後打這行，就會替換掉前一次的 commit-level-operations
