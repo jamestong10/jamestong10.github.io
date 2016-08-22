@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="http://jamestong10.github.io/atom.xml" rel="self"/>
   <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-22T10:45:52+08:00</updated>
+  <updated>2016-08-23T00:34:51+08:00</updated>
   <id>http://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[T.R.R]]></name>
@@ -12,6 +12,154 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ActiveRecord Module - Enum]]></title>
+    <link href="http://jamestong10.github.io/blog/2016/08/22/activerecord-modules/"/>
+    <updated>2016-08-22T17:17:21+08:00</updated>
+    <id>http://jamestong10.github.io/blog/2016/08/22/activerecord-modules</id>
+    <content type="html"><![CDATA[<h2>ActiveRecord::Enum</h2>
+
+<h3>目的</h3>
+
+<p>宣告文字用來說明欄位中數字的意義，以下介紹兩種方式，也可順便解釋使用enum 的好處</p>
+
+<p>假設Conversation 有個status 的欄位，建立常數，使用Hash 表示 0、1，分別代表active、archived</p>
+
+<h3>w/o Enum</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>module Conversation
+</span><span class='line'>  STATUS = { 0 =&gt; "active", 1 =&gt; "archived" }
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>conversation = Conversation.last
+</span><span class='line'>STATUS[conversation.status] # active or archived</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>w/ Enum</h3>
+
+<blockquote><p>官方建議：欄位必須建立預設值</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Conversation &lt; ActiveRecord::Base
+</span><span class='line'>  enum status: {
+</span><span class='line'>    active: 0,
+</span><span class='line'>    archived: 1
+</span><span class='line'>  }
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看總共有哪些狀態(名字加複數)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Conversation.statuses
+</span><span class='line'># { "active"=&gt;0, "archived"=&gt;1 }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看目前狀態</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>conversation = Conversation.last
+</span><span class='line'>conversatino.active!
+</span><span class='line'>conversation.status # active</span></code></pre></td></tr></table></div></figure>
+
+
+<p>變更欄位狀態</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>conversation = Conversation.last
+</span><span class='line'>conversatino.archived!
+</span><span class='line'>conversatino.archived?  #true</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查詢是否為此狀態</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>conversation = Conversation.last
+</span><span class='line'>conversatino.active!
+</span><span class='line'>conversatino.active?    #true
+</span><span class='line'>conversatino.archived?  #false</span></code></pre></td></tr></table></div></figure>
+
+
+<p>當作where 查詢條件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Conversation.where(status: [:active, :archived])</span></code></pre></td></tr></table></div></figure>
+
+
+<p>加入_prefix</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Conversation &lt; ActiveRecord::Base
+</span><span class='line'>  enum comments_status: [:active, :inactive], _prefix: :comments
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>conversation.comments_inactive!
+</span><span class='line'>conversation.comments_active? # =&gt; false</span></code></pre></td></tr></table></div></figure>
+
+
+<p>加入_suffix</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Conversation &lt; ActiveRecord::Base
+</span><span class='line'>  enum status: [:active, :archived], _suffix: true
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>conversation.active_status!
+</span><span class='line'>conversation.archived_status? # =&gt; false</span></code></pre></td></tr></table></div></figure>
+
+
+<p>轉成陣列 (options_for_select)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Conversation.statuses.invert.to_a # [[0, "active"], [1, "archived"]]</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>優點</h3>
+
+<ul>
+<li>database 仍儲存數字代碼，查詢速度較快</li>
+<li>程式部分仍可以使用文字方式開發，提高閱讀性</li>
+</ul>
+
+
+<h3>References</h3>
+
+<ul>
+<li><a href="http://edgeapi.rubyonrails.org/classes/ActiveRecord/Enum.html">ActiveRecord::Enum</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[邏輯思維 EP.184 - 怎麼樣成為一個高手]]></title>
