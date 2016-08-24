@@ -2,22 +2,133 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[JT's Blog]]></title>
-  <link href="http://jamestong10.github.io/atom.xml" rel="self"/>
-  <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-23T00:34:51+08:00</updated>
-  <id>http://jamestong10.github.io/</id>
+  <link href="http://rt-tong.com/atom.xml" rel="self"/>
+  <link href="http://rt-tong.com/"/>
+  <updated>2016-08-24T22:53:47+08:00</updated>
+  <id>http://rt-tong.com/</id>
   <author>
-    <name><![CDATA[T.R.R]]></name>
+    <name><![CDATA[James Tong]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
   <entry>
+    <title type="html"><![CDATA[Ruby - Nil? | Empty? | Blank?]]></title>
+    <link href="http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank/"/>
+    <updated>2016-08-24T14:09:59+08:00</updated>
+    <id>http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank</id>
+    <content type="html"><![CDATA[<h2>nil?</h2>
+
+<p>可使用在任何的<code>object</code>，檢查是否為<code>nil</code>，如果是<code>nil</code>會回傳<code>true</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>a = "str"
+</span><span class='line'>b = nil
+</span><span class='line'>
+</span><span class='line'>a.nil? # false
+</span><span class='line'>b.nil? # true</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>empty?</h2>
+
+<p>可使用在<code>String</code>、<code>Array</code>、<code>Hash</code>，如果為長度為0 會回傳<code>true</code></p>
+
+<p>如果object 是<code>nil</code>，使用empty? 會出現<code>NoMethodError</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>a = ""
+</span><span class='line'>b = []
+</span><span class='line'>c = {}
+</span><span class='line'>
+</span><span class='line'>a.empty? # true
+</span><span class='line'>b.empty? # true
+</span><span class='line'>c.empty? # true</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>blank?</h2>
+
+<p>這實作在Rails ，是empty? 的強化版，不受限在<code>String</code>、<code>Array</code>、<code>Hash</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nil.blank?    # true
+</span><span class='line'>false.blank?  # true
+</span><span class='line'>[].blank?     # true
+</span><span class='line'>{}.blank?     # true
+</span><span class='line'>"".blank?     # true
+</span><span class='line'>5.blank?      # false
+</span><span class='line'>0.blank?      # false</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>But</strong> 如果空白字串，會認定為<code>true</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"  ".blank? # false
+</span><span class='line'>"  ".empty? # true</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意：如果陣列的值都是空字串或是nil，會回傳true</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['',nil].blank? # ture</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以使用.all? + blank? 的方式來檢查陣列的值</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['',nil].all? &:blank # true</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>present?</h2>
+
+<p>這也是實作在Rails 但跟<code>blank?</code> 的判斷完全顛倒</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nil.present?    # false
+</span><span class='line'>false.present?  # false
+</span><span class='line'>[].present?     # false
+</span><span class='line'>{}.present?     # false
+</span><span class='line'>"".present?     # false
+</span><span class='line'>5.present?      # true
+</span><span class='line'>0.present?      # true</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>總結</h2>
+
+<p>剛剛測試的結果，已經有整理成一份表格，可以透過表格查看要使用什麼方式來檢查boolean 值~</p>
+
+<p><img src="images/posts/2016082401.jpg" alt="nil_empty_blank_present" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[ActiveRecord Module - Enum]]></title>
-    <link href="http://jamestong10.github.io/blog/2016/08/22/activerecord-modules/"/>
+    <link href="http://rt-tong.com/blog/2016/08/22/activerecord-modules/"/>
     <updated>2016-08-22T17:17:21+08:00</updated>
-    <id>http://jamestong10.github.io/blog/2016/08/22/activerecord-modules</id>
+    <id>http://rt-tong.com/blog/2016/08/22/activerecord-modules</id>
     <content type="html"><![CDATA[<h2>ActiveRecord::Enum</h2>
 
 <h3>目的</h3>
@@ -163,10 +274,10 @@
   
   <entry>
     <title type="html"><![CDATA[邏輯思維 EP.184 - 怎麼樣成為一個高手]]></title>
-    <link href="http://jamestong10.github.io/blog/2016/08/21/logic-show-184/"/>
+    <link href="http://rt-tong.com/blog/2016/08/21/logic-show-184/"/>
     <updated>2016-08-21T10:54:21+08:00</updated>
-    <id>http://jamestong10.github.io/blog/2016/08/21/logic-show-184</id>
-    <content type="html"><![CDATA[<p><img src="http://jamestong10.github.io/images/posts/logic_show.jpg" alt="Logic Show" /></p>
+    <id>http://rt-tong.com/blog/2016/08/21/logic-show-184</id>
+    <content type="html"><![CDATA[<p><img src="http://rt-tong.com/images/posts/2016082101.jpg" alt="Logic Show" /></p>
 
 <blockquote><p>本集雖說是如何成為一個高手，但實質是說明學習的目的和如何自己建立一套有效的學習方法</p>
 
@@ -254,10 +365,10 @@
   
   <entry>
     <title type="html"><![CDATA[Ruby Proc - Lamdba | Yield]]></title>
-    <link href="http://jamestong10.github.io/blog/2016/08/10/ruby-proc-lamdba-yield/"/>
+    <link href="http://rt-tong.com/blog/2016/08/10/ruby-proc-lamdba-yield/"/>
     <updated>2016-08-10T00:07:13+08:00</updated>
-    <id>http://jamestong10.github.io/blog/2016/08/10/ruby-proc-lamdba-yield</id>
-    <content type="html"><![CDATA[<blockquote><p>繼<a href="http://jamestong10.github.io/blog/2016/08/05/ruby-method/">Ruby Method</a> <code>&amp;block</code> 提到要傳入 <a href="http://ruby-doc.org/core-2.3.1/Proc.html">Proc Class</a> 執行邏輯運算</p>
+    <id>http://rt-tong.com/blog/2016/08/10/ruby-proc-lamdba-yield</id>
+    <content type="html"><![CDATA[<blockquote><p>繼<a href="http://rt-tong.com/blog/2016/08/05/ruby-method/">Ruby Method</a> <code>&amp;block</code> 提到要傳入 <a href="http://ruby-doc.org/core-2.3.1/Proc.html">Proc Class</a> 執行邏輯運算</p>
 
 <p>順便寫一篇記錄Proc Class 的基本應用，不是很好入門，但是多看幾次就能慢慢了解其中意義</p></blockquote>
 
@@ -502,9 +613,9 @@
   
   <entry>
     <title type="html"><![CDATA[Ruby Module - Namespace | Mixin | Include | Extend]]></title>
-    <link href="http://jamestong10.github.io/blog/2016/08/08/ruby-module/"/>
+    <link href="http://rt-tong.com/blog/2016/08/08/ruby-module/"/>
     <updated>2016-08-08T15:26:54+08:00</updated>
-    <id>http://jamestong10.github.io/blog/2016/08/08/ruby-module</id>
+    <id>http://rt-tong.com/blog/2016/08/08/ruby-module</id>
     <content type="html"><![CDATA[<blockquote><p>module 算是Ruby 的獨有特色，瞭解後在程式開發或是閱讀原始碼有很大的幫助</p></blockquote>
 
 <h2>宣告</h2>
@@ -662,9 +773,9 @@
   
   <entry>
     <title type="html"><![CDATA[Ruby Class - Inheritance | Class_method | Instance_method | Class_eval | Instance_eval]]></title>
-    <link href="http://jamestong10.github.io/blog/2016/08/06/ruby-class/"/>
+    <link href="http://rt-tong.com/blog/2016/08/06/ruby-class/"/>
     <updated>2016-08-06T11:42:18+08:00</updated>
-    <id>http://jamestong10.github.io/blog/2016/08/06/ruby-class</id>
+    <id>http://rt-tong.com/blog/2016/08/06/ruby-class</id>
     <content type="html"><![CDATA[<blockquote><p>Ruby 萬物皆物件</p>
 
 <p>Class 可以生成(new) 物件</p>
@@ -961,9 +1072,9 @@
   
   <entry>
     <title type="html"><![CDATA[Ruby Method - *argv | &block]]></title>
-    <link href="http://jamestong10.github.io/blog/2016/08/05/ruby-method/"/>
+    <link href="http://rt-tong.com/blog/2016/08/05/ruby-method/"/>
     <updated>2016-08-05T08:36:06+08:00</updated>
-    <id>http://jamestong10.github.io/blog/2016/08/05/ruby-method</id>
+    <id>http://rt-tong.com/blog/2016/08/05/ruby-method</id>
     <content type="html"><![CDATA[<blockquote><p>用來包裝邏輯處理，算是最初階的DRY 精神</p></blockquote>
 
 <h2>語法</h2>
@@ -1089,9 +1200,9 @@
   
   <entry>
     <title type="html"><![CDATA[Basic of Ruby]]></title>
-    <link href="http://jamestong10.github.io/blog/2016/08/04/ruby-basic/"/>
+    <link href="http://rt-tong.com/blog/2016/08/04/ruby-basic/"/>
     <updated>2016-08-04T10:41:35+08:00</updated>
-    <id>http://jamestong10.github.io/blog/2016/08/04/ruby-basic</id>
+    <id>http://rt-tong.com/blog/2016/08/04/ruby-basic</id>
     <content type="html"><![CDATA[<h2>必須知道的網站</h2>
 
 <ol>
@@ -1292,9 +1403,9 @@
   
   <entry>
     <title type="html"><![CDATA[Git Commands]]></title>
-    <link href="http://jamestong10.github.io/blog/2016/08/01/git-commands/"/>
+    <link href="http://rt-tong.com/blog/2016/08/01/git-commands/"/>
     <updated>2016-08-01T00:43:42+08:00</updated>
-    <id>http://jamestong10.github.io/blog/2016/08/01/git-commands</id>
+    <id>http://rt-tong.com/blog/2016/08/01/git-commands</id>
     <content type="html"><![CDATA[<blockquote><p>本篇並非Git 教學，只是記錄常用的Git 指令，有學到新的指令會再更新上來
 如果不太熟悉可在指令後加入 &ndash;help 查詢用法</p></blockquote>
 
@@ -1601,9 +1712,9 @@
   
   <entry>
     <title type="html"><![CDATA[Java Enum]]></title>
-    <link href="http://jamestong10.github.io/blog/2016/07/28/java-enum/"/>
+    <link href="http://rt-tong.com/blog/2016/07/28/java-enum/"/>
     <updated>2016-07-28T00:44:15+08:00</updated>
-    <id>http://jamestong10.github.io/blog/2016/07/28/java-enum</id>
+    <id>http://rt-tong.com/blog/2016/07/28/java-enum</id>
     <content type="html"><![CDATA[<h2>在J2SE 5.0 之前，沒有Enum</h2>
 
 <p>使用<code>static</code>與<code>final</code>兩個修飾詞建立常數變數</p>
@@ -1726,9 +1837,9 @@
   
   <entry>
     <title type="html"><![CDATA[Using Octopress and Github to Write Blog]]></title>
-    <link href="http://jamestong10.github.io/blog/2016/07/26/octopress-plus-github/"/>
+    <link href="http://rt-tong.com/blog/2016/07/26/octopress-plus-github/"/>
     <updated>2016-07-26T13:51:55+08:00</updated>
-    <id>http://jamestong10.github.io/blog/2016/07/26/octopress-plus-github</id>
+    <id>http://rt-tong.com/blog/2016/07/26/octopress-plus-github</id>
     <content type="html"><![CDATA[<h2>新增GitHub Repository</h2>
 
 <p>點選<a href="https://github.com/new">new</a> 建立新的Repository，命名為 username.github.io</p>
@@ -1884,9 +1995,9 @@ BitBucket 點選<a href="https://bitbucket.org/repo/create">Create</a> 建立新
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># /source/_includes/custom/navigation.html
 </span><span class='line'>&lt;ul class="main-navigation"&gt;
-</span><span class='line'>  &lt;li&gt;&lt;a href="http://jamestong10.github.io/"&gt;Blog&lt;/a&gt;&lt;/li&gt;
-</span><span class='line'>  &lt;li&gt;&lt;a href="http://jamestong10.github.io/blog/archives"&gt;Archives&lt;/a&gt;&lt;/li&gt;
-</span><span class='line'>  &lt;li&gt;&lt;a href="http://jamestong10.github.io/about"&gt;About&lt;/a&gt;&lt;/li&gt;
+</span><span class='line'>  &lt;li&gt;&lt;a href="http://rt-tong.com/"&gt;Blog&lt;/a&gt;&lt;/li&gt;
+</span><span class='line'>  &lt;li&gt;&lt;a href="http://rt-tong.com/blog/archives"&gt;Archives&lt;/a&gt;&lt;/li&gt;
+</span><span class='line'>  &lt;li&gt;&lt;a href="http://rt-tong.com/about"&gt;About&lt;/a&gt;&lt;/li&gt;
 </span><span class='line'>&lt;/ul&gt;</span></code></pre></td></tr></table></div></figure>
 
 

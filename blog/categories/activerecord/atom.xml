@@ -2,12 +2,12 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Activerecord | JT's Blog]]></title>
-  <link href="http://jamestong10.github.io/blog/categories/activerecord/atom.xml" rel="self"/>
-  <link href="http://jamestong10.github.io/"/>
-  <updated>2016-08-23T00:34:51+08:00</updated>
-  <id>http://jamestong10.github.io/</id>
+  <link href="http://rt-tong.com/blog/categories/activerecord/atom.xml" rel="self"/>
+  <link href="http://rt-tong.com/"/>
+  <updated>2016-08-24T22:53:47+08:00</updated>
+  <id>http://rt-tong.com/</id>
   <author>
-    <name><![CDATA[T.R.R]]></name>
+    <name><![CDATA[James Tong]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[ActiveRecord Module - Enum]]></title>
-    <link href="http://jamestong10.github.io/blog/2016/08/22/activerecord-modules/"/>
+    <link href="http://rt-tong.com/blog/2016/08/22/activerecord-modules/"/>
     <updated>2016-08-22T17:17:21+08:00</updated>
-    <id>http://jamestong10.github.io/blog/2016/08/22/activerecord-modules</id>
+    <id>http://rt-tong.com/blog/2016/08/22/activerecord-modules</id>
     <content type="html"><![CDATA[<h2>ActiveRecord::Enum</h2>
 
 <h3>目的</h3>

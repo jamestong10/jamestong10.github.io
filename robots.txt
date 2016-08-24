@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: http://jamestong10.github.io/sitemap.xml
+Sitemap: http://rt-tong.com/sitemap.xml

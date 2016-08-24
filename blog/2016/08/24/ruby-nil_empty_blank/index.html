@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Logic - JT's Blog</title>
+  <title>Ruby - Nil? | Empty? | Blank? - JT's Blog</title>
   <meta name="author" content="James Tong">
 
   
-  <meta name="description" content="Category: logic">
+  <meta name="description" content="ruby nil?, empty?, blank?">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://rt-tong.com/blog/categories/logic">
+  <link rel="canonical" href="http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="JT's Blog" type="application/atom+xml">
@@ -96,46 +96,187 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Logic</h1>
+    
+      
+        <h1 class="entry-title">Ruby - Nil? | Empty? | Blank?</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-24T14:09:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:09 pm</span></time>
+        
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><h2>nil?</h2>
 
-  
-  <h2>2016</h2>
+<p>可使用在任何的<code>object</code>，檢查是否為<code>nil</code>，如果是<code>nil</code>會回傳<code>true</code></p>
 
-<article>
-  
-<h1><a href="/blog/2016/08/21/logic-show-184/">邏輯思維 EP.184 - 怎麼樣成為一個高手</a></h1>
-<time datetime="2016-08-21T10:54:21+08:00" pubdate><span class='month'>Aug</span> <span class='day'>21</span> <span class='year'>2016</span></time>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>a = "str"
+</span><span class='line'>b = nil
+</span><span class='line'>
+</span><span class='line'>a.nil? # false
+</span><span class='line'>b.nil? # true</span></code></pre></td></tr></table></div></figure>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ep-dot-184/'>ep.184</a>, <a class='category' href='/blog/categories/logic/'>logic</a>, <a class='category' href='/blog/categories/show/'>show</a></span>
-</footer>
+
+<h2>empty?</h2>
+
+<p>可使用在<code>String</code>、<code>Array</code>、<code>Hash</code>，如果為長度為0 會回傳<code>true</code></p>
+
+<p>如果object 是<code>nil</code>，使用empty? 會出現<code>NoMethodError</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>a = ""
+</span><span class='line'>b = []
+</span><span class='line'>c = {}
+</span><span class='line'>
+</span><span class='line'>a.empty? # true
+</span><span class='line'>b.empty? # true
+</span><span class='line'>c.empty? # true</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<h2>blank?</h2>
 
+<p>這實作在Rails ，是empty? 的強化版，不受限在<code>String</code>、<code>Array</code>、<code>Hash</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nil.blank?    # true
+</span><span class='line'>false.blank?  # true
+</span><span class='line'>[].blank?     # true
+</span><span class='line'>{}.blank?     # true
+</span><span class='line'>"".blank?     # true
+</span><span class='line'>5.blank?      # false
+</span><span class='line'>0.blank?      # false</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>But</strong> 如果空白字串，會認定為<code>true</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"  ".blank? # false
+</span><span class='line'>"  ".empty? # true</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意：如果陣列的值都是空字串或是nil，會回傳true</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['',nil].blank? # ture</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以使用.all? + blank? 的方式來檢查陣列的值</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>['',nil].all? &:blank # true</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>present?</h2>
+
+<p>這也是實作在Rails 但跟<code>blank?</code> 的判斷完全顛倒</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>nil.present?    # false
+</span><span class='line'>false.present?  # false
+</span><span class='line'>[].present?     # false
+</span><span class='line'>{}.present?     # false
+</span><span class='line'>"".present?     # false
+</span><span class='line'>5.present?      # true
+</span><span class='line'>0.present?      # true</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>總結</h2>
+
+<p>剛剛測試的結果，已經有整理成一份表格，可以透過表格查看要使用什麼方式來檢查boolean 值~</p>
+
+<p><img src="images/posts/2016082401.jpg" alt="nil_empty_blank_present" /></p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
-</article>
 
 
-</div>
 
-<aside class="sidebar">
+  <span class="byline author vcard">Authored by <span class="fn">
   
+    James Tong
+  
+  </span></span>
+
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-08-24T14:09:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:09 pm</span></time>
+      
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
     
+      <div class="sharing">
   
-</aside>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank/" data-via="" data-counturl="http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank/" >Tweet</a>
+  
+  
+  
+</div>
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/08/22/activerecord-modules/" title="Previous Post: ActiveRecord Module - Enum">&laquo; ActiveRecord Module - Enum</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
 
     </div>
   </div>
