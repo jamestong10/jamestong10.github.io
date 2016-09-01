@@ -9,7 +9,8 @@
   <meta name="author" content="James Tong">
 
   
-  <meta name="description" content="擷取常用的methods Pluck 使用pluck 查詢想要的欄位資料，值已陣列回傳，值的類別同欄位型別(如果可以) 也可以傳入sql 指令，例如：Distinct 1
+  <meta name="description" content="國際化的設計，根據不同使用者採用不同的語言、數字格式、日期格式，簡稱i18n i18n Rails 預設是使用英文(en)，如要使用i18n 多語系，則需安裝 gem 1
+gem 'rails-i18n' 設定載入路徑、預設語系 1
 2
 3
 4
@@ -22,16 +23,7 @@
 11
 12
 13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23 &hellip;">
+# &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -119,6 +111,165 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/09/01/rails-i18n-timezone/">Rails - I18n | Timezone</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-09-01T11:35:19+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>11:35 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>國際化的設計，根據不同使用者採用不同的語言、數字格式、日期格式，簡稱i18n</p></blockquote>
+
+<h2>i18n</h2>
+
+<p>Rails 預設是使用英文(en)，如要使用i18n 多語系，則需安裝 gem</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rails-i18n'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定載入路徑、預設語系</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#config/application.rb
+</span><span class='line'>
+</span><span class='line'># 設定載入路徑 (二擇一)
+</span><span class='line'>config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+</span><span class='line'>config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
+</span><span class='line'>
+</span><span class='line'># 設定預設語系 zh or en (二擇一)
+</span><span class='line'>config.i18n.default_locale = :"zh-TW"
+</span><span class='line'>config.i18n.default_locale = :en
+</span><span class='line'>
+</span><span class='line'># use default locale when translation missing (二擇一)
+</span><span class='line'>config.i18n.fallbacks = true
+</span><span class='line'>config.i18n.fallbacks = :"zh-TW"</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>自訂語彙</h2>
+
+<p>詞彙檔放在 config/locales ，使用YAML 格式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># config/locales/zh-TW.yml
+</span><span class='line'>"zh-TW":
+</span><span class='line'>    hello: "親愛的%{name}你好!"
+</span><span class='line'>    admin:
+</span><span class='line'>        event: 活動管理</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>注意 YAML 格式的縮排必須使用兩個空格，Tab是不允許的。直接複製貼上可能會有問題，請小心檢查縮排</p></blockquote>
+
+<p>套用語彙，可以使用<code>t Helper</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 如果在View
+</span><span class='line'>t("admin.event")
+</span><span class='line'>t(:event, :scope=&gt;:admin)
+</span><span class='line'>t(:hello, :name=&gt;current_user.name)
+</span><span class='line'>
+</span><span class='line'># 如果不在View中，則需要加上 I18n 類別
+</span><span class='line'>I18n.t("admin.event")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如何讓使用者切換語系</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># controllers/application_controller.rb
+</span><span class='line'>before_action :set_locale
+</span><span class='line'>
+</span><span class='line'>def set_locale
+</span><span class='line'>  # 可以將 ["en", "zh-TW"] 設定為 VALID_LANG 放到 config/environment.rb 中
+</span><span class='line'>  if params[:locale] && I18n.available_locales.include?( params[:locale].to_sym )
+</span><span class='line'>    session[:locale] = params[:locale]
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  I18n.locale = session[:locale] || I18n.default_locale
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># views/..
+</span><span class='line'>&lt;%= link_to "中文版", :controller =&gt; controller_name,
+</span><span class='line'>:action =&gt; action_name, :locale =&gt; "zh-TW" %&gt;
+</span><span class='line'>&lt;%= link_to "English", :controller =&gt; controller_name,
+</span><span class='line'>:action =&gt; action_name, :locale =&gt; "en" %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>時區 Timezone</h2>
+
+<p>設定app 使用的時區，設定完成需重啟服務生效</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># config/application.rb
+</span><span class='line'>config.time_zone = "Taipei"</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://ihower.tw/rails4/i18n.html">ihower-i18n</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1868,336 +2019,6 @@
 <ul>
 <li>RailsFun.tw 新手教學</li>
 <li>Ruby Programming ver.4</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/08/01/git-commands/">Git Commands</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-08-01T00:43:42+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>12:43 am</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本篇並非Git 教學，只是記錄常用的Git 指令，有學到新的指令會再更新上來
-如果不太熟悉可在指令後加入 &ndash;help 查詢用法</p></blockquote>
-
-<h2>Git 基本設定</h2>
-
-<p>查詢設定資訊</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config --list</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定全域的使用者與Email (個人使用)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config --global user.name [author_name]
-</span><span class='line'>git config --global user.email [contact_email_address]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定區域的使用者與Email (參與計劃或公司專案)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd local_repo
-</span><span class='line'>git config --local user.name [author_name]
-</span><span class='line'>git config --local user.email [contact_email_address]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定別名</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git config --global alias.st status   # git st
-</span><span class='line'>$ git config --global alias.ci commit   # git ci
-</span><span class='line'>$ git config --global alias.co checkout # git co
-</span><span class='line'>$ git config --global alias.br branch   # git br</span></code></pre></td></tr></table></div></figure>
-
-
-<p>建立一個全新的Git Repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git init --bare project_name.git</span></code></pre></td></tr></table></div></figure>
-
-
-<p>本機建立新的repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git init</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看工作區(Working Directory)的異動紀錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git status
-</span><span class='line'>$ git st</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看檔案異動差異</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff</span></code></pre></td></tr></table></div></figure>
-
-
-<p>加入暫存區</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git add [--] [file_path | file_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>提交並加上註解</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git commit -m [comments]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>開啟editor 修改近期已經commit 的註解 (建議少用，除非必要)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git commit --amend</span></code></pre></td></tr></table></div></figure>
-
-
-<p>儲存工作：專案開發到一半，要去別的brach，可使用stash 把修改記錄暫存起來</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git stash</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看暫存的紀錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git stash list</span></code></pre></td></tr></table></div></figure>
-
-
-<p>取回暫存的紀錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git apply
-</span><span class='line'>
-</span><span class='line'># 取回較舊的暫存紀錄
-</span><span class='line'>$ git stash apply stash@{2}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>刪除暫存紀錄：apply 只是取回紀錄，但沒有執行刪除的動作</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git stash drop [stash_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>快速修正前一次 commit 的錯誤，只要修 typo 之後打這行，就會替換掉前一次的 commit-level-operations</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git commit -C HEAD -a –amend</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看提交紀錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git log</span></code></pre></td></tr></table></div></figure>
-
-
-<p>砍掉commit 重來</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git reset [--soft | --hard] [-q] [&lt;commit&gt;]
-</span><span class='line'>
-</span><span class='line'>$ git reset --soft HEAD^ # HEAD^ 表示前一個版本</span></code></pre></td></tr></table></div></figure>
-
-
-<p>soft: commit 內容會退回暫存區(staging area)，並保留工作區(working directory)</p>
-
-<p>hard: 工作區(working directory) 與暫存區(staging area) 會更新到指定的commit 狀態</p>
-
-<h2>Git Branch</h2>
-
-<p>列出所有分支且正在使用哪個分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch</span></code></pre></td></tr></table></div></figure>
-
-
-<p>建立新的分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>切換分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>建立新的分支並切換到此分支 (等於 git branch + git checkout)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout -b [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>修改分支名稱與刪除分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch -m [old_branch_name] [new_branch_name]
-</span><span class='line'>$ git branch -d [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Git Merge &amp; Git Rebase</h2>
-
-<h3>觀念：只要branch 調整完畢，應先將master merge 至branch，測試無誤後，在merge 回master</h3>
-
-<blockquote><p>merge 分支的功能加master，同時會產生新的HEAD</p></blockquote>
-
-<p>合併分支到master</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout master
-</span><span class='line'>$ git merge feature1
-</span><span class='line'>
-</span><span class='line'># 上下相同
-</span><span class='line'>$ git merge master feature1</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>rebase 是基於某一分支的內容合併，又稱為分支衍合，一樣是合併的動作，但是會銜接著mater 最新的狀態</p></blockquote>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout [branch]
-</span><span class='line'>$ git rebase master</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Merge v.s. Rebase</p>
-
-<p><strong>使用時機：如果conflict 較多時，建議使用merge</strong></p>
-
-<p>假設以下例子要做合併，可以看出merge與rebase 有何差異</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>maser:  A -&gt; B -&gt; C
-</span><span class='line'>branch: D -&gt; E
-</span><span class='line'>
-</span><span class='line'>after rebase: A -&gt; B -&gt; C -&gt; D -&gt; E
-</span><span class='line'>after merge:  A -&gt; B -&gt; C -&gt; D -&gt; E -&gt; F</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Git Remote</h2>
-
-<p>列出當初加入遠端儲存庫時指定的名稱</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote</span></code></pre></td></tr></table></div></figure>
-
-
-<p>本機加入遠端repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote add [remote_name] [url]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>修改遠端repository url</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote set-url [new_remote_name] [url]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>拷貝一個已經存在的repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone [repository_url]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>變更遠端簡稱</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote rename [old_remote_name] [new_remote_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看remote 資訊</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote show [remote_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>移除遠端repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote remove [remote_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上傳至遠端repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git push [remote_name] [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>合併遠端repository 至本機</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git pull [remote_name] [branch_name]
-</span><span class='line'>
-</span><span class='line'># 上下相同
-</span><span class='line'>
-</span><span class='line'>$ git pull</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>實用資訊</h2>
-
-<ul>
-<li><a href="https://github.com/RailsApps/rails-composer/blob/master/files/gitignore.txt">gitignore lists</a></li>
-</ul>
-
-
-<h2>References</h2>
-
-<ul>
-<li><a href="https://git-scm.com/doc">GitDoc</a></li>
-<li><a href="https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf">Git cheat sheet</a></li>
-<li><a href="https://ihower.tw/git/basic.html">ihower Git Basic</a></li>
-<li><a href="https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting/commit-level-operations">tutorial reset, checkout, revert</a></li>
 </ul>
 
 </div>

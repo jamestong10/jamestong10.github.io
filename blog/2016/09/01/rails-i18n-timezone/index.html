@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>ActiveRecord Module - Calculations - JT's Blog</title>
+  <title>Rails - I18n | Timezone - JT's Blog</title>
   <meta name="author" content="James Tong">
 
   
-  <meta name="description" content="activerecord instance methods">
+  <meta name="description" content="rails i18n timezone">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://rt-tong.com/blog/2016/08/25/activerecord-module-calculations">
+  <link rel="canonical" href="http://rt-tong.com/blog/2016/09/01/rails-i18n-timezone">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="JT's Blog" type="application/atom+xml">
@@ -101,7 +101,7 @@
   <header>
     
       
-        <h1 class="entry-title">ActiveRecord Module - Calculations</h1>
+        <h1 class="entry-title">Rails - I18n | Timezone</h1>
       
     
     
@@ -111,7 +111,7 @@
 
 
 
-<time class='entry-date' datetime='2016-08-25T10:44:12+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:44 am</span></time>
+<time class='entry-date' datetime='2016-09-01T11:35:19+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>11:35 am</span></time>
         
         
       </p>
@@ -119,13 +119,17 @@
   </header>
 
 
-<div class="entry-content"><blockquote><p>擷取常用的methods</p></blockquote>
+<div class="entry-content"><blockquote><p>國際化的設計，根據不同使用者採用不同的語言、數字格式、日期格式，簡稱i18n</p></blockquote>
 
-<h2>Pluck</h2>
+<h2>i18n</h2>
 
-<p>使用<a href="http://apidock.com/rails/ActiveRecord/Calculations/pluck">pluck</a> 查詢想要的欄位資料，值已陣列回傳，值的類別同欄位型別(如果可以)</p>
+<p>Rails 預設是使用英文(en)，如要使用i18n 多語系，則需安裝 gem</p>
 
-<p>也可以傳入sql 指令，例如：Distinct</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rails-i18n'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定載入路徑、預設語系</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -140,44 +144,40 @@
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.all.map(&:name)
+</pre></td><td class='code'><pre><code class=''><span class='line'>#config/application.rb
 </span><span class='line'>
-</span><span class='line'># equal to
+</span><span class='line'># 設定載入路徑 (二擇一)
+</span><span class='line'>config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+</span><span class='line'>config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
 </span><span class='line'>
-</span><span class='line'>Person.pluck(:name)
-</span><span class='line'># SELECT people.name FROM people
-</span><span class='line'># =&gt; ["A", "B", "C"]
+</span><span class='line'># 設定預設語系 zh or en (二擇一)
+</span><span class='line'>config.i18n.default_locale = :"zh-TW"
+</span><span class='line'>config.i18n.default_locale = :en
 </span><span class='line'>
-</span><span class='line'>Person.pluck(:id, :name)
-</span><span class='line'># SELECT people.id, people.name FROM people
-</span><span class='line'># =&gt; [[1, 'David'], [2, 'Jeremy'], [3, 'Jose']]
-</span><span class='line'>
-</span><span class='line'>Person.pluck('DISTINCT role')
-</span><span class='line'># SELECT DISTINCT role FROM people
-</span><span class='line'># =&gt; ['admin', 'member', 'guest']
-</span><span class='line'>
-</span><span class='line'>Person.where(age: 21).limit(5).pluck(:id)
-</span><span class='line'># SELECT people.id FROM people WHERE people.age = 21 LIMIT 5
-</span><span class='line'># =&gt; [2, 3]
-</span><span class='line'>
-</span><span class='line'>Person.pluck('DATEDIFF(updated_at, created_at)')
-</span><span class='line'># SELECT DATEDIFF(updated_at, created_at) FROM people
-</span><span class='line'># =&gt; ['0', '27761', '173']</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'># use default locale when translation missing (二擇一)
+</span><span class='line'>config.i18n.fallbacks = true
+</span><span class='line'>config.i18n.fallbacks = :"zh-TW"</span></code></pre></td></tr></table></div></figure>
 
 
-<blockquote><p>與select 的差別在於，select 會取出model object，而pluck 只取出module value</p></blockquote>
+<h2>自訂語彙</h2>
 
-<p>使用Benchmark 測試一下兩者的執行時間</p>
+<p>詞彙檔放在 config/locales ，使用YAML 格式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># config/locales/zh-TW.yml
+</span><span class='line'>"zh-TW":
+</span><span class='line'>    hello: "親愛的%{name}你好!"
+</span><span class='line'>    admin:
+</span><span class='line'>        event: 活動管理</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>注意 YAML 格式的縮排必須使用兩個空格，Tab是不允許的。直接複製貼上可能會有問題，請小心檢查縮排</p></blockquote>
+
+<p>套用語彙，可以使用<code>t Helper</code></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -186,24 +186,16 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>puts Benchmark.measure { User.select(:id).to_a }
-</span><span class='line'># User Load (0.6ms)  SELECT "users"."id" FROM "users"
-</span><span class='line'># 0.010000   0.000000   0.010000 (  0.014949)
+</pre></td><td class='code'><pre><code class=''><span class='line'># 如果在View
+</span><span class='line'>t("admin.event")
+</span><span class='line'>t(:event, :scope=&gt;:admin)
+</span><span class='line'>t(:hello, :name=&gt;current_user.name)
 </span><span class='line'>
-</span><span class='line'>puts Benchmark.measure { User.pluck(:id) }
-</span><span class='line'># (0.8ms)  SELECT "users"."id" FROM "users"
-</span><span class='line'># 0.000000   0.000000   0.000000 (  0.004965)</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'># 如果不在View中，則需要加上 I18n 類別
+</span><span class='line'>I18n.t("admin.event")</span></code></pre></td></tr></table></div></figure>
 
 
-<p>相較之下，pluck 的執行速度會比select 快</p>
-
-<p>是因為select 還要把結果轉model object，但是pluck 單純把結果轉array</p>
-
-<p>結論：如果只要單純取欄位的資料，請選擇<code>pluck</code></p>
-
-<h2>Count</h2>
-
-<p><a href="http://apidock.com/rails/v4.2.1/ActiveRecord/Calculations/count">Count</a> the records</p>
+<p>如何讓使用者切換語系</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -216,79 +208,45 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.count
-</span><span class='line'># =&gt; the total count of all people
+</pre></td><td class='code'><pre><code class=''><span class='line'># controllers/application_controller.rb
+</span><span class='line'>before_action :set_locale
 </span><span class='line'>
-</span><span class='line'>Person.count(:age)
-</span><span class='line'># =&gt; returns the total count of all people whose age is present in database
+</span><span class='line'>def set_locale
+</span><span class='line'>  # 可以將 ["en", "zh-TW"] 設定為 VALID_LANG 放到 config/environment.rb 中
+</span><span class='line'>  if params[:locale] && I18n.available_locales.include?( params[:locale].to_sym )
+</span><span class='line'>    session[:locale] = params[:locale]
+</span><span class='line'>  end
 </span><span class='line'>
-</span><span class='line'>Person.count(:all)
-</span><span class='line'># =&gt; performs a COUNT(*) (:all is an alias for '*')
-</span><span class='line'>
-</span><span class='line'>Person.distinct.count(:age)
-</span><span class='line'># =&gt; counts the number of different age values</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  I18n.locale = session[:locale] || I18n.default_locale
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-
-<p>使用group 會回傳Hash 值，並以key = column value, value = count amount 的方式表示</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.group(:city).count
-</span><span class='line'># =&gt; { 'Rome' =&gt; 5, 'Paris' =&gt; 3 }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果group 多個欄位，那key 就是欄位的組合</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Article.group(:status, :category).count
-</span><span class='line'># =&gt;  {["draft", "business"]=&gt;10, ["draft", "technology"]=&gt;4,
-</span><span class='line'>       ["published", "business"]=&gt;0, ["published", "technology"]=&gt;2}</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># views/..
+</span><span class='line'>&lt;%= link_to "中文版", :controller =&gt; controller_name,
+</span><span class='line'>:action =&gt; action_name, :locale =&gt; "zh-TW" %&gt;
+</span><span class='line'>&lt;%= link_to "English", :controller =&gt; controller_name,
+</span><span class='line'>:action =&gt; action_name, :locale =&gt; "en" %&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>使用select 則是回傳select 後的筆數</p>
+<h2>時區 Timezone</h2>
 
-<blockquote><p>並非所有正確的select 都會產生正確的count。會根據database 而有所不同。</p></blockquote>
+<p>設定app 使用的時區，設定完成需重啟服務生效</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.select(:age).count
-</span><span class='line'># =&gt; counts the number of different age values</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Maximum/Minimum</h2>
-
-<p><a href="http://apidock.com/rails/v4.2.1/ActiveRecord/Calculations/maximum">Maximum</a> 找出查詢欄位的最大值，查詢結果會根據欄位型別產生對應的物件類別，無資料則回傳<code>nil</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.maximum(:age) # =&gt; 93</span></code></pre></td></tr></table></div></figure>
-
-
-<p>同上，但是<a href="http://apidock.com/rails/v4.2.1/ActiveRecord/Calculations/minimum">Minimum</a>查詢最小值</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.minimum(:age) # =&gt; 7</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Sum/Average</h2>
-
-<p><a href="http://apidock.com/rails/ActiveRecord/Calculations/sum">Sum</a> 計算查詢欄位的總和，無資料則回傳0</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.sum(:age) # =&gt; 4562</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://apidock.com/rails/ActiveRecord/Calculations/average">Average</a> 計算欄位的平均值，無資料則回傳<code>nil</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.average(:age) # =&gt; 35.8</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'># config/application.rb
+</span><span class='line'>config.time_zone = "Taipei"</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>References</h2>
 
 <ul>
-<li><a href="http://apidock.com/rails/ActiveRecord/Calculations/">ActiveRecord-Calculations</a></li>
+<li><a href="https://ihower.tw/rails4/i18n.html">ihower-i18n</a></li>
 </ul>
 
 </div>
@@ -313,22 +271,16 @@
 
 
 
-<time class='entry-date' datetime='2016-08-25T10:44:12+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:44 am</span></time>
+<time class='entry-date' datetime='2016-09-01T11:35:19+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>11:35 am</span></time>
       
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/activerecord/'>activerecord</a>, <a class='category' href='/blog/categories/calculation/'>calculation</a>, <a class='category' href='/blog/categories/rails/'>rails</a>
-  
-</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rt-tong.com/blog/2016/08/25/activerecord-module-calculations/" data-via="" data-counturl="http://rt-tong.com/blog/2016/08/25/activerecord-module-calculations/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rt-tong.com/blog/2016/09/01/rails-i18n-timezone/" data-via="" data-counturl="http://rt-tong.com/blog/2016/09/01/rails-i18n-timezone/" >Tweet</a>
   
   
   
@@ -337,10 +289,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2016/08/24/ruby-nil_empty_blank/" title="Previous Post: ruby - nil? | empty? | blank?">&laquo; ruby - nil? | empty? | blank?</a>
+        <a class="basic-alignment left" href="/blog/2016/08/25/activerecord-module-calculations/" title="Previous Post: ActiveRecord Module - Calculations">&laquo; ActiveRecord Module - Calculations</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2016/09/01/rails-i18n-timezone/" title="Next Post: Rails - i18n | Timezone">Rails - i18n | Timezone &raquo;</a>
       
     </p>
   </footer>

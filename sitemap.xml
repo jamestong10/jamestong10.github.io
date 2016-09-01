@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://rt-tong.com/blog/2016/09/01/rails-i18n-timezone/</loc>
+<lastmod>2016-09-01T11:35:19+08:00</lastmod>
+</url>
+<url>
 <loc>http://rt-tong.com/blog/2016/08/25/activerecord-module-calculations/</loc>
 <lastmod>2016-08-25T10:44:12+08:00</lastmod>
 </url>
@@ -95,5 +99,8 @@
 </url>
 <url>
 <loc>http://rt-tong.com/blog/categories/calculation/</loc>
+</url>
+<url>
+<loc>http://rt-tong.com/posts/2/</loc>
 </url>
 </urlset>
