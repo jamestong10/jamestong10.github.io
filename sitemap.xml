@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://rt-tong.com/blog/2016/08/25/activerecord-module-calculations/</loc>
+<lastmod>2016-08-25T10:44:12+08:00</lastmod>
+</url>
+<url>
 <loc>http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank/</loc>
 <lastmod>2016-08-24T14:09:59+08:00</lastmod>
 </url>
 <url>
-<loc>http://rt-tong.com/blog/2016/08/22/activerecord-modules/</loc>
+<loc>http://rt-tong.com/blog/2016/08/22/activerecord-module-enum/</loc>
 <lastmod>2016-08-22T17:17:21+08:00</lastmod>
 </url>
 <url>
@@ -51,13 +55,13 @@
 <loc>http://rt-tong.com/blog/</loc>
 </url>
 <url>
-<loc>http://rt-tong.com/</loc>
-</url>
-<url>
 <loc>http://rt-tong.com/archives/</loc>
 </url>
 <url>
 <loc>http://rt-tong.com/blog/archives/</loc>
+</url>
+<url>
+<loc>http://rt-tong.com/</loc>
 </url>
 <url>
 <loc>http://rt-tong.com/about/</loc>
@@ -87,6 +91,9 @@
 <loc>http://rt-tong.com/blog/categories/activerecord/</loc>
 </url>
 <url>
-<loc>http://rt-tong.com/posts/2/</loc>
+<loc>http://rt-tong.com/blog/categories/enum/</loc>
+</url>
+<url>
+<loc>http://rt-tong.com/blog/categories/calculation/</loc>
 </url>
 </urlset>

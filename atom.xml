@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="http://rt-tong.com/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2016-08-24T22:54:44+08:00</updated>
+  <updated>2016-09-01T11:20:06+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -12,6 +12,186 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ActiveRecord Module - Calculations]]></title>
+    <link href="http://rt-tong.com/blog/2016/08/25/activerecord-module-calculations/"/>
+    <updated>2016-08-25T10:44:12+08:00</updated>
+    <id>http://rt-tong.com/blog/2016/08/25/activerecord-module-calculations</id>
+    <content type="html"><![CDATA[<blockquote><p>擷取常用的methods</p></blockquote>
+
+<h2>Pluck</h2>
+
+<p>使用<a href="http://apidock.com/rails/ActiveRecord/Calculations/pluck">pluck</a> 查詢想要的欄位資料，值已陣列回傳，值的類別同欄位型別(如果可以)</p>
+
+<p>也可以傳入sql 指令，例如：Distinct</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Person.all.map(&:name)
+</span><span class='line'>
+</span><span class='line'># equal to
+</span><span class='line'>
+</span><span class='line'>Person.pluck(:name)
+</span><span class='line'># SELECT people.name FROM people
+</span><span class='line'># =&gt; ["A", "B", "C"]
+</span><span class='line'>
+</span><span class='line'>Person.pluck(:id, :name)
+</span><span class='line'># SELECT people.id, people.name FROM people
+</span><span class='line'># =&gt; [[1, 'David'], [2, 'Jeremy'], [3, 'Jose']]
+</span><span class='line'>
+</span><span class='line'>Person.pluck('DISTINCT role')
+</span><span class='line'># SELECT DISTINCT role FROM people
+</span><span class='line'># =&gt; ['admin', 'member', 'guest']
+</span><span class='line'>
+</span><span class='line'>Person.where(age: 21).limit(5).pluck(:id)
+</span><span class='line'># SELECT people.id FROM people WHERE people.age = 21 LIMIT 5
+</span><span class='line'># =&gt; [2, 3]
+</span><span class='line'>
+</span><span class='line'>Person.pluck('DATEDIFF(updated_at, created_at)')
+</span><span class='line'># SELECT DATEDIFF(updated_at, created_at) FROM people
+</span><span class='line'># =&gt; ['0', '27761', '173']</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>與select 的差別在於，select 會取出model object，而pluck 只取出module value</p></blockquote>
+
+<p>使用Benchmark 測試一下兩者的執行時間</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>puts Benchmark.measure { User.select(:id).to_a }
+</span><span class='line'># User Load (0.6ms)  SELECT "users"."id" FROM "users"
+</span><span class='line'># 0.010000   0.000000   0.010000 (  0.014949)
+</span><span class='line'>
+</span><span class='line'>puts Benchmark.measure { User.pluck(:id) }
+</span><span class='line'># (0.8ms)  SELECT "users"."id" FROM "users"
+</span><span class='line'># 0.000000   0.000000   0.000000 (  0.004965)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>相較之下，pluck 的執行速度會比select 快</p>
+
+<p>是因為select 還要把結果轉model object，但是pluck 單純把結果轉array</p>
+
+<p>結論：如果只要單純取欄位的資料，請選擇<code>pluck</code></p>
+
+<h2>Count</h2>
+
+<p><a href="http://apidock.com/rails/v4.2.1/ActiveRecord/Calculations/count">Count</a> the records</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Person.count
+</span><span class='line'># =&gt; the total count of all people
+</span><span class='line'>
+</span><span class='line'>Person.count(:age)
+</span><span class='line'># =&gt; returns the total count of all people whose age is present in database
+</span><span class='line'>
+</span><span class='line'>Person.count(:all)
+</span><span class='line'># =&gt; performs a COUNT(*) (:all is an alias for '*')
+</span><span class='line'>
+</span><span class='line'>Person.distinct.count(:age)
+</span><span class='line'># =&gt; counts the number of different age values</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用group 會回傳Hash 值，並以key = column value, value = count amount 的方式表示</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Person.group(:city).count
+</span><span class='line'># =&gt; { 'Rome' =&gt; 5, 'Paris' =&gt; 3 }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果group 多個欄位，那key 就是欄位的組合</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Article.group(:status, :category).count
+</span><span class='line'># =&gt;  {["draft", "business"]=&gt;10, ["draft", "technology"]=&gt;4,
+</span><span class='line'>       ["published", "business"]=&gt;0, ["published", "technology"]=&gt;2}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用select 則是回傳select 後的筆數</p>
+
+<blockquote><p>並非所有正確的select 都會產生正確的count。會根據database 而有所不同。</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Person.select(:age).count
+</span><span class='line'># =&gt; counts the number of different age values</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Maximum/Minimum</h2>
+
+<p><a href="http://apidock.com/rails/v4.2.1/ActiveRecord/Calculations/maximum">Maximum</a> 找出查詢欄位的最大值，查詢結果會根據欄位型別產生對應的物件類別，無資料則回傳<code>nil</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Person.maximum(:age) # =&gt; 93</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同上，但是<a href="http://apidock.com/rails/v4.2.1/ActiveRecord/Calculations/minimum">Minimum</a>查詢最小值</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Person.minimum(:age) # =&gt; 7</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Sum/Average</h2>
+
+<p><a href="http://apidock.com/rails/ActiveRecord/Calculations/sum">Sum</a> 計算查詢欄位的總和，無資料則回傳0</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Person.sum(:age) # =&gt; 4562</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="http://apidock.com/rails/ActiveRecord/Calculations/average">Average</a> 計算欄位的平均值，無資料則回傳<code>nil</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Person.average(:age) # =&gt; 35.8</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://apidock.com/rails/ActiveRecord/Calculations/">ActiveRecord-Calculations</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ruby - Nil? | Empty? | Blank?]]></title>
@@ -126,9 +306,9 @@
   
   <entry>
     <title type="html"><![CDATA[ActiveRecord Module - Enum]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/22/activerecord-modules/"/>
+    <link href="http://rt-tong.com/blog/2016/08/22/activerecord-module-enum/"/>
     <updated>2016-08-22T17:17:21+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/22/activerecord-modules</id>
+    <id>http://rt-tong.com/blog/2016/08/22/activerecord-module-enum</id>
     <content type="html"><![CDATA[<h2>ActiveRecord::Enum</h2>
 
 <h3>目的</h3>

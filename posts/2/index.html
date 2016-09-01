@@ -9,10 +9,9 @@
   <meta name="author" content="James Tong">
 
   
-  <meta name="description" content="新增GitHub Repository 點選new 建立新的Repository，命名為 username.github.io 取得Octopress 1
-2
-3
-$ git clone git@github.com:imathis/octopress.git username.github.io &hellip;">
+  <meta name="description" content="在J2SE 5.0 之前，沒有Enum 使用static與final兩個修飾詞建立常數變數 static：class variable, class 未被instance 就被宣告完成且可以使用、所有class 是參考同一個變數
+final：使用之後此變數即是常數，無法被繼承也無法被修改 1
+2 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -100,6 +99,152 @@ $ git clone git@github.com:imathis/octopress.git username.github.io &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/07/28/java-enum/">Java Enum</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-07-28T00:44:15+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:44 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>在J2SE 5.0 之前，沒有Enum</h2>
+
+<p>使用<code>static</code>與<code>final</code>兩個修飾詞建立常數變數</p>
+
+<ul>
+<li>static：class variable, class 未被instance 就被宣告完成且可以使用、所有class 是參考同一個變數</li>
+<li>final：使用之後此變數即是常數，無法被繼承也無法被修改</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public Class StateMachines {
+</span><span class='line'>    public static final String ORDER_PLACED = "1";
+</span><span class='line'>    public static final String PAID = "2";
+</span><span class='line'>    public static final String SHIPPING = "3";
+</span><span class='line'>    public static final String SHIPPED = "4";
+</span><span class='line'>    public static final String ORDER_CANCELLED = "5";
+</span><span class='line'>    public static final String GOOD_RETURNED = "6";
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Enum 使用方法</h2>
+
+<ol>
+<li>定義常數，例如要定義購買流程狀態，就定出已下訂、已付款&hellip;等代碼</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public enum StateMachines {
+</span><span class='line'>    ORDER_PLACED,PAID,SHIPPING,SHIPPED,ORDER_CANCELLED,GOOD_RETURNED;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>定義常數內容、overriding、switch case</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public enum StateMachines {
+</span><span class='line'>      ORDER_PLACED(1),PAID(2),SHIPPING(3),SHIPPED(4),ORDER_CANCELLED(5),GOOD_RETURNED(6);
+</span><span class='line'>
+</span><span class='line'>        private int step;
+</span><span class='line'>
+</span><span class='line'>        private Direction(int step) {
+</span><span class='line'>          this.step = step;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        @Override
+</span><span class='line'>        public String toString() {
+</span><span class='line'>          return String.valueOf(this.step);
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        public String getChName() {
+</span><span class='line'>          switch(this) {
+</span><span class='line'>          case ORDER_PLACED:
+</span><span class='line'>            return "已下訂";
+</span><span class='line'>          case PAID:
+</span><span class='line'>            return "已付款";
+</span><span class='line'>            // 略
+</span><span class='line'>          }
+</span><span class='line'>      }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>結論</h2>
+
+<ol>
+<li>enum 不可繼承其他類別</li>
+<li>可新增method 在enum 內</li>
+<li>可overriding 原enum 的method</li>
+<li>switch 可使用enum 作為判斷</li>
+<li>歸納同性質的常數，並可以衍生共用method</li>
+<li>常數的泛型化應用</li>
+</ol>
+
+
+<h2>References:</h2>
+
+<ul>
+<li><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html">Enum Java Docs</a></li>
+<li><a href="http://www.cnblogs.com/happyPawpaw/archive/2013/04/09/3009553.html">Java enum的用法详解</a></li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
