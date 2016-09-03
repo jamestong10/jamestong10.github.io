@@ -9,21 +9,10 @@
   <meta name="author" content="James Tong">
 
   
-  <meta name="description" content="國際化的設計，根據不同使用者採用不同的語言、數字格式、日期格式，簡稱i18n i18n Rails 預設是使用英文(en)，如要使用i18n 多語系，則需安裝 gem 1
-gem 'rails-i18n' 設定載入路徑、預設語系 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-# &hellip;">
+  <meta name="description" content="功能介紹 修圖軟體 ImageMagick
+GraphicsMagick Gems MiniMagick 透過Ruby 使用ImageMagick、GraphicsMagick 的gem
+RMagick 透過Ruby 使用ImageMagick
+CarrierWave 上傳檔案的gem &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -111,6 +100,255 @@ gem 'rails-i18n' 設定載入路徑、預設語系 1
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3/">使用CarrierWave 上傳圖片 + 上傳AWS S3</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-09-02T14:09:46+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>2:09 pm</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>功能介紹</h2>
+
+<h3>修圖軟體</h3>
+
+<ul>
+<li><a href="http://imagemagick.org/script/index.php">ImageMagick</a></li>
+<li><a href="http://www.graphicsmagick.org/">GraphicsMagick</a></li>
+</ul>
+
+
+<h3>Gems</h3>
+
+<ul>
+<li><a href="https://github.com/minimagick/minimagick">MiniMagick</a> 透過Ruby 使用ImageMagick、GraphicsMagick 的gem</li>
+<li><a href="https://github.com/rmagick/rmagick">RMagick</a> 透過Ruby 使用ImageMagick</li>
+<li><a href="https://github.com/carrierwaveuploader/carrierwave">CarrierWave</a> 上傳檔案的gem</li>
+</ul>
+
+
+<h2>ImageMagick</h2>
+
+<p>需要安裝，否則後面的圖片操作都會失敗</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew isntall imagemagick</span></code></pre></td></tr></table></div></figure>
+
+
+<p>檢查是否安裝成功</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ convert -version
+</span><span class='line'>Version: ImageMagick 6.8.9-7 Q16 x86_64 2014-09-11 http://www.imagemagick.org
+</span><span class='line'>Copyright: Copyright (C) 1999-2014 ImageMagick Studio LLC
+</span><span class='line'>Features: DPC Modules
+</span><span class='line'>Delegates: bzlib fftw freetype jng jpeg lcms ltdl lzma png tiff xml zlib</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Install Gems</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Gemfile
+</span><span class='line'># 二擇一
+</span><span class='line'>gem 'mini_magick'
+</span><span class='line'># gem 'rmagick'
+</span><span class='line'>
+</span><span class='line'>gem 'carrierwave'
+</span><span class='line'>
+</span><span class='line'>$ bundle install</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Uploader</h2>
+
+<p>建立uploader，命名爲image （自行決定, e.g.,file, photo &hellip; etc.）</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rails g uploader image</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定Uploader</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># app/uploaders/image_uploader.rb
+</span><span class='line'>
+</span><span class='line'>class ImageUploader &lt; CarrierWave::Uploader::Base
+</span><span class='line'>
+</span><span class='line'>  include CarrierWave::MiniMagick # 指定使用minimagick
+</span><span class='line'>
+</span><span class='line'>  storage :file
+</span><span class='line'>
+</span><span class='line'>  def store_dir
+</span><span class='line'>    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  # 指定圖片size (同時產生其他size :thumb, :medium)
+</span><span class='line'>  process :resize_to_fit =&gt; [800, 600]
+</span><span class='line'>
+</span><span class='line'>  version :thumb do
+</span><span class='line'>    process :resize_to_fill =&gt; [200,120]
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  version :medium do
+</span><span class='line'>    process :resize_to_fill =&gt; [400,300]
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Model</h2>
+
+<p>建立Model，命名為photo （自行決定, e.g.,file, photo, dog, cat !!?? etc.）</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rails g model photo image:string
+</span><span class='line'>$ rake db:migrate</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定 model 的uploader</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># app/models/photo.rb
+</span><span class='line'>class Photo &lt; ActiveRecord::Base
+</span><span class='line'>  mount_uploader :image, ImageUploader
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>gitignore</h2>
+
+<p>排除測試上傳的圖片</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># .gitignore
+</span><span class='line'>public/uploads</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>上傳AWS S3</h1>
+
+<h2>Install Gems</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Gemfile
+</span><span class='line'>gem 'fog', group: :production</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Uploader 設定Production 圖片透過fog 連接並儲存至AWS S3</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if Rails.env.production?
+</span><span class='line'>  storage :fog
+</span><span class='line'>else
+</span><span class='line'>  storage :file
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>CarrierWave 加入fog credentials 的設定</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># config/initializers/carrier_wave.rb
+</span><span class='line'>CarrierWave.configure do |config|
+</span><span class='line'>  if Rails.env.production?
+</span><span class='line'>    config.storage = :fog
+</span><span class='line'>    config.fog_credentials = {
+</span><span class='line'>      provider:              'AWS',
+</span><span class='line'>      aws_access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
+</span><span class='line'>      aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+</span><span class='line'>      region:                ENV['AWS_REGION']
+</span><span class='line'>    }
+</span><span class='line'>    config.fog_directory  =  ENV['AWS_S3_BUCKET_PRODUCTION']
+</span><span class='line'>  else
+</span><span class='line'>    config.storage :file
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>AWS Variables</h2>
+
+<p>列出不同VPS 如何管理AWS 的變數</p>
+
+<ul>
+<li>Heroku : Settings > Cofig Variables</li>
+<li>AWS: figrao</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -801,9 +1039,7 @@ gem 'rails-i18n' 設定載入路徑、預設語系 1
 
 <p>「學習」的本質就是脫離舒適區</p>
 
-<p>學習的過程就是把新東西和自己原來的結構縫在一起</p>
-
-<p>純為個人心得筆記</p></blockquote>
+<p>學習的過程就是把新東西和自己原來的結構縫在一起</p></blockquote>
 
 <h2>先說見解</h2>
 
@@ -875,7 +1111,7 @@ gem 'rails-i18n' 設定載入路徑、預設語系 1
 <h2>Youtube</h2>
 
 <ul>
-<li><a href="https://www.youtube.com/watch?v=4JhlfRAzVKY">https://www.youtube.com/watch?v=4JhlfRAzVKY</a></li>
+<li><a href="https://www.youtube.com/watch?v=4JhlfRAzVKY">Logic show ep.184</a></li>
 </ul>
 
 </div>
@@ -1794,230 +2030,6 @@ gem 'rails-i18n' 設定載入路徑、預設語系 1
 <h2>References</h2>
 
 <ul>
-<li>Ruby Programming ver.4</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/08/04/ruby-basic/">Basic of Ruby</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-08-04T10:41:35+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:41 am</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>必須知道的網站</h2>
-
-<ol>
-<li><a href="http://ruby-doc.org/">http://ruby-doc.org/</a>
-
-<ol>
-<li>core：核心程式，也就是執行ruby 一定要載入的程式</li>
-<li>std-lib：標準套件，要使用require 載入，例如：Time</li>
-</ol>
-</li>
-<li><a href="https://www.ruby-toolbox.com/">https://www.ruby-toolbox.com/</a>
-
-<ol>
-<li>ruby gems</li>
-<li>D.R.Y. 不要自己造輪子</li>
-</ol>
-</li>
-</ol>
-
-
-<h2>Ruby Object</h2>
-
-<p>Ruby 萬物皆物件，所以要先知道物件屬於什麼Class，有哪些methods 可以使用</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ "123".class
-</span><span class='line'>$ String.methods
-</span><span class='line'># 如果method 不熟，就可以到doc 查詢說明與用法</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>基本型別</h2>
-
-<p>Fixnum/Bignum, Float, Array, String, Nil, True, False</p>
-
-<h2>變數命名規則</h2>
-
-<ul>
-<li>local variable：以英文字或是下底線開頭</li>
-<li>global variable：以$ 開頭</li>
-<li>instance variable：以＠開頭命名</li>
-<li>class variable：以＠＠開頭命名</li>
-<li>constant：常量，為全英文大寫命名，常用設定環境變數</li>
-</ul>
-
-
-<h2>多重賦值</h2>
-
-<p>只要等號兩邊結構一致，在複雜的結構，多重賦值皆可輕鬆對應</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>a,b,c = 1,2,3
-</span><span class='line'>
-</span><span class='line'>a,*b,c = 1,2,3,4,5,6
-</span><span class='line'># [1,[2,3,4,5],6]
-</span><span class='line'>
-</span><span class='line'>a,b,*c = 1,2,3,4,5,6
-</span><span class='line'># [1,2,[3,4,5,6]
-</span><span class='line'>
-</span><span class='line'># 交換值
-</span><span class='line'>a,b=0,1
-</span><span class='line'>a,b=b,a
-</span><span class='line'>
-</span><span class='line'># 分配陣列值
-</span><span class='line'>ary = [1,2]
-</span><span class='line'>a,b = ary
-</span><span class='line'>
-</span><span class='line'># 取得槽狀陣列元素
-</span><span class='line'>ary = [1,[2,3],4]
-</span><span class='line'>a,b,c = ary
-</span><span class='line'>
-</span><span class='line'># 取得槽狀陣列組合
-</span><span class='line'>ary = [1,[2,3],4]
-</span><span class='line'>a,(b1,b2),c = ary</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>三元判斷式(if)</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if x &gt; 10
-</span><span class='line'>  puts "bigger"
-</span><span class='line'>else
-</span><span class='line'>  puts "smaller"
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'># 上下相同
-</span><span class='line'>(x&gt;10) ? "bigger" : "smaller"</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>if Condition, unless Condition</h2>
-
-<p>if 和unless 可以放在希望執行的程式後面</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>puts "a is bigger than b" if a &gt; b
-</span><span class='line'>
-</span><span class='line'>puts "a is bigger than b" unless a &lt; b</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Array</h2>
-
-<p>使用<code>[]</code>表示</p>
-
-<h2>Hash</h2>
-
-<p>key, value 的組合，使用<code>{}</code>表示</p>
-
-<h2>Symbol vs. String</h2>
-
-<ul>
-<li>每建立一個String 物件，就會產生一個新的String 物件</li>
-<li>Symbol 是有名字的物件，一個名字只會有一個，不可修改(immutable)，也不能賦予值，當作hash key</li>
-<li><a href="http://stackoverflow.com/questions/2341837/understanding-symbols-in-ruby">#很多人也搞不懂Symbol</a></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># String
-</span><span class='line'>3.times { puts "foo".object_id }
-</span><span class='line'># 70094949931660
-</span><span class='line'># 70094949931540
-</span><span class='line'># 70094949931480
-</span><span class='line'>
-</span><span class='line'># Symbol-1
-</span><span class='line'>3.times { puts :foo.object_id }
-</span><span class='line'># 1149788
-</span><span class='line'># 1149788
-</span><span class='line'># 1149788
-</span><span class='line'>
-</span><span class='line'># Symbol-2
-</span><span class='line'>present1 = { :toy =&gt; "cars"}
-</span><span class='line'>present2 = { :toy =&gt; "dolls"}
-</span><span class='line'>p present1[:toy] # cars
-</span><span class='line'>p present2[:toy] # dolls</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>深入了解Classes</h2>
-
-<p>如果在使用上有問題，可以到<a href="http://ruby-doc.org/core-2.3.1/">Ruby Doc</a> Classes 查看說明</p>
-
-<h2>References</h2>
-
-<ul>
-<li>RailsFun.tw 新手教學</li>
 <li>Ruby Programming ver.4</li>
 </ul>
 

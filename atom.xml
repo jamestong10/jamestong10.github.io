@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="http://rt-tong.com/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2016-09-01T11:59:11+08:00</updated>
+  <updated>2016-09-03T22:07:39+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -12,6 +12,234 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用CarrierWave 上傳圖片 + 上傳AWS S3]]></title>
+    <link href="http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3/"/>
+    <updated>2016-09-02T14:09:46+08:00</updated>
+    <id>http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3</id>
+    <content type="html"><![CDATA[<h2>功能介紹</h2>
+
+<h3>修圖軟體</h3>
+
+<ul>
+<li><a href="http://imagemagick.org/script/index.php">ImageMagick</a></li>
+<li><a href="http://www.graphicsmagick.org/">GraphicsMagick</a></li>
+</ul>
+
+
+<h3>Gems</h3>
+
+<ul>
+<li><a href="https://github.com/minimagick/minimagick">MiniMagick</a> 透過Ruby 使用ImageMagick、GraphicsMagick 的gem</li>
+<li><a href="https://github.com/rmagick/rmagick">RMagick</a> 透過Ruby 使用ImageMagick</li>
+<li><a href="https://github.com/carrierwaveuploader/carrierwave">CarrierWave</a> 上傳檔案的gem</li>
+</ul>
+
+
+<h2>ImageMagick</h2>
+
+<p>需要安裝，否則後面的圖片操作都會失敗</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew isntall imagemagick</span></code></pre></td></tr></table></div></figure>
+
+
+<p>檢查是否安裝成功</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ convert -version
+</span><span class='line'>Version: ImageMagick 6.8.9-7 Q16 x86_64 2014-09-11 http://www.imagemagick.org
+</span><span class='line'>Copyright: Copyright (C) 1999-2014 ImageMagick Studio LLC
+</span><span class='line'>Features: DPC Modules
+</span><span class='line'>Delegates: bzlib fftw freetype jng jpeg lcms ltdl lzma png tiff xml zlib</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Install Gems</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Gemfile
+</span><span class='line'># 二擇一
+</span><span class='line'>gem 'mini_magick'
+</span><span class='line'># gem 'rmagick'
+</span><span class='line'>
+</span><span class='line'>gem 'carrierwave'
+</span><span class='line'>
+</span><span class='line'>$ bundle install</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Uploader</h2>
+
+<p>建立uploader，命名爲image （自行決定, e.g.,file, photo &hellip; etc.）</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rails g uploader image</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定Uploader</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># app/uploaders/image_uploader.rb
+</span><span class='line'>
+</span><span class='line'>class ImageUploader &lt; CarrierWave::Uploader::Base
+</span><span class='line'>
+</span><span class='line'>  include CarrierWave::MiniMagick # 指定使用minimagick
+</span><span class='line'>
+</span><span class='line'>  storage :file
+</span><span class='line'>
+</span><span class='line'>  def store_dir
+</span><span class='line'>    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  # 指定圖片size (同時產生其他size :thumb, :medium)
+</span><span class='line'>  process :resize_to_fit =&gt; [800, 600]
+</span><span class='line'>
+</span><span class='line'>  version :thumb do
+</span><span class='line'>    process :resize_to_fill =&gt; [200,120]
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  version :medium do
+</span><span class='line'>    process :resize_to_fill =&gt; [400,300]
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Model</h2>
+
+<p>建立Model，命名為photo （自行決定, e.g.,file, photo, dog, cat !!?? etc.）</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rails g model photo image:string
+</span><span class='line'>$ rake db:migrate</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定 model 的uploader</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># app/models/photo.rb
+</span><span class='line'>class Photo &lt; ActiveRecord::Base
+</span><span class='line'>  mount_uploader :image, ImageUploader
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>gitignore</h2>
+
+<p>排除測試上傳的圖片</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># .gitignore
+</span><span class='line'>public/uploads</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>上傳AWS S3</h1>
+
+<h2>Install Gems</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Gemfile
+</span><span class='line'>gem 'fog', group: :production</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Uploader 設定Production 圖片透過fog 連接並儲存至AWS S3</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if Rails.env.production?
+</span><span class='line'>  storage :fog
+</span><span class='line'>else
+</span><span class='line'>  storage :file
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>CarrierWave 加入fog credentials 的設定</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># config/initializers/carrier_wave.rb
+</span><span class='line'>CarrierWave.configure do |config|
+</span><span class='line'>  if Rails.env.production?
+</span><span class='line'>    config.storage = :fog
+</span><span class='line'>    config.fog_credentials = {
+</span><span class='line'>      provider:              'AWS',
+</span><span class='line'>      aws_access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
+</span><span class='line'>      aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+</span><span class='line'>      region:                ENV['AWS_REGION']
+</span><span class='line'>    }
+</span><span class='line'>    config.fog_directory  =  ENV['AWS_S3_BUCKET_PRODUCTION']
+</span><span class='line'>  else
+</span><span class='line'>    config.storage :file
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>AWS Variables</h2>
+
+<p>列出不同VPS 如何管理AWS 的變數</p>
+
+<ul>
+<li>Heroku : Settings > Cofig Variables</li>
+<li>AWS: figrao</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails - I18n | Timezone]]></title>
@@ -601,9 +829,7 @@
 
 <p>「學習」的本質就是脫離舒適區</p>
 
-<p>學習的過程就是把新東西和自己原來的結構縫在一起</p>
-
-<p>純為個人心得筆記</p></blockquote>
+<p>學習的過程就是把新東西和自己原來的結構縫在一起</p></blockquote>
 
 <h2>先說見解</h2>
 
@@ -675,7 +901,7 @@
 <h2>Youtube</h2>
 
 <ul>
-<li><a href="https://www.youtube.com/watch?v=4JhlfRAzVKY">https://www.youtube.com/watch?v=4JhlfRAzVKY</a></li>
+<li><a href="https://www.youtube.com/watch?v=4JhlfRAzVKY">Logic show ep.184</a></li>
 </ul>
 
 ]]></content>
