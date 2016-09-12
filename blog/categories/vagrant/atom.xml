@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Vagrant | JT's Blog]]></title>
+  <link href="http://rt-tong.com/blog/categories/vagrant/atom.xml" rel="self"/>
+  <link href="http://rt-tong.com/"/>
+  <updated>2016-09-12T23:39:47+08:00</updated>
+  <id>http://rt-tong.com/</id>
+  <author>
+    <name><![CDATA[James Tong]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[使用Vagrant 操作Virtaul Boxes]]></title>
+    <link href="http://rt-tong.com/blog/2016/09/11/use-vagrant-to-operating-virtual-box/"/>
+    <updated>2016-09-11T00:45:21+08:00</updated>
+    <id>http://rt-tong.com/blog/2016/09/11/use-vagrant-to-operating-virtual-box</id>
+    <content type="html"><![CDATA[<p><img src="/images/posts/2016091201.jpg" alt="vagrant_virtulaBox" /></p>
+
+<h2>Why Vagrant + Virtual Box</h2>
+
+<p>學習Rails 的過程，會使用Mac 的Parallels Desktop 建立Ubuntu 當作Production，使用幾次之後覺得有點麻煩，如果要再擴大系統架構，就玩不下去了，於是google 搜尋找到了Vagrant + Virtual Box 的組合，覺得這是不錯的組合，寫篇文章紀錄一下</p>
+
+<h2>Installtion</h2>
+
+<p>安裝Vagrant, Virtual 這兩套軟體</p>
+
+<ul>
+<li><a href="https://www.vagrantup.com/downloads.html">Vagrant</a></li>
+<li><a href="https://www.virtualbox.org/wiki/Downloads">Virtual Box</a></li>
+</ul>
+
+
+<h2>概念</h2>
+
+<p>Box 可以從Vagrant網站下載，Box 是Virtual Box 專用的，表示一個Virtual Machine (VM)，而官方提供的Box 又稱為Base，也就是最基本的VM</p>
+
+<h2>新增 Box</h2>
+
+<p>可以到<a href="https://atlas.hashicorp.com/boxes/search">官網</a> 查詢要用什麼box_name (vm)</p>
+
+<p>這次介紹使用 <code>ubuntu/trusty64</code></p>
+
+<pre><code>$ vagrant box add [box_name]
+# e.g.
+$ vagrant box add ubuntu/trusty64
+</code></pre>
+
+<h2>初始化</h2>
+
+<p>這邊有點抽象不太好理解，可能多操作幾次，就可以理解接下來說明的內容</p>
+
+<p>每初始一個VM 都會建立一個對應的Vagrantfile，而這VM 已與原本的Base 衍生出來(或解讀為Base 的Instance)</p>
+
+<pre><code>$ mkdir vagrant-test &amp;&amp; cd vagrant-test
+$ vagrant init [box_name]
+# e.g.
+$ vagrant init ubuntu/trusty64
+</code></pre>
+
+<h2>Configuration of Vagrantfile</h2>
+
+<pre><code>VAGRANTFILE_API_VERSION = "2"
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # 預設是true
+  # 不檢查更新版本
+  # config.vm.box_check_update = false
+
+  # 設定使用的 Box
+  config.vm.box = "ubuntu/trusty64"
+
+  # 設定虛擬主機的所使用的記憶體，可以避免在虛擬主機 bundle install 時，記憶體不足的錯誤
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+  end
+
+  # 設定虛擬主機僅供自己使用的 ip (注意設跟自己的虛擬ip 同一個網域)
+  config.vm.network :private_network, ip: "10.10.10.10"
+
+  # 設定主機名稱
+  config.vm.hostname = "ubuntu-rails"
+
+  # Forward the Rails server default port to the host
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  # Forward the Redis default port to the host
+  # config.vm.network "forwarded_port", guest: 6379, host: 6379
+
+end
+</code></pre>
+
+<h2>操作指令</h2>
+
+<p>開機</p>
+
+<pre><code>$ vagrant up
+</code></pre>
+
+<p>使用ssh 連線到VM</p>
+
+<pre><code>$ vagrant ssh
+</code></pre>
+
+<p>重開 (修改 vagrantfile 後需要重開)</p>
+
+<pre><code>$ vagrant reload
+</code></pre>
+
+<p>暫停 <-> 恢復</p>
+
+<pre><code>$ vagrant suspend
+$ vagrant resume
+</code></pre>
+
+<p>關機</p>
+
+<pre><code>$ vagrant halt
+</code></pre>
+
+<h3>Others</h3>
+
+<p>VM 狀態</p>
+
+<pre><code>$ vagrant status
+</code></pre>
+
+<p>列出box 清單</p>
+
+<pre><code>$ vagrant box list
+</code></pre>
+
+<p>查看所有指令清單</p>
+
+<pre><code>$ vagrant list-commands
+</code></pre>
+
+<h2><a href="https://www.vagrantup.com/docs/provisioning/">Provisioners</a></h2>
+
+<p>Vagrant 允許使用Provisioner 自動安裝或調整設定內容，就是在啟動VM 之後，執行已設定的腳本或軟體</p>
+
+<p>Vagrant 提供三種自動化 provisioning 機制：</p>
+
+<ul>
+<li>inline script（內嵌腳本）</li>
+<li>external script file（外部腳本檔）</li>
+<li>configuration management software（組態管理軟體）</li>
+</ul>
+
+
+<p>在Vagrantfile 中設定要使用哪種provision</p>
+
+<pre><code># inline script
+config.vm.provision "shell", inline: "nginx -v"
+
+# external script file
+config.vm.provision "shell", path: "check_env.sh"
+
+# configuration management software
+config.vm.provision "chef_solo" do |chef|
+    # ...
+  end
+</code></pre>
+
+<h2>打包自己專用的BOX</h2>
+
+<p>如果每個VM 都要因應不同需求安裝對應的軟體，實在非常費時費工</p>
+
+<p>可以透過<code>package</code> 把已經設定好的VM 打包變成Box，如果日後有需求，可以根據此Box 初始一個新的VM</p>
+
+<pre><code># 指令會在你目前的資料夾下建立一個myFirstVM.box
+$ vagrant package --output myFirstVM.box
+
+# 將box 加入清單
+$ vagrant box add [box_name] myFirstVM.box
+# e.g.
+$ vagrant box add ubuntu-nginx-rails-redis myFirstVM.box
+
+# 初始化
+$ vagrant init ubuntu-nginx-rails-redis
+</code></pre>
+
+<h2>多機環境</h2>
+
+<p>只有一個VM 是還不夠的，Vagrant 是很強大的，可以在Vagrantfile 設定多主機的環境</p>
+
+<p>以下示範建立 app * 1 + db * 1</p>
+
+<pre><code>VAGRANTFILE_API_VERSION = "2"
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  # as rails-app
+  config.vm.define :app do |app_config|
+    app_config.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "512"]
+    end
+
+    app_config.vm.box = "ubuntu/trusty64"
+    app_config.vm.host_name = "app"
+    app_config.vm.network :private_network, ip: "10.10.10.10"
+  end
+
+  # as mysql database
+  config.vm.define :db do |db_config|
+    db_config.vm.provider :virtualbox do |vb|
+        vb.customize ["modifyvm", :id, "--memory", "512"]
+      end
+    db_config.vm.box = "ubuntu/trusty64"
+    db_config.vm.host_name = "db"
+    db_config.vm.network :private_network, ip: "10.10.10.11"
+  end
+end
+</code></pre>
+
+<h2>後記</h2>
+
+<ul>
+<li>指令不熟悉可以透過 <code>vagrant -h</code> 找到答案</li>
+<li>vagrant 是非常強大的工具，也可以串接AWS 或 Docker，有空再來寫篇文章吧</li>
+</ul>
+
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://www.vagrantup.com/">Vagrant</a></li>
+<li><a href="https://drupaltaiwan.org/forum/20141125/11378">Vagrant 安裝與建構</a></li>
+<li><a href="http://gogojimmy.net/2013/05/26/vagrant-tutorial/">Vagrant Tutorial-1</a></li>
+<li><a href="http://www.codedata.com.tw/social-coding/vagrant-tutorial-2-playing-vm-with-vagrant/">Vagrant Tutorial-2</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

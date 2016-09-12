@@ -9,9 +9,12 @@
   <meta name="author" content="James Tong">
 
   
-  <meta name="description" content="必須知道的網站 http://ruby-doc.org/ core：核心程式，也就是執行ruby 一定要載入的程式
-std-lib：標準套件，要使用require 載入，例如：Time https://www.ruby-toolbox.com/ ruby gems
-D.R.Y. 不要自己造輪子 &hellip;">
+  <meta name="description" content="用來包裝邏輯處理，算是最初階的DRY 精神 語法 1
+2
+3
+def method_name # logical processes
+end 用法 module: module_name.method_name()
+instance_method: class_name.new. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -99,6 +102,155 @@ D.R.Y. 不要自己造輪子 &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/05/ruby-method/">Ruby Method - *argv | &block</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-05T08:36:06+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:36 am</span></time>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>用來包裝邏輯處理，算是最初階的DRY 精神</p></blockquote>
+
+<h2>語法</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def method_name
+</span><span class='line'>  # logical processes
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>用法</h2>
+
+<ul>
+<li>module: module_name.method_name()</li>
+<li>instance_method: class_name.new.method_name()</li>
+<li>class_method: class_name.method_name()</li>
+</ul>
+
+
+<h2>參數用法</h2>
+
+<h3>普通參數</h3>
+
+<ul>
+<li>默認參數：不傳入值，以默認值替代，但若有使用除了<strong>第一個參數</strong>外，其餘皆需設定默認值</li>
+<li><code>*argv</code>：傳入不定長度的普通參數</li>
+<li><code>&amp;block</code>：編寫要執行的邏輯 (Proc)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># *argv
+</span><span class='line'>def sum(a,b=0,*argv)
+</span><span class='line'>  sum = a + b
+</span><span class='line'>  argv.each { |num| sum += num } if argv
+</span><span class='line'>  return sum
+</span><span class='line'> end
+</span><span class='line'>
+</span><span class='line'>p sum(10)          # 10
+</span><span class='line'>p sum(10,10)       # 20
+</span><span class='line'>p sum(10,10,10)    # 30
+</span><span class='line'>p sum(10,10,10,10) # 40
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'># &block
+</span><span class='line'>def def_by_myself(*argv, &block)
+</span><span class='line'>  block.call(argv)
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>def_by_myself(('a'..'z').to_a) do |n|
+</span><span class='line'>  puts n.to_s.upcase
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>關鍵字參數</h2>
+
+<p>Ruby ver.2.0 加入，參數有key-value 的關係</p>
+
+<ul>
+<li>默認參數：不傳入值，則以默認值替代</li>
+<li><code>**argv</code>：傳入不定長度的關鍵字參數</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def area(x: 0, y: 0, z: 0)
+</span><span class='line'>  return ((x*y)+(y*z)+(z*x))*2
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>p area(x: 10)              # 0
+</span><span class='line'>p area(x: 10, y:10)        # 200
+</span><span class='line'>p area(x: 10, y:10, z: 10) # 600</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>組合(普通＋關鍵字)</h3>
+
+<p>機器人都可以組合，method 也一定可以!!</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def func(a, b=0, c:0, d:0)
+</span><span class='line'>  # ...
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>References</h2>
+
+<ul>
+<li>Ruby Programming ver.4</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>

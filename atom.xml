@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="http://rt-tong.com/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2016-09-09T20:59:28+08:00</updated>
+  <updated>2016-09-12T23:39:47+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -12,6 +12,314 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用Vagrant 操作Virtaul Boxes]]></title>
+    <link href="http://rt-tong.com/blog/2016/09/11/use-vagrant-to-operating-virtual-box/"/>
+    <updated>2016-09-11T00:45:21+08:00</updated>
+    <id>http://rt-tong.com/blog/2016/09/11/use-vagrant-to-operating-virtual-box</id>
+    <content type="html"><![CDATA[<p><img src="http://rt-tong.com/images/posts/2016091201.jpg" alt="vagrant_virtulaBox" /></p>
+
+<h2>Why Vagrant + Virtual Box</h2>
+
+<p>學習Rails 的過程，會使用Mac 的Parallels Desktop 建立Ubuntu 當作Production，使用幾次之後覺得有點麻煩，如果要再擴大系統架構，就玩不下去了，於是google 搜尋找到了Vagrant + Virtual Box 的組合，覺得這是不錯的組合，寫篇文章紀錄一下</p>
+
+<h2>Installtion</h2>
+
+<p>安裝Vagrant, Virtual 這兩套軟體</p>
+
+<ul>
+<li><a href="https://www.vagrantup.com/downloads.html">Vagrant</a></li>
+<li><a href="https://www.virtualbox.org/wiki/Downloads">Virtual Box</a></li>
+</ul>
+
+
+<h2>概念</h2>
+
+<p>Box 可以從Vagrant網站下載，Box 是Virtual Box 專用的，表示一個Virtual Machine (VM)，而官方提供的Box 又稱為Base，也就是最基本的VM</p>
+
+<h2>新增 Box</h2>
+
+<p>可以到<a href="https://atlas.hashicorp.com/boxes/search">官網</a> 查詢要用什麼box_name (vm)</p>
+
+<p>這次介紹使用 <code>ubuntu/trusty64</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant box add [box_name]
+</span><span class='line'># e.g.
+</span><span class='line'>$ vagrant box add ubuntu/trusty64</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>初始化</h2>
+
+<p>這邊有點抽象不太好理解，可能多操作幾次，就可以理解接下來說明的內容</p>
+
+<p>每初始一個VM 都會建立一個對應的Vagrantfile，而這VM 已與原本的Base 衍生出來(或解讀為Base 的Instance)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir vagrant-test && cd vagrant-test
+</span><span class='line'>$ vagrant init [box_name]
+</span><span class='line'># e.g.
+</span><span class='line'>$ vagrant init ubuntu/trusty64</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Configuration of Vagrantfile</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>VAGRANTFILE_API_VERSION = "2"
+</span><span class='line'>Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+</span><span class='line'>  # 預設是true
+</span><span class='line'>  # 不檢查更新版本
+</span><span class='line'>  # config.vm.box_check_update = false
+</span><span class='line'>
+</span><span class='line'>  # 設定使用的 Box
+</span><span class='line'>  config.vm.box = "ubuntu/trusty64"
+</span><span class='line'>
+</span><span class='line'>  # 設定虛擬主機的所使用的記憶體，可以避免在虛擬主機 bundle install 時，記憶體不足的錯誤
+</span><span class='line'>  config.vm.provider :virtualbox do |vb|
+</span><span class='line'>    vb.customize ["modifyvm", :id, "--memory", "1024"]
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  # 設定虛擬主機僅供自己使用的 ip (注意設跟自己的虛擬ip 同一個網域)
+</span><span class='line'>  config.vm.network :private_network, ip: "10.10.10.10"
+</span><span class='line'>
+</span><span class='line'>  # 設定主機名稱
+</span><span class='line'>  config.vm.hostname = "ubuntu-rails"
+</span><span class='line'>
+</span><span class='line'>  # Forward the Rails server default port to the host
+</span><span class='line'>  config.vm.network "forwarded_port", guest: 80, host: 8080
+</span><span class='line'>
+</span><span class='line'>  # Forward the Redis default port to the host
+</span><span class='line'>  # config.vm.network "forwarded_port", guest: 6379, host: 6379
+</span><span class='line'>
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>操作指令</h2>
+
+<p>開機</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant up</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用ssh 連線到VM</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant ssh</span></code></pre></td></tr></table></div></figure>
+
+
+<p>重開 (修改 vagrantfile 後需要重開)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant reload</span></code></pre></td></tr></table></div></figure>
+
+
+<p>暫停 <-> 恢復</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant suspend
+</span><span class='line'>$ vagrant resume</span></code></pre></td></tr></table></div></figure>
+
+
+<p>關機</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant halt</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Others</h3>
+
+<p>VM 狀態</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant status</span></code></pre></td></tr></table></div></figure>
+
+
+<p>列出box 清單</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant box list</span></code></pre></td></tr></table></div></figure>
+
+
+<p>查看所有指令清單</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant list-commands</span></code></pre></td></tr></table></div></figure>
+
+
+<h2><a href="https://www.vagrantup.com/docs/provisioning/">Provisioners</a></h2>
+
+<p>Vagrant 允許使用Provisioner 自動安裝或調整設定內容，就是在啟動VM 之後，執行已設定的腳本或軟體</p>
+
+<p>Vagrant 提供三種自動化 provisioning 機制：</p>
+
+<ul>
+<li>inline script（內嵌腳本）</li>
+<li>external script file（外部腳本檔）</li>
+<li>configuration management software（組態管理軟體）</li>
+</ul>
+
+
+<p>在Vagrantfile 中設定要使用哪種provision</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># inline script
+</span><span class='line'>config.vm.provision "shell", inline: "nginx -v"
+</span><span class='line'>
+</span><span class='line'># external script file
+</span><span class='line'>config.vm.provision "shell", path: "check_env.sh"
+</span><span class='line'>
+</span><span class='line'># configuration management software
+</span><span class='line'>config.vm.provision "chef_solo" do |chef|
+</span><span class='line'>    # ...
+</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>打包自己專用的BOX</h2>
+
+<p>如果每個VM 都要因應不同需求安裝對應的軟體，實在非常費時費工</p>
+
+<p>可以透過<code>package</code> 把已經設定好的VM 打包變成Box，如果日後有需求，可以根據此Box 初始一個新的VM</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 指令會在你目前的資料夾下建立一個myFirstVM.box
+</span><span class='line'>$ vagrant package --output myFirstVM.box
+</span><span class='line'>
+</span><span class='line'># 將box 加入清單
+</span><span class='line'>$ vagrant box add [box_name] myFirstVM.box
+</span><span class='line'># e.g.
+</span><span class='line'>$ vagrant box add ubuntu-nginx-rails-redis myFirstVM.box
+</span><span class='line'>
+</span><span class='line'># 初始化
+</span><span class='line'>$ vagrant init ubuntu-nginx-rails-redis</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>多機環境</h2>
+
+<p>只有一個VM 是還不夠的，Vagrant 是很強大的，可以在Vagrantfile 設定多主機的環境</p>
+
+<p>以下示範建立 app * 1 + db * 1</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>VAGRANTFILE_API_VERSION = "2"
+</span><span class='line'>Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+</span><span class='line'>
+</span><span class='line'>  # as rails-app
+</span><span class='line'>  config.vm.define :app do |app_config|
+</span><span class='line'>    app_config.vm.provider :virtualbox do |vb|
+</span><span class='line'>      vb.customize ["modifyvm", :id, "--memory", "512"]
+</span><span class='line'>    end
+</span><span class='line'>
+</span><span class='line'>    app_config.vm.box = "ubuntu/trusty64"
+</span><span class='line'>    app_config.vm.host_name = "app"
+</span><span class='line'>    app_config.vm.network :private_network, ip: "10.10.10.10"
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  # as mysql database
+</span><span class='line'>  config.vm.define :db do |db_config|
+</span><span class='line'>    db_config.vm.provider :virtualbox do |vb|
+</span><span class='line'>        vb.customize ["modifyvm", :id, "--memory", "512"]
+</span><span class='line'>      end
+</span><span class='line'>    db_config.vm.box = "ubuntu/trusty64"
+</span><span class='line'>    db_config.vm.host_name = "db"
+</span><span class='line'>    db_config.vm.network :private_network, ip: "10.10.10.11"
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>後記</h2>
+
+<ul>
+<li>指令不熟悉可以透過 <code>vagrant -h</code> 找到答案</li>
+<li>vagrant 是非常強大的工具，也可以串接AWS 或 Docker，有空再來寫篇文章吧</li>
+</ul>
+
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://www.vagrantup.com/">Vagrant</a></li>
+<li><a href="https://drupaltaiwan.org/forum/20141125/11378">Vagrant 安裝與建構</a></li>
+<li><a href="http://gogojimmy.net/2013/05/26/vagrant-tutorial/">Vagrant Tutorial-1</a></li>
+<li><a href="http://www.codedata.com.tw/social-coding/vagrant-tutorial-2-playing-vm-with-vagrant/">Vagrant Tutorial-2</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails 使用CarrierWave 上傳圖片 + 上傳AWS S3]]></title>
@@ -666,7 +974,7 @@
 
 <p>剛剛測試的結果，已經有整理成一份表格，可以透過表格查看要使用什麼方式來檢查boolean 值~</p>
 
-<p><img src="images/posts/2016082401.jpg" alt="nil_empty_blank_present" /></p>
+<p><img src="http://rt-tong.com/images/posts/2016082401.jpg" alt="nil_empty_blank_present" /></p>
 ]]></content>
   </entry>
   

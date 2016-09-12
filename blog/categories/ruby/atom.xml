@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | JT's Blog]]></title>
   <link href="http://rt-tong.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2016-09-09T20:59:28+08:00</updated>
+  <updated>2016-09-12T23:39:47+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -257,7 +257,7 @@ false.present?  # false
 
 <p>剛剛測試的結果，已經有整理成一份表格，可以透過表格查看要使用什麼方式來檢查boolean 值~</p>
 
-<p><img src="images/posts/2016082401.jpg" alt="nil_empty_blank_present" /></p>
+<p><img src="/images/posts/2016082401.jpg" alt="nil_empty_blank_present" /></p>
 ]]></content>
   </entry>
   
