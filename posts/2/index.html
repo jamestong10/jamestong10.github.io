@@ -9,12 +9,7 @@
   <meta name="author" content="James Tong">
 
   
-  <meta name="description" content="用來包裝邏輯處理，算是最初階的DRY 精神 語法 1
-2
-3
-def method_name # logical processes
-end 用法 module: module_name.method_name()
-instance_method: class_name.new. &hellip;">
+  <meta name="description" content="module 算是Ruby 的獨有特色，瞭解後在程式開發或是閱讀原始碼有很大的幫助 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -108,6 +103,84 @@ instance_method: class_name.new. &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2016/08/08/ruby-module/">Ruby Module - Namespace | Mixin | Include | Extend</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-08T15:26:54+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:26 pm</span></time>
+        
+         | <a href="/blog/2016/08/08/ruby-module/#disqus_thread">Comments</a>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>module 算是Ruby 的獨有特色，瞭解後在程式開發或是閱讀原始碼有很大的幫助</p></blockquote>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/08/ruby-module/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/08/06/ruby-class/">Ruby Class - Inheritance | Class_method | Instance_method | Class_eval | Instance_eval</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-06T11:42:18+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:42 am</span></time>
+        
+         | <a href="/blog/2016/08/06/ruby-class/#disqus_thread">Comments</a>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>Ruby 萬物皆物件</p>
+
+<p>Class 可以生成(new) 物件</p>
+
+<p>抽象化的概念很重要</p></blockquote>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/06/ruby-class/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/08/05/ruby-method/">Ruby Method - *argv | &block</a></h1>
     
     
@@ -119,134 +192,22 @@ instance_method: class_name.new. &hellip;">
 
 <time class='entry-date' datetime='2016-08-05T08:36:06+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:36 am</span></time>
         
+         | <a href="/blog/2016/08/05/ruby-method/#disqus_thread">Comments</a>
+        
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><blockquote><p>用來包裝邏輯處理，算是最初階的DRY 精神</p></blockquote>
-
-<h2>語法</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def method_name
-</span><span class='line'>  # logical processes
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>用法</h2>
-
-<ul>
-<li>module: module_name.method_name()</li>
-<li>instance_method: class_name.new.method_name()</li>
-<li>class_method: class_name.method_name()</li>
-</ul>
-
-
-<h2>參數用法</h2>
-
-<h3>普通參數</h3>
-
-<ul>
-<li>默認參數：不傳入值，以默認值替代，但若有使用除了<strong>第一個參數</strong>外，其餘皆需設定默認值</li>
-<li><code>*argv</code>：傳入不定長度的普通參數</li>
-<li><code>&amp;block</code>：編寫要執行的邏輯 (Proc)</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># *argv
-</span><span class='line'>def sum(a,b=0,*argv)
-</span><span class='line'>  sum = a + b
-</span><span class='line'>  argv.each { |num| sum += num } if argv
-</span><span class='line'>  return sum
-</span><span class='line'> end
-</span><span class='line'>
-</span><span class='line'>p sum(10)          # 10
-</span><span class='line'>p sum(10,10)       # 20
-</span><span class='line'>p sum(10,10,10)    # 30
-</span><span class='line'>p sum(10,10,10,10) # 40
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'># &block
-</span><span class='line'>def def_by_myself(*argv, &block)
-</span><span class='line'>  block.call(argv)
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>def_by_myself(('a'..'z').to_a) do |n|
-</span><span class='line'>  puts n.to_s.upcase
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>關鍵字參數</h2>
-
-<p>Ruby ver.2.0 加入，參數有key-value 的關係</p>
-
-<ul>
-<li>默認參數：不傳入值，則以默認值替代</li>
-<li><code>**argv</code>：傳入不定長度的關鍵字參數</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def area(x: 0, y: 0, z: 0)
-</span><span class='line'>  return ((x*y)+(y*z)+(z*x))*2
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>p area(x: 10)              # 0
-</span><span class='line'>p area(x: 10, y:10)        # 200
-</span><span class='line'>p area(x: 10, y:10, z: 10) # 600</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>組合(普通＋關鍵字)</h3>
-
-<p>機器人都可以組合，method 也一定可以!!</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def func(a, b=0, c:0, d:0)
-</span><span class='line'>  # ...
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>References</h2>
-
-<ul>
-<li>Ruby Programming ver.4</li>
-</ul>
+  <div class="entry-content"><blockquote><p>用來包裝邏輯處理，算是一種refactor</p></blockquote>
 
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/05/ruby-method/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -268,209 +229,20 @@ instance_method: class_name.new. &hellip;">
 
 <time class='entry-date' datetime='2016-08-04T10:41:35+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:41 am</span></time>
         
+         | <a href="/blog/2016/08/04/ruby-basic/#disqus_thread">Comments</a>
+        
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>必須知道的網站</h2>
-
-<ol>
-<li><a href="http://ruby-doc.org/">http://ruby-doc.org/</a>
-
-<ol>
-<li>core：核心程式，也就是執行ruby 一定要載入的程式</li>
-<li>std-lib：標準套件，要使用require 載入，例如：Time</li>
-</ol>
-</li>
-<li><a href="https://www.ruby-toolbox.com/">https://www.ruby-toolbox.com/</a>
-
-<ol>
-<li>ruby gems</li>
-<li>D.R.Y. 不要自己造輪子</li>
-</ol>
-</li>
-</ol>
-
-
-<h2>Ruby Object</h2>
-
-<p>Ruby 萬物皆物件，所以要先知道物件屬於什麼Class，有哪些methods 可以使用</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ "123".class
-</span><span class='line'>$ String.methods
-</span><span class='line'># 如果method 不熟，就可以到doc 查詢說明與用法</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>基本型別</h2>
-
-<p>Fixnum/Bignum, Float, Array, String, Nil, True, False</p>
-
-<h2>變數命名規則</h2>
-
-<ul>
-<li>local variable：以英文字或是下底線開頭</li>
-<li>global variable：以$ 開頭</li>
-<li>instance variable：以＠開頭命名</li>
-<li>class variable：以＠＠開頭命名</li>
-<li>constant：常量，為全英文大寫命名，常用設定環境變數</li>
-</ul>
-
-
-<h2>多重賦值</h2>
-
-<p>只要等號兩邊結構一致，在複雜的結構，多重賦值皆可輕鬆對應</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>a,b,c = 1,2,3
-</span><span class='line'>
-</span><span class='line'>a,*b,c = 1,2,3,4,5,6
-</span><span class='line'># [1,[2,3,4,5],6]
-</span><span class='line'>
-</span><span class='line'>a,b,*c = 1,2,3,4,5,6
-</span><span class='line'># [1,2,[3,4,5,6]
-</span><span class='line'>
-</span><span class='line'># 交換值
-</span><span class='line'>a,b=0,1
-</span><span class='line'>a,b=b,a
-</span><span class='line'>
-</span><span class='line'># 分配陣列值
-</span><span class='line'>ary = [1,2]
-</span><span class='line'>a,b = ary
-</span><span class='line'>
-</span><span class='line'># 取得槽狀陣列元素
-</span><span class='line'>ary = [1,[2,3],4]
-</span><span class='line'>a,b,c = ary
-</span><span class='line'>
-</span><span class='line'># 取得槽狀陣列組合
-</span><span class='line'>ary = [1,[2,3],4]
-</span><span class='line'>a,(b1,b2),c = ary</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>三元判斷式(if)</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if x &gt; 10
-</span><span class='line'>  puts "bigger"
-</span><span class='line'>else
-</span><span class='line'>  puts "smaller"
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'># 上下相同
-</span><span class='line'>(x&gt;10) ? "bigger" : "smaller"</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>if Condition, unless Condition</h2>
-
-<p>if 和unless 可以放在希望執行的程式後面</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>puts "a is bigger than b" if a &gt; b
-</span><span class='line'>
-</span><span class='line'>puts "a is bigger than b" unless a &lt; b</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Array</h2>
-
-<p>使用<code>[]</code>表示</p>
-
-<h2>Hash</h2>
-
-<p>key, value 的組合，使用<code>{}</code>表示</p>
-
-<h2>Symbol vs. String</h2>
-
-<ul>
-<li>每建立一個String 物件，就會產生一個新的String 物件</li>
-<li>Symbol 是有名字的物件，一個名字只會有一個，不可修改(immutable)，也不能賦予值，當作hash key</li>
-<li><a href="http://stackoverflow.com/questions/2341837/understanding-symbols-in-ruby">#很多人也搞不懂Symbol</a></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># String
-</span><span class='line'>3.times { puts "foo".object_id }
-</span><span class='line'># 70094949931660
-</span><span class='line'># 70094949931540
-</span><span class='line'># 70094949931480
-</span><span class='line'>
-</span><span class='line'># Symbol-1
-</span><span class='line'>3.times { puts :foo.object_id }
-</span><span class='line'># 1149788
-</span><span class='line'># 1149788
-</span><span class='line'># 1149788
-</span><span class='line'>
-</span><span class='line'># Symbol-2
-</span><span class='line'>present1 = { :toy =&gt; "cars"}
-</span><span class='line'>present2 = { :toy =&gt; "dolls"}
-</span><span class='line'>p present1[:toy] # cars
-</span><span class='line'>p present2[:toy] # dolls</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>深入了解Classes</h2>
-
-<p>如果在使用上有問題，可以到<a href="http://ruby-doc.org/core-2.3.1/">Ruby Doc</a> Classes 查看說明</p>
-
-<h2>References</h2>
-
-<ul>
-<li>RailsFun.tw 新手教學</li>
-<li>Ruby Programming ver.4</li>
-</ul>
-
-</div>
+  <div class="entry-content"></div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/04/ruby-basic/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -492,6 +264,8 @@ instance_method: class_name.new. &hellip;">
 
 <time class='entry-date' datetime='2016-08-01T00:43:42+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>12:43 am</span></time>
         
+         | <a href="/blog/2016/08/01/git-commands/#disqus_thread">Comments</a>
+        
         
       </p>
     
@@ -501,306 +275,12 @@ instance_method: class_name.new. &hellip;">
   <div class="entry-content"><blockquote><p>本篇並非Git 教學，只是記錄常用的Git 指令，有學到新的指令會再更新上來
 如果不太熟悉可在指令後加入 &ndash;help 查詢用法</p></blockquote>
 
-<h2>Git 基本設定</h2>
-
-<p>查詢設定資訊</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config --list</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定全域的使用者與Email (個人使用)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config --global user.name [author_name]
-</span><span class='line'>git config --global user.email [contact_email_address]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定區域的使用者與Email (參與計劃或公司專案)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd local_repo
-</span><span class='line'>git config --local user.name [author_name]
-</span><span class='line'>git config --local user.email [contact_email_address]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定別名</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git config --global alias.st status   # git st
-</span><span class='line'>$ git config --global alias.ci commit   # git ci
-</span><span class='line'>$ git config --global alias.co checkout # git co
-</span><span class='line'>$ git config --global alias.br branch   # git br</span></code></pre></td></tr></table></div></figure>
-
-
-<p>建立一個全新的Git Repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git init --bare project_name.git</span></code></pre></td></tr></table></div></figure>
-
-
-<p>本機建立新的repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git init</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看工作區(Working Directory)的異動紀錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git status
-</span><span class='line'>$ git st</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看檔案異動差異</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff</span></code></pre></td></tr></table></div></figure>
-
-
-<p>加入暫存區</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git add [--] [file_path | file_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>提交並加上註解</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git commit -m [comments]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>開啟editor 修改近期已經commit 的註解 (建議少用，除非必要)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git commit --amend</span></code></pre></td></tr></table></div></figure>
-
-
-<p>儲存工作：專案開發到一半，要去別的brach，可使用stash 把修改記錄暫存起來</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git stash</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看暫存的紀錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git stash list</span></code></pre></td></tr></table></div></figure>
-
-
-<p>取回暫存的紀錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git apply
-</span><span class='line'>
-</span><span class='line'># 取回較舊的暫存紀錄
-</span><span class='line'>$ git stash apply stash@{2}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>刪除暫存紀錄：apply 只是取回紀錄，但沒有執行刪除的動作</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git stash drop [stash_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>快速修正前一次 commit 的錯誤，只要修 typo 之後打這行，就會替換掉前一次的 commit-level-operations</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git commit -C HEAD -a –amend</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看提交紀錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git log</span></code></pre></td></tr></table></div></figure>
-
-
-<p>砍掉commit 重來</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git reset [--soft | --hard] [-q] [&lt;commit&gt;]
-</span><span class='line'>
-</span><span class='line'>$ git reset --soft HEAD^ # HEAD^ 表示前一個版本</span></code></pre></td></tr></table></div></figure>
-
-
-<p>soft: commit 內容會退回暫存區(staging area)，並保留工作區(working directory)</p>
-
-<p>hard: 工作區(working directory) 與暫存區(staging area) 會更新到指定的commit 狀態</p>
-
-<h2>Git Branch</h2>
-
-<p>列出所有分支且正在使用哪個分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch</span></code></pre></td></tr></table></div></figure>
-
-
-<p>建立新的分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>切換分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>建立新的分支並切換到此分支 (等於 git branch + git checkout)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout -b [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>修改分支名稱與刪除分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch -m [old_branch_name] [new_branch_name]
-</span><span class='line'>$ git branch -d [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Git Merge &amp; Git Rebase</h2>
-
-<h3>觀念：只要branch 調整完畢，應先將master merge 至branch，測試無誤後，在merge 回master</h3>
-
-<blockquote><p>merge 分支的功能加master，同時會產生新的HEAD</p></blockquote>
-
-<p>合併分支到master</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout master
-</span><span class='line'>$ git merge feature1
-</span><span class='line'>
-</span><span class='line'># 上下相同
-</span><span class='line'>$ git merge master feature1</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>rebase 是基於某一分支的內容合併，又稱為分支衍合，一樣是合併的動作，但是會銜接著mater 最新的狀態</p></blockquote>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout [branch]
-</span><span class='line'>$ git rebase master</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Merge v.s. Rebase</p>
-
-<p><strong>使用時機：如果conflict 較多時，建議使用merge</strong></p>
-
-<p>假設以下例子要做合併，可以看出merge與rebase 有何差異</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>maser:  A -&gt; B -&gt; C
-</span><span class='line'>branch: D -&gt; E
-</span><span class='line'>
-</span><span class='line'>after rebase: A -&gt; B -&gt; C -&gt; D -&gt; E
-</span><span class='line'>after merge:  A -&gt; B -&gt; C -&gt; D -&gt; E -&gt; F</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Git Remote</h2>
-
-<p>列出當初加入遠端儲存庫時指定的名稱</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote</span></code></pre></td></tr></table></div></figure>
-
-
-<p>本機加入遠端repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote add [remote_name] [url]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>修改遠端repository url</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote set-url [new_remote_name] [url]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>拷貝一個已經存在的repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone [repository_url]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>變更遠端簡稱</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote rename [old_remote_name] [new_remote_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看remote 資訊</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote show [remote_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>移除遠端repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote remove [remote_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上傳至遠端repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git push [remote_name] [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>合併遠端repository 至本機</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git pull [remote_name] [branch_name]
-</span><span class='line'>
-</span><span class='line'># 上下相同
-</span><span class='line'>
-</span><span class='line'>$ git pull</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>實用資訊</h2>
-
-<ul>
-<li><a href="https://github.com/RailsApps/rails-composer/blob/master/files/gitignore.txt">gitignore lists</a></li>
-</ul>
-
-
-<h2>References</h2>
-
-<ul>
-<li><a href="https://git-scm.com/doc">GitDoc</a></li>
-<li><a href="https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf">Git cheat sheet</a></li>
-<li><a href="https://ihower.tw/git/basic.html">ihower Git Basic</a></li>
-<li><a href="https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting/commit-level-operations">tutorial reset, checkout, revert</a></li>
-</ul>
-
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/01/git-commands/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -822,131 +302,20 @@ instance_method: class_name.new. &hellip;">
 
 <time class='entry-date' datetime='2016-07-28T00:44:15+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:44 am</span></time>
         
+         | <a href="/blog/2016/07/28/java-enum/#disqus_thread">Comments</a>
+        
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>在J2SE 5.0 之前，沒有Enum</h2>
-
-<p>使用<code>static</code>與<code>final</code>兩個修飾詞建立常數變數</p>
-
-<ul>
-<li>static：class variable, class 未被instance 就被宣告完成且可以使用、所有class 是參考同一個變數</li>
-<li>final：使用之後此變數即是常數，無法被繼承也無法被修改</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public Class StateMachines {
-</span><span class='line'>    public static final String ORDER_PLACED = "1";
-</span><span class='line'>    public static final String PAID = "2";
-</span><span class='line'>    public static final String SHIPPING = "3";
-</span><span class='line'>    public static final String SHIPPED = "4";
-</span><span class='line'>    public static final String ORDER_CANCELLED = "5";
-</span><span class='line'>    public static final String GOOD_RETURNED = "6";
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Enum 使用方法</h2>
-
-<ol>
-<li>定義常數，例如要定義購買流程狀態，就定出已下訂、已付款&hellip;等代碼</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public enum StateMachines {
-</span><span class='line'>    ORDER_PLACED,PAID,SHIPPING,SHIPPED,ORDER_CANCELLED,GOOD_RETURNED;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>定義常數內容、overriding、switch case</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public enum StateMachines {
-</span><span class='line'>      ORDER_PLACED(1),PAID(2),SHIPPING(3),SHIPPED(4),ORDER_CANCELLED(5),GOOD_RETURNED(6);
-</span><span class='line'>
-</span><span class='line'>        private int step;
-</span><span class='line'>
-</span><span class='line'>        private Direction(int step) {
-</span><span class='line'>          this.step = step;
-</span><span class='line'>        }
-</span><span class='line'>
-</span><span class='line'>        @Override
-</span><span class='line'>        public String toString() {
-</span><span class='line'>          return String.valueOf(this.step);
-</span><span class='line'>        }
-</span><span class='line'>
-</span><span class='line'>        public String getChName() {
-</span><span class='line'>          switch(this) {
-</span><span class='line'>          case ORDER_PLACED:
-</span><span class='line'>            return "已下訂";
-</span><span class='line'>          case PAID:
-</span><span class='line'>            return "已付款";
-</span><span class='line'>            // 略
-</span><span class='line'>          }
-</span><span class='line'>      }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>結論</h2>
-
-<ol>
-<li>enum 不可繼承其他類別</li>
-<li>可新增method 在enum 內</li>
-<li>可overriding 原enum 的method</li>
-<li>switch 可使用enum 作為判斷</li>
-<li>歸納同性質的常數，並可以衍生共用method</li>
-<li>常數的泛型化應用</li>
-</ol>
-
-
-<h2>References:</h2>
-
-<ul>
-<li><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html">Enum Java Docs</a></li>
-<li><a href="http://www.cnblogs.com/happyPawpaw/archive/2013/04/09/3009553.html">Java enum的用法详解</a></li>
-</ul>
-
-</div>
+  <div class="entry-content"></div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/07/28/java-enum/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -968,181 +337,20 @@ instance_method: class_name.new. &hellip;">
 
 <time class='entry-date' datetime='2016-07-26T13:51:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>1:51 pm</span></time>
         
+         | <a href="/blog/2016/07/26/octopress-plus-github/#disqus_thread">Comments</a>
+        
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>新增GitHub Repository</h2>
-
-<p>點選<a href="https://github.com/new">new</a> 建立新的Repository，命名為 username.github.io</p>
-
-<h2>取得Octopress</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone git@github.com:imathis/octopress.git username.github.io
-</span><span class='line'>$ cd username.github.io
-</span><span class='line'>$ bundle install</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>設定GitHub Repository Pages</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ bundle exec rake setup_github_pages
-</span><span class='line'>
-</span><span class='line'># (For example, 'git@github.com:your_username/your_username.github.io.git)
-</span><span class='line'>#            or 'https://github.com/your_username/your_username.github.io')</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>安裝預設主題</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake install</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>Octopress 已經安裝好了！可以執行<code>$rake preview</code>，輸入<a href="http://localhost:4000/">http://localhost:4000/</a> 在本機看一下效果！</p></blockquote>
-
-<h2>新增BitBucket Repository</h2>
-
-<ol>
-<li>不想讓使用者看到編輯中的文章或是編輯紀錄</li>
-<li>節省成本暫不考慮GitHub Private 方案
-BitBucket 點選<a href="https://bitbucket.org/repo/create">Create</a> 建立新的Repository，命名為username.github.com，在本機加入remote repository</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote add bitbucket git@bitbucket.org:username/username.github.io.git
-</span><span class='line'>
-</span><span class='line'># push to bitbucket
-</span><span class='line'>$ git add .
-</span><span class='line'>$ git commit -m "Initial Commit"
-</span><span class='line'>$ git push -u bitbucket --all</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>新增文章</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake new_post
-</span><span class='line'># Enter a title for your post:
-</span><span class='line'>
-</span><span class='line'># 上下相同
-</span><span class='line'>$ rake new_post['article-title']</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>預覽文章</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake preview</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>產生網頁與發佈文章</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake generate
-</span><span class='line'>$ rake deploy</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>其他</h2>
-
-<h3><em>安裝其他主題</em></h3>
-
-<p>可到<a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">Wiki</a> 選擇喜歡的主題</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake install['主題名稱']
-</span><span class='line'>$ rake generate</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Octopress 設定檔</h3>
-
-<p>可參考<a href="http://octopress.org/docs/configuring/">官網設定說明</a>調整設定檔</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># _config.yml
-</span><span class='line'>url:                # For rewriting urls for RSS, etc
-</span><span class='line'>title:              # Used in the header and title tags
-</span><span class='line'>subtitle:           # A description used in the header
-</span><span class='line'>author:             # Your name, for RSS, Copyright, Metadata
-</span><span class='line'>simple_search:      # Search engine for simple site search
-</span><span class='line'>description:        # A default meta description for your site
-</span><span class='line'>date_format:        # Format dates using Ruby's date strftime syntax
-</span><span class='line'>subscribe_rss:      # Url for your blog's feed, defauts to /atom.xml
-</span><span class='line'>subscribe_email:    # Url to subscribe by email (service required)
-</span><span class='line'>category_feeds:     # Enable per category RSS feeds (defaults to false in 2.1)
-</span><span class='line'>email:              # Email address for the RSS feed if you want it.</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>放入圖片</h3>
-
-<p>存放到 /source/images，再指定圖片路徑</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>![alt description](/images/upload.jpg)</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>增加About Me</h3>
-
-<p>先產生about page</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake new_page["about"]
-</span><span class='line'># source/about/index.markdown</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Navbar 加入about link</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># /source/_includes/custom/navigation.html
-</span><span class='line'>&lt;ul class="main-navigation"&gt;
-</span><span class='line'>  &lt;li&gt;&lt;a href="/"&gt;Blog&lt;/a&gt;&lt;/li&gt;
-</span><span class='line'>  &lt;li&gt;&lt;a href="/blog/archives"&gt;Archives&lt;/a&gt;&lt;/li&gt;
-</span><span class='line'>  &lt;li&gt;&lt;a href="/about"&gt;About&lt;/a&gt;&lt;/li&gt;
-</span><span class='line'>&lt;/ul&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>References</h2>
-
-<ul>
-<li><a href="http://blog.jex.tw/blog/2015/03/24/octopress/">使用 Octopress 寫 Blog</a></li>
-</ul>
-
-</div>
+  <div class="entry-content"></div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/07/26/octopress-plus-github/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -1165,17 +373,39 @@ BitBucket 點選<a href="https://bitbucket.org/repo/create">Create</a> 建立新
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - James Tong -
+  Copyright &copy; 2017 - James Tong -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
 </p>
 
 </footer>
   
 
+<script type="text/javascript">
+      var disqus_shortname = 'rt-tong-blog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 
 
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 
 

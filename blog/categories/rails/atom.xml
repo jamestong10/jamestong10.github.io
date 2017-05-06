@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | JT's Blog]]></title>
   <link href="http://rt-tong.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2016-09-12T23:39:47+08:00</updated>
+  <updated>2017-05-06T22:46:11+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -18,7 +18,10 @@
     <link href="http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3/"/>
     <updated>2016-09-02T14:09:46+08:00</updated>
     <id>http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3</id>
-    <content type="html"><![CDATA[<h2>功能介紹</h2>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>功能介紹</h2>
 
 <h3>修圖軟體</h3>
 
@@ -179,6 +182,9 @@ end
     <id>http://rt-tong.com/blog/2016/09/01/rails-i18n-timezone</id>
     <content type="html"><![CDATA[<blockquote><p>國際化的設計，根據不同使用者採用不同的語言、數字格式、日期格式，簡稱i18n</p></blockquote>
 
+<!-- more -->
+
+
 <h2>i18n</h2>
 
 <p>Rails 預設是使用英文(en)，如要使用i18n 多語系，則需安裝 gem</p>
@@ -272,6 +278,9 @@ config.time_zone = "Taipei"
     <updated>2016-08-25T10:44:12+08:00</updated>
     <id>http://rt-tong.com/blog/2016/08/25/activerecord-module-calculations</id>
     <content type="html"><![CDATA[<blockquote><p>擷取常用的methods</p></blockquote>
+
+<!-- more -->
+
 
 <h2>Pluck</h2>
 
@@ -399,7 +408,10 @@ Person.distinct.count(:age)
     <link href="http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank/"/>
     <updated>2016-08-24T14:09:59+08:00</updated>
     <id>http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank</id>
-    <content type="html"><![CDATA[<h2>nil?</h2>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>nil?</h2>
 
 <p>可使用在任何的<code>object</code>，檢查是否為<code>nil</code>，如果是<code>nil</code>會回傳<code>true</code>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -488,7 +500,10 @@ false.present?  # false
     <link href="http://rt-tong.com/blog/2016/08/22/activerecord-module-enum/"/>
     <updated>2016-08-22T17:17:21+08:00</updated>
     <id>http://rt-tong.com/blog/2016/08/22/activerecord-module-enum</id>
-    <content type="html"><![CDATA[<h2>ActiveRecord::Enum</h2>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>ActiveRecord::Enum</h2>
 
 <h3>目的</h3>
 

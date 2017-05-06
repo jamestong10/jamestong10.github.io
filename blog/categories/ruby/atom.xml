@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | JT's Blog]]></title>
   <link href="http://rt-tong.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2016-09-12T23:39:47+08:00</updated>
+  <updated>2017-05-06T22:46:11+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -18,7 +18,10 @@
     <link href="http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3/"/>
     <updated>2016-09-02T14:09:46+08:00</updated>
     <id>http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3</id>
-    <content type="html"><![CDATA[<h2>功能介紹</h2>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>功能介紹</h2>
 
 <h3>修圖軟體</h3>
 
@@ -177,7 +180,10 @@ end
     <link href="http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank/"/>
     <updated>2016-08-24T14:09:59+08:00</updated>
     <id>http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank</id>
-    <content type="html"><![CDATA[<h2>nil?</h2>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>nil?</h2>
 
 <p>可使用在任何的<code>object</code>，檢查是否為<code>nil</code>，如果是<code>nil</code>會回傳<code>true</code>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -267,6 +273,9 @@ false.present?  # false
     <updated>2016-08-08T15:26:54+08:00</updated>
     <id>http://rt-tong.com/blog/2016/08/08/ruby-module</id>
     <content type="html"><![CDATA[<blockquote><p>module 算是Ruby 的獨有特色，瞭解後在程式開發或是閱讀原始碼有很大的幫助</p></blockquote>
+
+<!-- more -->
+
 
 <h2>宣告</h2>
 
@@ -381,6 +390,9 @@ p CompanyB.greeting("JT") # "Hello JT at CompanyB"
 <p>Class 可以生成(new) 物件</p>
 
 <p>抽象化的概念很重要</p></blockquote>
+
+<!-- more -->
+
 
 <h2>宣告</h2>
 
@@ -606,7 +618,10 @@ end
     <link href="http://rt-tong.com/blog/2016/08/05/ruby-method/"/>
     <updated>2016-08-05T08:36:06+08:00</updated>
     <id>http://rt-tong.com/blog/2016/08/05/ruby-method</id>
-    <content type="html"><![CDATA[<blockquote><p>用來包裝邏輯處理，算是最初階的DRY 精神</p></blockquote>
+    <content type="html"><![CDATA[<blockquote><p>用來包裝邏輯處理，算是一種refactor</p></blockquote>
+
+<!-- more -->
+
 
 <h2>語法</h2>
 

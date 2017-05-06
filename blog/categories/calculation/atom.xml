@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Calculation | JT's Blog]]></title>
   <link href="http://rt-tong.com/blog/categories/calculation/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2016-09-12T23:39:47+08:00</updated>
+  <updated>2017-05-06T22:46:11+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -19,6 +19,9 @@
     <updated>2016-08-25T10:44:12+08:00</updated>
     <id>http://rt-tong.com/blog/2016/08/25/activerecord-module-calculations</id>
     <content type="html"><![CDATA[<blockquote><p>擷取常用的methods</p></blockquote>
+
+<!-- more -->
+
 
 <h2>Pluck</h2>
 

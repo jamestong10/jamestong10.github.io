@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="http://rt-tong.com/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2016-09-12T23:39:47+08:00</updated>
+  <updated>2017-05-06T22:46:11+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -14,11 +14,399 @@
 
   
   <entry>
+    <title type="html"><![CDATA[RWD Conecpt]]></title>
+    <link href="http://rt-tong.com/blog/2017/05/04/rwd-conecpt/"/>
+    <updated>2017-05-04T17:12:09+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/05/04/rwd-conecpt</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Content-is-like-water-1980.jpg/800px-Content-is-like-water-1980.jpg" alt="content is like water" /></p>
+
+<blockquote><p>「內容就像水」，這是一個說明RWD原則的說法</p></blockquote>
+
+<h2>RWD</h2>
+
+<p>Responsive web design 響應式網頁設計，縮寫為RWD。一種網頁設計的技術做法，可使網頁在不同裝置上瀏覽，可自動對應不同的顯示內容。</p>
+
+<h2>Viewport</h2>
+
+<h3>目的</h3>
+
+<p>告訴瀏覽器目前的裝置（長、寬），做為CSS 套用基準</p>
+
+<h3>用法</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>width: 使用 device-width (裝置寬度) 作為可視區域的寬度。</li>
+<li>initial-scale: 文檔初始的比例，用 1 表示 100% ，範圍從 0.1 ~ 10 可任填。</li>
+<li>minimum-scale: 最小可以縮放到 0.8 比例。</li>
+<li>maximum-scale: 最大可以縮放到 2.0 比例。</li>
+<li>user-scalable: 是否允許使用者進行縮放。no 不允許；yes 允許。</li>
+</ul>
+
+
+<h2>Css3 Media Query</h2>
+
+<p>使用media query 決定要套用哪些css</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># media screen 檢查 screen
+</span><span class='line'># max-width: 540px 最大寬度為 540px
+</span><span class='line'># 符合以上條件就會套用 css
+</span><span class='line'>
+</span><span class='line'>@media screen and (max-width: 540px) {
+</span><span class='line'>  font-size: 14px;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以參考下圖，設計不同裝置，顯示對應的樣式</p>
+
+<p><img src="http://rt-tong.com/images/posts/2017050401.jpg" alt="each devise of rwd device" /></p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Responsive_web_design">RWD WIKI</a></li>
+<li><a href="https://lintongtong.gitbooks.io/rwd/content/">RWD 概念分享</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Learning CSS]]></title>
+    <link href="http://rt-tong.com/blog/2017/04/13/learning-css/"/>
+    <updated>2017-04-13T13:31:59+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/04/13/learning-css</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Selector</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#  HTML id    attribute
+</span><span class='line'>.  HTML class attribute
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>套用順序性</h3>
+
+<ul>
+<li>權限：id 的優先權大於class，class 的優先權又大於其他元素</li>
+<li>套用順序：由上到下，相同class name，套用最後後面執行的效果 （當然也要考慮權重問題）</li>
+</ul>
+
+
+<h3>Selector 規則</h3>
+
+<p><a href="http://codepen.io/jamestong10/pen/LRorBr">codepen</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 同時有這兩個class 才會套用
+</span><span class='line'>.classA.classB
+</span><span class='line'>
+</span><span class='line'># 父子關係 父親classA 第一層子元素classB 才會套用此css
+</span><span class='line'>.classA &gt; .classB
+</span><span class='line'>
+</span><span class='line'># 父孫關係 父親classA 所有子元素classB 皆會套用此css
+</span><span class='line'>.classA .classB
+</span><span class='line'>
+</span><span class='line'># 只要有 classA, classB 皆會套用
+</span><span class='line'>.classA, .classB</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Css Values</h2>
+
+<p>css 預設許多值，可以透過MDN Css (<a href="https://developer.mozilla.org/en-US/docs/Web/CSS">https://developer.mozilla.org/en-US/docs/Web/CSS</a>)查看每個css  有哪些預設值可以使用，以下使用 font-size (<a href="https://developer.mozilla.org/zh-TW/docs/Web/CSS/font-size">https://developer.mozilla.org/zh-TW/docs/Web/CSS/font-size</a>) 示範</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* Global values */
+</span><span class='line'>font-size: inherit;
+</span><span class='line'>font-size: initial;
+</span><span class='line'>font-size: unset;
+</span><span class='line'>
+</span><span class='line'>/* &lt;absolute-size&gt; values */
+</span><span class='line'>font-size: xx-small;
+</span><span class='line'>font-size: x-small;
+</span><span class='line'>font-size: small;
+</span><span class='line'>font-size: medium;
+</span><span class='line'>font-size: large;
+</span><span class='line'>font-size: x-large;
+</span><span class='line'>font-size: xx-large;
+</span><span class='line'>
+</span><span class='line'>/* &lt;relative-size&gt; values */
+</span><span class='line'>font-size: larger;
+</span><span class='line'>font-size: smaller;
+</span><span class='line'>
+</span><span class='line'>/* &lt;length&gt; values */
+</span><span class='line'>font-size: 12px;
+</span><span class='line'>font-size: 0.8em;
+</span><span class='line'>
+</span><span class='line'>/* &lt;percentage&gt; values */
+</span><span class='line'>font-size: 80%;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Position</h2>
+
+<p><a href="http://codepen.io/jamestong10/pen/PbzvWN">codepen</a></p>
+
+<ul>
+<li>static: default</li>
+<li>relative: 相對位置</li>
+<li>absolute: 絕對位置</li>
+<li>fixed:    固定位置</li>
+</ul>
+
+
+<h2>Box-sizing</h2>
+
+<p>使用<code>box-sizing:border-box</code> 之後，width, height 就會包含 padding 和border 的寬度</p>
+
+<p><img src="http://rt-tong.com/images/posts/2017041301.jpg" width="500" alt="border-box" /></p>
+
+<h2>Box-shadow</h2>
+
+<p>呈現陰影或光暈的效果</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>box-shadow: x y blur spread color inset;
+</span><span class='line'># 前面 4 個都是尺寸值 (length，不接受 %)
+</span><span class='line'># 水平位移距離 (x)
+</span><span class='line'># 垂直位移距離 (y)
+</span><span class='line'># 模糊強度 (blur)
+</span><span class='line'># 擴散強度 (spread)
+</span><span class='line'># 內陰影   (inset)</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Overflow</h2>
+
+<p>定義元素超過某個範圍的時候該如何呈現</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>overflow: auto;　  //預設會自動使用捲軸
+</span><span class='line'>overflow: visible; //顯示的文字或圖片會直接超出範圍，不使用捲軸。
+</span><span class='line'>overflow: hidden;　//自動隱藏超出的文字或圖片。
+</span><span class='line'>overflow: scroll;　//自動產生捲軸。
+</span><span class='line'>overflow: inherit; //繼承自父元素的可見性</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Flexbox</h2>
+
+<p>Flexbox 中文意思就是可伸縮靈活的盒子，所以它用途就是讓容器內的子項目能夠靈活改變寬、高、大小、排序&hellip;等</p>
+
+<p>要讓元素垂直置中非常好用</p>
+
+<ul>
+<li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">A Complete Guide to Flexbox</a></li>
+<li><a href="https://flexbox.io/">What the Flexbox</a></li>
+<li><a href="http://sweeteason.pixnet.net/blog/post/42781628">CSS Flexbox Layout 學習心得筆記</a></li>
+</ul>
+
+
+<h2>Pseudo Elements</h2>
+
+<p><a href="http://codepen.io/jamestong10/pen/VPPJYm">codepen</a></p>
+
+<p>常用的elements</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>::before
+</span><span class='line'>::after
+</span><span class='line'>::selection
+</span><span class='line'>::first-line
+</span><span class='line'>::first-letter</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Pseudo Classes</h2>
+
+<p><a href="http://codepen.io/jamestong10/pen/LxOZPd">codepen</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:active      # 常用在此連結與此頁面被點選時套用
+</span><span class='line'>:checked
+</span><span class='line'>:first-child # 取css selector 第一個 element
+</span><span class='line'>:last-child  # 取css selector 最後一個 element
+</span><span class='line'>:not()
+</span><span class='line'>:nth-child()</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Tips</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 置底 (父element 需要是position: relative)
+</span><span class='line'>position: absolute;
+</span><span class='line'>bottom: 0;
+</span><span class='line'>
+</span><span class='line'># 外面顯示inline 裡面顯示block
+</span><span class='line'># 根據內容大小縮放
+</span><span class='line'>display: inline-block;
+</span><span class='line'>
+</span><span class='line'># 浮動;如果是block 則是在左邊
+</span><span class='line'>float: left;
+</span><span class='line'># 情境：一個div 內有兩個div 一個要顯示在左邊、另一個顯示在右邊
+</span><span class='line'># http://codepen.io/jamestong10/pen/dpLqRL
+</span><span class='line'>
+</span><span class='line'># 文字特效。情境：不想要文字有下底線
+</span><span class='line'>text-decoration: none;
+</span><span class='line'>
+</span><span class='line'># 改變滑鼠游標形狀。情境：自己寫div link 可以套用
+</span><span class='line'>cursor: pointer;
+</span><span class='line'>
+</span><span class='line'># 設定最大高度、最大寬度
+</span><span class='line'>max-width: 800px
+</span><span class='line'>max-height: 800px
+</span><span class='line'>
+</span><span class='line'># 消除文字或元素之間的空白區塊
+</span><span class='line'># 方法1：在最大的div 使用，而內部需要把這屬性復原
+</span><span class='line'>.outer-block
+</span><span class='line'>  white-space: nowrap
+</span><span class='line'>.inner-block
+</span><span class='line'>  white-space: normal
+</span><span class='line'>
+</span><span class='line'># 方法2：在最大的div 使用，而內部需要把這屬性復原
+</span><span class='line'>.outer-block
+</span><span class='line'>  font-size: 0
+</span><span class='line'>.inner-block
+</span><span class='line'>  font-size: initial
+</span><span class='line'>
+</span><span class='line'># 使用「*」取的所有元素或子元素
+</span><span class='line'>*
+</span><span class='line'>  font-family: sans-serif
+</span><span class='line'>
+</span><span class='line'>.block
+</span><span class='line'>  *
+</span><span class='line'>    display: inline-block
+</span><span class='line'>
+</span><span class='line'># 水平正常，但垂直走鐘
+</span><span class='line'>vertical-align: top
+</span><span class='line'>
+</span><span class='line'># 產生有透明度的顏色
+</span><span class='line'>rgba(0,0,0,0.5)</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[使用Vagrant 操作Virtaul Boxes]]></title>
     <link href="http://rt-tong.com/blog/2016/09/11/use-vagrant-to-operating-virtual-box/"/>
     <updated>2016-09-11T00:45:21+08:00</updated>
     <id>http://rt-tong.com/blog/2016/09/11/use-vagrant-to-operating-virtual-box</id>
-    <content type="html"><![CDATA[<p><img src="http://rt-tong.com/images/posts/2016091201.jpg" alt="vagrant_virtulaBox" /></p>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p><img src="http://rt-tong.com/images/posts/2016091201.jpg" alt="vagrant_virtulaBox" /></p>
 
 <h2>Why Vagrant + Virtual Box</h2>
 
@@ -326,7 +714,10 @@
     <link href="http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3/"/>
     <updated>2016-09-02T14:09:46+08:00</updated>
     <id>http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3</id>
-    <content type="html"><![CDATA[<h2>功能介紹</h2>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>功能介紹</h2>
 
 <h3>修圖軟體</h3>
 
@@ -556,6 +947,9 @@
     <id>http://rt-tong.com/blog/2016/09/01/rails-i18n-timezone</id>
     <content type="html"><![CDATA[<blockquote><p>國際化的設計，根據不同使用者採用不同的語言、數字格式、日期格式，簡稱i18n</p></blockquote>
 
+<!-- more -->
+
+
 <h2>i18n</h2>
 
 <p>Rails 預設是使用英文(en)，如要使用i18n 多語系，則需安裝 gem</p>
@@ -693,6 +1087,9 @@
     <updated>2016-08-25T10:44:12+08:00</updated>
     <id>http://rt-tong.com/blog/2016/08/25/activerecord-module-calculations</id>
     <content type="html"><![CDATA[<blockquote><p>擷取常用的methods</p></blockquote>
+
+<!-- more -->
+
 
 <h2>Pluck</h2>
 
@@ -872,7 +1269,10 @@
     <link href="http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank/"/>
     <updated>2016-08-24T14:09:59+08:00</updated>
     <id>http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank</id>
-    <content type="html"><![CDATA[<h2>nil?</h2>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>nil?</h2>
 
 <p>可使用在任何的<code>object</code>，檢查是否為<code>nil</code>，如果是<code>nil</code>會回傳<code>true</code></p>
 
@@ -983,7 +1383,10 @@
     <link href="http://rt-tong.com/blog/2016/08/22/activerecord-module-enum/"/>
     <updated>2016-08-22T17:17:21+08:00</updated>
     <id>http://rt-tong.com/blog/2016/08/22/activerecord-module-enum</id>
-    <content type="html"><![CDATA[<h2>ActiveRecord::Enum</h2>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>ActiveRecord::Enum</h2>
 
 <h3>目的</h3>
 
@@ -1131,7 +1534,10 @@
     <link href="http://rt-tong.com/blog/2016/08/21/logic-show-184/"/>
     <updated>2016-08-21T10:54:21+08:00</updated>
     <id>http://rt-tong.com/blog/2016/08/21/logic-show-184</id>
-    <content type="html"><![CDATA[<p><img src="http://rt-tong.com/images/posts/2016082101.jpg" alt="Logic Show" /></p>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p><img src="http://rt-tong.com/images/posts/2016082101.jpg" alt="Logic Show" /></p>
 
 <blockquote><p>本集雖說是如何成為一個高手，但實質是說明學習的目的和如何自己建立一套有效的學習方法</p>
 
@@ -1223,6 +1629,9 @@
     <content type="html"><![CDATA[<blockquote><p>繼<a href="http://rt-tong.com/blog/2016/08/05/ruby-method/">Ruby Method</a> <code>&amp;block</code> 提到要傳入 <a href="http://ruby-doc.org/core-2.3.1/Proc.html">Proc Class</a> 執行邏輯運算</p>
 
 <p>順便寫一篇記錄Proc Class 的基本應用，不是很好入門，但是多看幾次就能慢慢了解其中意義</p></blockquote>
+
+<!-- more -->
+
 
 <h2>Proc</h2>
 
@@ -1470,6 +1879,9 @@
     <id>http://rt-tong.com/blog/2016/08/08/ruby-module</id>
     <content type="html"><![CDATA[<blockquote><p>module 算是Ruby 的獨有特色，瞭解後在程式開發或是閱讀原始碼有很大的幫助</p></blockquote>
 
+<!-- more -->
+
+
 <h2>宣告</h2>
 
 <p>示範module 內是可以包含多種內容，但實際在設計時，還是依照功能分類</p>
@@ -1633,6 +2045,9 @@
 <p>Class 可以生成(new) 物件</p>
 
 <p>抽象化的概念很重要</p></blockquote>
+
+<!-- more -->
+
 
 <h2>宣告</h2>
 
@@ -1927,7 +2342,10 @@
     <link href="http://rt-tong.com/blog/2016/08/05/ruby-method/"/>
     <updated>2016-08-05T08:36:06+08:00</updated>
     <id>http://rt-tong.com/blog/2016/08/05/ruby-method</id>
-    <content type="html"><![CDATA[<blockquote><p>用來包裝邏輯處理，算是最初階的DRY 精神</p></blockquote>
+    <content type="html"><![CDATA[<blockquote><p>用來包裝邏輯處理，算是一種refactor</p></blockquote>
+
+<!-- more -->
+
 
 <h2>語法</h2>
 
@@ -2055,7 +2473,10 @@
     <link href="http://rt-tong.com/blog/2016/08/04/ruby-basic/"/>
     <updated>2016-08-04T10:41:35+08:00</updated>
     <id>http://rt-tong.com/blog/2016/08/04/ruby-basic</id>
-    <content type="html"><![CDATA[<h2>必須知道的網站</h2>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>必須知道的網站</h2>
 
 <ol>
 <li><a href="http://ruby-doc.org/">http://ruby-doc.org/</a>
@@ -2260,6 +2681,9 @@
     <id>http://rt-tong.com/blog/2016/08/01/git-commands</id>
     <content type="html"><![CDATA[<blockquote><p>本篇並非Git 教學，只是記錄常用的Git 指令，有學到新的指令會再更新上來
 如果不太熟悉可在指令後加入 &ndash;help 查詢用法</p></blockquote>
+
+<!-- more -->
+
 
 <h2>Git 基本設定</h2>
 
@@ -2567,7 +2991,10 @@
     <link href="http://rt-tong.com/blog/2016/07/28/java-enum/"/>
     <updated>2016-07-28T00:44:15+08:00</updated>
     <id>http://rt-tong.com/blog/2016/07/28/java-enum</id>
-    <content type="html"><![CDATA[<h2>在J2SE 5.0 之前，沒有Enum</h2>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>在J2SE 5.0 之前，沒有Enum</h2>
 
 <p>使用<code>static</code>與<code>final</code>兩個修飾詞建立常數變數</p>
 
@@ -2692,7 +3119,10 @@
     <link href="http://rt-tong.com/blog/2016/07/26/octopress-plus-github/"/>
     <updated>2016-07-26T13:51:55+08:00</updated>
     <id>http://rt-tong.com/blog/2016/07/26/octopress-plus-github</id>
-    <content type="html"><![CDATA[<h2>新增GitHub Repository</h2>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>新增GitHub Repository</h2>
 
 <p>點選<a href="https://github.com/new">new</a> 建立新的Repository，命名為 username.github.io</p>
 

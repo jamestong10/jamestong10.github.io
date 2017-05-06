@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Css | JT's Blog]]></title>
+  <link href="http://rt-tong.com/blog/categories/css/atom.xml" rel="self"/>
+  <link href="http://rt-tong.com/"/>
+  <updated>2017-05-06T22:46:11+08:00</updated>
+  <id>http://rt-tong.com/</id>
+  <author>
+    <name><![CDATA[James Tong]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Learning CSS]]></title>
+    <link href="http://rt-tong.com/blog/2017/04/13/learning-css/"/>
+    <updated>2017-04-13T13:31:59+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/04/13/learning-css</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Selector</h2>
+
+<pre><code>#  HTML id    attribute
+.  HTML class attribute
+</code></pre>
+
+<h3>套用順序性</h3>
+
+<ul>
+<li>權限：id 的優先權大於class，class 的優先權又大於其他元素</li>
+<li>套用順序：由上到下，相同class name，套用最後後面執行的效果 （當然也要考慮權重問題）</li>
+</ul>
+
+
+<h3>Selector 規則</h3>
+
+<p><a href="http://codepen.io/jamestong10/pen/LRorBr">codepen</a></p>
+
+<pre><code># 同時有這兩個class 才會套用
+.classA.classB
+
+# 父子關係 父親classA 第一層子元素classB 才會套用此css
+.classA &gt; .classB
+
+# 父孫關係 父親classA 所有子元素classB 皆會套用此css
+.classA .classB
+
+# 只要有 classA, classB 皆會套用
+.classA, .classB
+</code></pre>
+
+<h2>Css Values</h2>
+
+<p>css 預設許多值，可以透過MDN Css (<a href="https://developer.mozilla.org/en-US/docs/Web/CSS">https://developer.mozilla.org/en-US/docs/Web/CSS</a>)查看每個css  有哪些預設值可以使用，以下使用 font-size (<a href="https://developer.mozilla.org/zh-TW/docs/Web/CSS/font-size">https://developer.mozilla.org/zh-TW/docs/Web/CSS/font-size</a>) 示範
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/&lt;em&gt; Global values &lt;/em&gt;/
+</span><span class='line'>font-size: inherit;
+</span><span class='line'>font-size: initial;
+</span><span class='line'>font-size: unset;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;/&lt;em&gt; &lt;absolute-size&gt; values &lt;/em&gt;/
+</span><span class='line'>font-size: xx-small;
+</span><span class='line'>font-size: x-small;
+</span><span class='line'>font-size: small;
+</span><span class='line'>font-size: medium;
+</span><span class='line'>font-size: large;
+</span><span class='line'>font-size: x-large;
+</span><span class='line'>font-size: xx-large;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;/&lt;em&gt; &lt;relative-size&gt; values &lt;/em&gt;/
+</span><span class='line'>font-size: larger;
+</span><span class='line'>font-size: smaller;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;/&lt;em&gt; &lt;length&gt; values &lt;/em&gt;/
+</span><span class='line'>font-size: 12px;
+</span><span class='line'>font-size: 0.8em;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;/&lt;em&gt; &lt;percentage&gt; values &lt;/em&gt;/
+</span><span class='line'>font-size: 80%;</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>Position</h2>
+
+<p><a href="http://codepen.io/jamestong10/pen/PbzvWN">codepen</a></p>
+
+<ul>
+<li>static: default</li>
+<li>relative: 相對位置</li>
+<li>absolute: 絕對位置</li>
+<li>fixed:    固定位置</li>
+</ul>
+
+
+<h2>Box-sizing</h2>
+
+<p>使用<code>box-sizing:border-box</code> 之後，width, height 就會包含 padding 和border 的寬度</p>
+
+<p><img src="/images/posts/2017041301.jpg" width="500" alt="border-box" /></p>
+
+<h2>Box-shadow</h2>
+
+<p>呈現陰影或光暈的效果
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>box-shadow: x y blur spread color inset;&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;前面 4 個都是尺寸值 (length，不接受 %)&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;水平位移距離 (x)&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;垂直位移距離 (y)&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;模糊強度 (blur)&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;擴散強度 (spread)&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;內陰影   (inset)&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;
+</span><span class='line'>## Overflow
+</span><span class='line'>
+</span><span class='line'>定義元素超過某個範圍的時候該如何呈現
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;overflow: auto;　  //預設會自動使用捲軸
+</span><span class='line'>overflow: visible; //顯示的文字或圖片會直接超出範圍，不使用捲軸。
+</span><span class='line'>overflow: hidden;　//自動隱藏超出的文字或圖片。
+</span><span class='line'>overflow: scroll;　//自動產生捲軸。
+</span><span class='line'>overflow: inherit; //繼承自父元素的可見性</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>Flexbox</h2>
+
+<p>Flexbox 中文意思就是可伸縮靈活的盒子，所以它用途就是讓容器內的子項目能夠靈活改變寬、高、大小、排序&hellip;等</p>
+
+<p>要讓元素垂直置中非常好用</p>
+
+<ul>
+<li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">A Complete Guide to Flexbox</a></li>
+<li><a href="https://flexbox.io/">What the Flexbox</a></li>
+<li><a href="http://sweeteason.pixnet.net/blog/post/42781628">CSS Flexbox Layout 學習心得筆記</a></li>
+</ul>
+
+
+<h2>Pseudo Elements</h2>
+
+<p><a href="http://codepen.io/jamestong10/pen/VPPJYm">codepen</a></p>
+
+<p>常用的elements
+<code>
+::before
+::after
+::selection
+::first-line
+::first-letter
+</code></p>
+
+<h2>Pseudo Classes</h2>
+
+<p><a href="http://codepen.io/jamestong10/pen/LxOZPd">codepen</a></p>
+
+<pre><code>:active      # 常用在此連結與此頁面被點選時套用
+:checked
+:first-child # 取css selector 第一個 element
+:last-child  # 取css selector 最後一個 element
+:not()
+:nth-child()
+</code></pre>
+
+<h2>Tips</h2>
+
+<pre><code># 置底 (父element 需要是position: relative)
+position: absolute;
+bottom: 0;
+
+# 外面顯示inline 裡面顯示block
+# 根據內容大小縮放
+display: inline-block;
+
+# 浮動;如果是block 則是在左邊
+float: left;
+# 情境：一個div 內有兩個div 一個要顯示在左邊、另一個顯示在右邊
+# http://codepen.io/jamestong10/pen/dpLqRL
+
+# 文字特效。情境：不想要文字有下底線
+text-decoration: none;
+
+# 改變滑鼠游標形狀。情境：自己寫div link 可以套用
+cursor: pointer;
+
+# 設定最大高度、最大寬度
+max-width: 800px
+max-height: 800px
+
+# 消除文字或元素之間的空白區塊
+# 方法1：在最大的div 使用，而內部需要把這屬性復原
+.outer-block
+  white-space: nowrap
+.inner-block
+  white-space: normal
+
+# 方法2：在最大的div 使用，而內部需要把這屬性復原
+.outer-block
+  font-size: 0
+.inner-block
+  font-size: initial
+
+# 使用「*」取的所有元素或子元素
+*
+  font-family: sans-serif
+
+.block
+  *
+    display: inline-block
+
+# 水平正常，但垂直走鐘
+vertical-align: top
+
+# 產生有透明度的顏色
+rgba(0,0,0,0.5)
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

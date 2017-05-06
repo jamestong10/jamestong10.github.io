@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | JT's Blog]]></title>
   <link href="http://rt-tong.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2016-09-12T23:39:47+08:00</updated>
+  <updated>2017-05-06T22:46:11+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -20,6 +20,9 @@
     <id>http://rt-tong.com/blog/2016/08/01/git-commands</id>
     <content type="html"><![CDATA[<blockquote><p>本篇並非Git 教學，只是記錄常用的Git 指令，有學到新的指令會再更新上來
 如果不太熟悉可在指令後加入 &ndash;help 查詢用法</p></blockquote>
+
+<!-- more -->
+
 
 <h2>Git 基本設定</h2>
 

@@ -9,7 +9,7 @@
   <meta name="author" content="James Tong">
 
   
-  <meta name="description" content="Why Vagrant + Virtual Box 學習Rails 的過程，會使用Mac 的Parallels Desktop 建立Ubuntu 當作Production，使用幾次之後覺得有點麻煩，如果要再擴大系統架構，就玩不下去了，於是google 搜尋找到了Vagrant + Virtual &hellip;">
+  <meta name="description" content="">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -103,6 +103,76 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2017/05/04/rwd-conecpt/">RWD Conecpt</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-05-04T17:12:09+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:12 pm</span></time>
+        
+         | <a href="/blog/2017/05/04/rwd-conecpt/#disqus_thread">Comments</a>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"></div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/05/04/rwd-conecpt/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/04/13/learning-css/">Learning CSS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-04-13T13:31:59+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>1:31 pm</span></time>
+        
+         | <a href="/blog/2017/04/13/learning-css/#disqus_thread">Comments</a>
+        
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"></div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2017/04/13/learning-css/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2016/09/11/use-vagrant-to-operating-virtual-box/">使用Vagrant 操作Virtaul Boxes</a></h1>
     
     
@@ -114,314 +184,20 @@
 
 <time class='entry-date' datetime='2016-09-11T00:45:21+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:45 am</span></time>
         
+         | <a href="/blog/2016/09/11/use-vagrant-to-operating-virtual-box/#disqus_thread">Comments</a>
+        
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><img src="/images/posts/2016091201.jpg" alt="vagrant_virtulaBox" /></p>
-
-<h2>Why Vagrant + Virtual Box</h2>
-
-<p>學習Rails 的過程，會使用Mac 的Parallels Desktop 建立Ubuntu 當作Production，使用幾次之後覺得有點麻煩，如果要再擴大系統架構，就玩不下去了，於是google 搜尋找到了Vagrant + Virtual Box 的組合，覺得這是不錯的組合，寫篇文章紀錄一下</p>
-
-<h2>Installtion</h2>
-
-<p>安裝Vagrant, Virtual 這兩套軟體</p>
-
-<ul>
-<li><a href="https://www.vagrantup.com/downloads.html">Vagrant</a></li>
-<li><a href="https://www.virtualbox.org/wiki/Downloads">Virtual Box</a></li>
-</ul>
-
-
-<h2>概念</h2>
-
-<p>Box 可以從Vagrant網站下載，Box 是Virtual Box 專用的，表示一個Virtual Machine (VM)，而官方提供的Box 又稱為Base，也就是最基本的VM</p>
-
-<h2>新增 Box</h2>
-
-<p>可以到<a href="https://atlas.hashicorp.com/boxes/search">官網</a> 查詢要用什麼box_name (vm)</p>
-
-<p>這次介紹使用 <code>ubuntu/trusty64</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant box add [box_name]
-</span><span class='line'># e.g.
-</span><span class='line'>$ vagrant box add ubuntu/trusty64</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>初始化</h2>
-
-<p>這邊有點抽象不太好理解，可能多操作幾次，就可以理解接下來說明的內容</p>
-
-<p>每初始一個VM 都會建立一個對應的Vagrantfile，而這VM 已與原本的Base 衍生出來(或解讀為Base 的Instance)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir vagrant-test && cd vagrant-test
-</span><span class='line'>$ vagrant init [box_name]
-</span><span class='line'># e.g.
-</span><span class='line'>$ vagrant init ubuntu/trusty64</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Configuration of Vagrantfile</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>VAGRANTFILE_API_VERSION = "2"
-</span><span class='line'>Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-</span><span class='line'>  # 預設是true
-</span><span class='line'>  # 不檢查更新版本
-</span><span class='line'>  # config.vm.box_check_update = false
-</span><span class='line'>
-</span><span class='line'>  # 設定使用的 Box
-</span><span class='line'>  config.vm.box = "ubuntu/trusty64"
-</span><span class='line'>
-</span><span class='line'>  # 設定虛擬主機的所使用的記憶體，可以避免在虛擬主機 bundle install 時，記憶體不足的錯誤
-</span><span class='line'>  config.vm.provider :virtualbox do |vb|
-</span><span class='line'>    vb.customize ["modifyvm", :id, "--memory", "1024"]
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  # 設定虛擬主機僅供自己使用的 ip (注意設跟自己的虛擬ip 同一個網域)
-</span><span class='line'>  config.vm.network :private_network, ip: "10.10.10.10"
-</span><span class='line'>
-</span><span class='line'>  # 設定主機名稱
-</span><span class='line'>  config.vm.hostname = "ubuntu-rails"
-</span><span class='line'>
-</span><span class='line'>  # Forward the Rails server default port to the host
-</span><span class='line'>  config.vm.network "forwarded_port", guest: 80, host: 8080
-</span><span class='line'>
-</span><span class='line'>  # Forward the Redis default port to the host
-</span><span class='line'>  # config.vm.network "forwarded_port", guest: 6379, host: 6379
-</span><span class='line'>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>操作指令</h2>
-
-<p>開機</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant up</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用ssh 連線到VM</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant ssh</span></code></pre></td></tr></table></div></figure>
-
-
-<p>重開 (修改 vagrantfile 後需要重開)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant reload</span></code></pre></td></tr></table></div></figure>
-
-
-<p>暫停 <-> 恢復</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant suspend
-</span><span class='line'>$ vagrant resume</span></code></pre></td></tr></table></div></figure>
-
-
-<p>關機</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant halt</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Others</h3>
-
-<p>VM 狀態</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant status</span></code></pre></td></tr></table></div></figure>
-
-
-<p>列出box 清單</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant box list</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看所有指令清單</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ vagrant list-commands</span></code></pre></td></tr></table></div></figure>
-
-
-<h2><a href="https://www.vagrantup.com/docs/provisioning/">Provisioners</a></h2>
-
-<p>Vagrant 允許使用Provisioner 自動安裝或調整設定內容，就是在啟動VM 之後，執行已設定的腳本或軟體</p>
-
-<p>Vagrant 提供三種自動化 provisioning 機制：</p>
-
-<ul>
-<li>inline script（內嵌腳本）</li>
-<li>external script file（外部腳本檔）</li>
-<li>configuration management software（組態管理軟體）</li>
-</ul>
-
-
-<p>在Vagrantfile 中設定要使用哪種provision</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># inline script
-</span><span class='line'>config.vm.provision "shell", inline: "nginx -v"
-</span><span class='line'>
-</span><span class='line'># external script file
-</span><span class='line'>config.vm.provision "shell", path: "check_env.sh"
-</span><span class='line'>
-</span><span class='line'># configuration management software
-</span><span class='line'>config.vm.provision "chef_solo" do |chef|
-</span><span class='line'>    # ...
-</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>打包自己專用的BOX</h2>
-
-<p>如果每個VM 都要因應不同需求安裝對應的軟體，實在非常費時費工</p>
-
-<p>可以透過<code>package</code> 把已經設定好的VM 打包變成Box，如果日後有需求，可以根據此Box 初始一個新的VM</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># 指令會在你目前的資料夾下建立一個myFirstVM.box
-</span><span class='line'>$ vagrant package --output myFirstVM.box
-</span><span class='line'>
-</span><span class='line'># 將box 加入清單
-</span><span class='line'>$ vagrant box add [box_name] myFirstVM.box
-</span><span class='line'># e.g.
-</span><span class='line'>$ vagrant box add ubuntu-nginx-rails-redis myFirstVM.box
-</span><span class='line'>
-</span><span class='line'># 初始化
-</span><span class='line'>$ vagrant init ubuntu-nginx-rails-redis</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>多機環境</h2>
-
-<p>只有一個VM 是還不夠的，Vagrant 是很強大的，可以在Vagrantfile 設定多主機的環境</p>
-
-<p>以下示範建立 app * 1 + db * 1</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>VAGRANTFILE_API_VERSION = "2"
-</span><span class='line'>Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-</span><span class='line'>
-</span><span class='line'>  # as rails-app
-</span><span class='line'>  config.vm.define :app do |app_config|
-</span><span class='line'>    app_config.vm.provider :virtualbox do |vb|
-</span><span class='line'>      vb.customize ["modifyvm", :id, "--memory", "512"]
-</span><span class='line'>    end
-</span><span class='line'>
-</span><span class='line'>    app_config.vm.box = "ubuntu/trusty64"
-</span><span class='line'>    app_config.vm.host_name = "app"
-</span><span class='line'>    app_config.vm.network :private_network, ip: "10.10.10.10"
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  # as mysql database
-</span><span class='line'>  config.vm.define :db do |db_config|
-</span><span class='line'>    db_config.vm.provider :virtualbox do |vb|
-</span><span class='line'>        vb.customize ["modifyvm", :id, "--memory", "512"]
-</span><span class='line'>      end
-</span><span class='line'>    db_config.vm.box = "ubuntu/trusty64"
-</span><span class='line'>    db_config.vm.host_name = "db"
-</span><span class='line'>    db_config.vm.network :private_network, ip: "10.10.10.11"
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>後記</h2>
-
-<ul>
-<li>指令不熟悉可以透過 <code>vagrant -h</code> 找到答案</li>
-<li>vagrant 是非常強大的工具，也可以串接AWS 或 Docker，有空再來寫篇文章吧</li>
-</ul>
-
-
-<h2>References</h2>
-
-<ul>
-<li><a href="https://www.vagrantup.com/">Vagrant</a></li>
-<li><a href="https://drupaltaiwan.org/forum/20141125/11378">Vagrant 安裝與建構</a></li>
-<li><a href="http://gogojimmy.net/2013/05/26/vagrant-tutorial/">Vagrant Tutorial-1</a></li>
-<li><a href="http://www.codedata.com.tw/social-coding/vagrant-tutorial-2-playing-vm-with-vagrant/">Vagrant Tutorial-2</a></li>
-</ul>
-
-</div>
+  <div class="entry-content"></div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/09/11/use-vagrant-to-operating-virtual-box/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -443,234 +219,20 @@
 
 <time class='entry-date' datetime='2016-09-02T14:09:46+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>2:09 pm</span></time>
         
+         | <a href="/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3/#disqus_thread">Comments</a>
+        
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>功能介紹</h2>
-
-<h3>修圖軟體</h3>
-
-<ul>
-<li><a href="http://imagemagick.org/script/index.php">ImageMagick</a></li>
-<li><a href="http://www.graphicsmagick.org/">GraphicsMagick</a></li>
-</ul>
-
-
-<h3>Gems</h3>
-
-<ul>
-<li><a href="https://github.com/minimagick/minimagick">MiniMagick</a> 透過Ruby 使用ImageMagick、GraphicsMagick 的gem</li>
-<li><a href="https://github.com/rmagick/rmagick">RMagick</a> 透過Ruby 使用ImageMagick</li>
-<li><a href="https://github.com/carrierwaveuploader/carrierwave">CarrierWave</a> 上傳檔案的gem</li>
-</ul>
-
-
-<h2>ImageMagick</h2>
-
-<p>需要安裝，否則後面的圖片操作都會失敗</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew isntall imagemagick</span></code></pre></td></tr></table></div></figure>
-
-
-<p>檢查是否安裝成功</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ convert -version
-</span><span class='line'>Version: ImageMagick 6.8.9-7 Q16 x86_64 2014-09-11 http://www.imagemagick.org
-</span><span class='line'>Copyright: Copyright (C) 1999-2014 ImageMagick Studio LLC
-</span><span class='line'>Features: DPC Modules
-</span><span class='line'>Delegates: bzlib fftw freetype jng jpeg lcms ltdl lzma png tiff xml zlib</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Install Gems</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Gemfile
-</span><span class='line'># 二擇一
-</span><span class='line'>gem 'mini_magick'
-</span><span class='line'># gem 'rmagick'
-</span><span class='line'>
-</span><span class='line'>gem 'carrierwave'
-</span><span class='line'>
-</span><span class='line'>$ bundle install</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Uploader</h2>
-
-<p>建立uploader，命名爲image （自行決定, e.g.,file, photo &hellip; etc.）</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rails g uploader image</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定Uploader</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># app/uploaders/image_uploader.rb
-</span><span class='line'>
-</span><span class='line'>class ImageUploader &lt; CarrierWave::Uploader::Base
-</span><span class='line'>
-</span><span class='line'>  include CarrierWave::MiniMagick # 指定使用minimagick
-</span><span class='line'>
-</span><span class='line'>  storage :file
-</span><span class='line'>
-</span><span class='line'>  def store_dir
-</span><span class='line'>    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  # 指定圖片size (同時產生其他size :thumb, :medium)
-</span><span class='line'>  process :resize_to_fit =&gt; [800, 600]
-</span><span class='line'>
-</span><span class='line'>  version :thumb do
-</span><span class='line'>    process :resize_to_fill =&gt; [200,120]
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  version :medium do
-</span><span class='line'>    process :resize_to_fill =&gt; [400,300]
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Model</h2>
-
-<p>建立Model，命名為photo （自行決定, e.g.,file, photo, dog, cat !!?? etc.）</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rails g model photo image:string
-</span><span class='line'>$ rake db:migrate</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定 model 的uploader</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># app/models/photo.rb
-</span><span class='line'>class Photo &lt; ActiveRecord::Base
-</span><span class='line'>  mount_uploader :image, ImageUploader
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>gitignore</h2>
-
-<p>排除測試上傳的圖片</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># .gitignore
-</span><span class='line'>public/uploads</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>上傳AWS S3</h1>
-
-<h2>Install Gems</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Gemfile
-</span><span class='line'>gem 'fog', group: :production</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Uploader 設定Production 圖片透過fog 連接並儲存至AWS S3</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if Rails.env.production?
-</span><span class='line'>  storage :fog
-</span><span class='line'>else
-</span><span class='line'>  storage :file
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>CarrierWave 加入fog credentials 的設定</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># config/initializers/carrier_wave.rb
-</span><span class='line'>CarrierWave.configure do |config|
-</span><span class='line'>  if Rails.env.production?
-</span><span class='line'>    config.storage = :fog
-</span><span class='line'>    config.fog_credentials = {
-</span><span class='line'>      provider:              'AWS',
-</span><span class='line'>      aws_access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
-</span><span class='line'>      aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-</span><span class='line'>      region:                ENV['AWS_REGION']
-</span><span class='line'>    }
-</span><span class='line'>    config.fog_directory  =  ENV['AWS_S3_BUCKET_PRODUCTION']
-</span><span class='line'>  else
-</span><span class='line'>    config.storage :file
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>AWS Variables</h2>
-
-<p>列出不同VPS 如何管理AWS 的變數</p>
-
-<ul>
-<li>Heroku : Settings > Cofig Variables</li>
-<li>AWS: figrao</li>
-</ul>
-
-</div>
+  <div class="entry-content"></div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -692,6 +254,8 @@
 
 <time class='entry-date' datetime='2016-09-01T11:35:19+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>11:35 am</span></time>
         
+         | <a href="/blog/2016/09/01/rails-i18n-timezone/#disqus_thread">Comments</a>
+        
         
       </p>
     
@@ -700,136 +264,12 @@
 
   <div class="entry-content"><blockquote><p>國際化的設計，根據不同使用者採用不同的語言、數字格式、日期格式，簡稱i18n</p></blockquote>
 
-<h2>i18n</h2>
-
-<p>Rails 預設是使用英文(en)，如要使用i18n 多語系，則需安裝 gem</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rails-i18n'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定載入路徑、預設語系</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#config/application.rb
-</span><span class='line'>
-</span><span class='line'># 設定載入路徑 (二擇一)
-</span><span class='line'>config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
-</span><span class='line'>config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
-</span><span class='line'>
-</span><span class='line'># 設定預設語系 zh or en (二擇一)
-</span><span class='line'>config.i18n.default_locale = :"zh-TW"
-</span><span class='line'>config.i18n.default_locale = :en
-</span><span class='line'>
-</span><span class='line'># use default locale when translation missing (二擇一)
-</span><span class='line'>config.i18n.fallbacks = true
-</span><span class='line'>config.i18n.fallbacks = :"zh-TW"</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>自訂語彙</h2>
-
-<p>詞彙檔放在 config/locales ，使用YAML 格式</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># config/locales/zh-TW.yml
-</span><span class='line'>"zh-TW":
-</span><span class='line'>    hello: "親愛的%{name}你好!"
-</span><span class='line'>    admin:
-</span><span class='line'>        event: 活動管理</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>注意 YAML 格式的縮排必須使用兩個空格，Tab是不允許的。直接複製貼上可能會有問題，請小心檢查縮排</p></blockquote>
-
-<p>套用語彙，可以使用<code>t Helper</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># 如果在View
-</span><span class='line'>t("admin.event")
-</span><span class='line'>t(:event, :scope=&gt;:admin)
-</span><span class='line'>t(:hello, :name=&gt;current_user.name)
-</span><span class='line'>
-</span><span class='line'># 如果不在View中，則需要加上 I18n 類別
-</span><span class='line'>I18n.t("admin.event")</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如何讓使用者切換語系</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># controllers/application_controller.rb
-</span><span class='line'>before_action :set_locale
-</span><span class='line'>
-</span><span class='line'>def set_locale
-</span><span class='line'>  # 可以將 ["en", "zh-TW"] 設定為 VALID_LANG 放到 config/environment.rb 中
-</span><span class='line'>  if params[:locale] && I18n.available_locales.include?( params[:locale].to_sym )
-</span><span class='line'>    session[:locale] = params[:locale]
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  I18n.locale = session[:locale] || I18n.default_locale
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># views/..
-</span><span class='line'>&lt;%= link_to "中文版", :controller =&gt; controller_name,
-</span><span class='line'>:action =&gt; action_name, :locale =&gt; "zh-TW" %&gt;
-</span><span class='line'>&lt;%= link_to "English", :controller =&gt; controller_name,
-</span><span class='line'>:action =&gt; action_name, :locale =&gt; "en" %&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>時區 Timezone</h2>
-
-<p>設定app 使用的時區，設定完成需重啟服務生效</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># config/application.rb
-</span><span class='line'>config.time_zone = "Taipei"</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>References</h2>
-
-<ul>
-<li><a href="https://ihower.tw/rails4/i18n.html">ihower-i18n</a></li>
-</ul>
-
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/09/01/rails-i18n-timezone/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -851,6 +291,8 @@
 
 <time class='entry-date' datetime='2016-08-25T10:44:12+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:44 am</span></time>
         
+         | <a href="/blog/2016/08/25/activerecord-module-calculations/#disqus_thread">Comments</a>
+        
         
       </p>
     
@@ -859,178 +301,12 @@
 
   <div class="entry-content"><blockquote><p>擷取常用的methods</p></blockquote>
 
-<h2>Pluck</h2>
-
-<p>使用<a href="http://apidock.com/rails/ActiveRecord/Calculations/pluck">pluck</a> 查詢想要的欄位資料，值已陣列回傳，值的類別同欄位型別(如果可以)</p>
-
-<p>也可以傳入sql 指令，例如：Distinct</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.all.map(&:name)
-</span><span class='line'>
-</span><span class='line'># equal to
-</span><span class='line'>
-</span><span class='line'>Person.pluck(:name)
-</span><span class='line'># SELECT people.name FROM people
-</span><span class='line'># =&gt; ["A", "B", "C"]
-</span><span class='line'>
-</span><span class='line'>Person.pluck(:id, :name)
-</span><span class='line'># SELECT people.id, people.name FROM people
-</span><span class='line'># =&gt; [[1, 'David'], [2, 'Jeremy'], [3, 'Jose']]
-</span><span class='line'>
-</span><span class='line'>Person.pluck('DISTINCT role')
-</span><span class='line'># SELECT DISTINCT role FROM people
-</span><span class='line'># =&gt; ['admin', 'member', 'guest']
-</span><span class='line'>
-</span><span class='line'>Person.where(age: 21).limit(5).pluck(:id)
-</span><span class='line'># SELECT people.id FROM people WHERE people.age = 21 LIMIT 5
-</span><span class='line'># =&gt; [2, 3]
-</span><span class='line'>
-</span><span class='line'>Person.pluck('DATEDIFF(updated_at, created_at)')
-</span><span class='line'># SELECT DATEDIFF(updated_at, created_at) FROM people
-</span><span class='line'># =&gt; ['0', '27761', '173']</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>與select 的差別在於，select 會取出model object，而pluck 只取出module value</p></blockquote>
-
-<p>使用Benchmark 測試一下兩者的執行時間</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>puts Benchmark.measure { User.select(:id).to_a }
-</span><span class='line'># User Load (0.6ms)  SELECT "users"."id" FROM "users"
-</span><span class='line'># 0.010000   0.000000   0.010000 (  0.014949)
-</span><span class='line'>
-</span><span class='line'>puts Benchmark.measure { User.pluck(:id) }
-</span><span class='line'># (0.8ms)  SELECT "users"."id" FROM "users"
-</span><span class='line'># 0.000000   0.000000   0.000000 (  0.004965)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>相較之下，pluck 的執行速度會比select 快</p>
-
-<p>是因為select 還要把結果轉model object，但是pluck 單純把結果轉array</p>
-
-<p>結論：如果只要單純取欄位的資料，請選擇<code>pluck</code></p>
-
-<h2>Count</h2>
-
-<p><a href="http://apidock.com/rails/v4.2.1/ActiveRecord/Calculations/count">Count</a> the records</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.count
-</span><span class='line'># =&gt; the total count of all people
-</span><span class='line'>
-</span><span class='line'>Person.count(:age)
-</span><span class='line'># =&gt; returns the total count of all people whose age is present in database
-</span><span class='line'>
-</span><span class='line'>Person.count(:all)
-</span><span class='line'># =&gt; performs a COUNT(*) (:all is an alias for '*')
-</span><span class='line'>
-</span><span class='line'>Person.distinct.count(:age)
-</span><span class='line'># =&gt; counts the number of different age values</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用group 會回傳Hash 值，並以key = column value, value = count amount 的方式表示</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.group(:city).count
-</span><span class='line'># =&gt; { 'Rome' =&gt; 5, 'Paris' =&gt; 3 }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果group 多個欄位，那key 就是欄位的組合</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Article.group(:status, :category).count
-</span><span class='line'># =&gt;  {["draft", "business"]=&gt;10, ["draft", "technology"]=&gt;4,
-</span><span class='line'>       ["published", "business"]=&gt;0, ["published", "technology"]=&gt;2}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用select 則是回傳select 後的筆數</p>
-
-<blockquote><p>並非所有正確的select 都會產生正確的count。會根據database 而有所不同。</p></blockquote>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.select(:age).count
-</span><span class='line'># =&gt; counts the number of different age values</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Maximum/Minimum</h2>
-
-<p><a href="http://apidock.com/rails/v4.2.1/ActiveRecord/Calculations/maximum">Maximum</a> 找出查詢欄位的最大值，查詢結果會根據欄位型別產生對應的物件類別，無資料則回傳<code>nil</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.maximum(:age) # =&gt; 93</span></code></pre></td></tr></table></div></figure>
-
-
-<p>同上，但是<a href="http://apidock.com/rails/v4.2.1/ActiveRecord/Calculations/minimum">Minimum</a>查詢最小值</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.minimum(:age) # =&gt; 7</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Sum/Average</h2>
-
-<p><a href="http://apidock.com/rails/ActiveRecord/Calculations/sum">Sum</a> 計算查詢欄位的總和，無資料則回傳0</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.sum(:age) # =&gt; 4562</span></code></pre></td></tr></table></div></figure>
-
-
-<p><a href="http://apidock.com/rails/ActiveRecord/Calculations/average">Average</a> 計算欄位的平均值，無資料則回傳<code>nil</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Person.average(:age) # =&gt; 35.8</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>References</h2>
-
-<ul>
-<li><a href="http://apidock.com/rails/ActiveRecord/Calculations/">ActiveRecord-Calculations</a></li>
-</ul>
-
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/25/activerecord-module-calculations/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -1052,117 +328,20 @@
 
 <time class='entry-date' datetime='2016-08-24T14:09:59+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:09 pm</span></time>
         
+         | <a href="/blog/2016/08/24/ruby-nil_empty_blank/#disqus_thread">Comments</a>
+        
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>nil?</h2>
-
-<p>可使用在任何的<code>object</code>，檢查是否為<code>nil</code>，如果是<code>nil</code>會回傳<code>true</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>a = "str"
-</span><span class='line'>b = nil
-</span><span class='line'>
-</span><span class='line'>a.nil? # false
-</span><span class='line'>b.nil? # true</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>empty?</h2>
-
-<p>可使用在<code>String</code>、<code>Array</code>、<code>Hash</code>，如果為長度為0 會回傳<code>true</code></p>
-
-<p>如果object 是<code>nil</code>，使用empty? 會出現<code>NoMethodError</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>a = ""
-</span><span class='line'>b = []
-</span><span class='line'>c = {}
-</span><span class='line'>
-</span><span class='line'>a.empty? # true
-</span><span class='line'>b.empty? # true
-</span><span class='line'>c.empty? # true</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>blank?</h2>
-
-<p>這實作在Rails ，是empty? 的強化版，不受限在<code>String</code>、<code>Array</code>、<code>Hash</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>nil.blank?    # true
-</span><span class='line'>false.blank?  # true
-</span><span class='line'>[].blank?     # true
-</span><span class='line'>{}.blank?     # true
-</span><span class='line'>"".blank?     # true
-</span><span class='line'>5.blank?      # false
-</span><span class='line'>0.blank?      # false</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>But</strong> 如果空白字串，會認定為<code>true</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>"  ".blank? # false
-</span><span class='line'>"  ".empty? # true</span></code></pre></td></tr></table></div></figure>
-
-
-<p>注意：如果陣列的值都是空字串或是nil，會回傳true</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>['',nil].blank? # ture</span></code></pre></td></tr></table></div></figure>
-
-
-<p>可以使用.all? + blank? 的方式來檢查陣列的值</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>['',nil].all? &:blank # true</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>present?</h2>
-
-<p>這也是實作在Rails 但跟<code>blank?</code> 的判斷完全顛倒</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>nil.present?    # false
-</span><span class='line'>false.present?  # false
-</span><span class='line'>[].present?     # false
-</span><span class='line'>{}.present?     # false
-</span><span class='line'>"".present?     # false
-</span><span class='line'>5.present?      # true
-</span><span class='line'>0.present?      # true</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>總結</h2>
-
-<p>剛剛測試的結果，已經有整理成一份表格，可以透過表格查看要使用什麼方式來檢查boolean 值~</p>
-
-<p><img src="/images/posts/2016082401.jpg" alt="nil_empty_blank_present" /></p>
-</div>
+  <div class="entry-content"></div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/24/ruby-nil_empty_blank/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -1184,154 +363,20 @@
 
 <time class='entry-date' datetime='2016-08-22T17:17:21+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>5:17 pm</span></time>
         
+         | <a href="/blog/2016/08/22/activerecord-module-enum/#disqus_thread">Comments</a>
+        
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>ActiveRecord::Enum</h2>
-
-<h3>目的</h3>
-
-<p>宣告文字用來說明欄位中數字的意義，以下介紹兩種方式，也可順便解釋使用enum 的好處</p>
-
-<p>假設Conversation 有個status 的欄位，建立常數，使用Hash 表示 0、1，分別代表active、archived</p>
-
-<h3>w/o Enum</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module Conversation
-</span><span class='line'>  STATUS = { 0 =&gt; "active", 1 =&gt; "archived" }
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>conversation = Conversation.last
-</span><span class='line'>STATUS[conversation.status] # active or archived</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>w/ Enum</h3>
-
-<blockquote><p>官方建議：欄位必須建立預設值</p></blockquote>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Conversation &lt; ActiveRecord::Base
-</span><span class='line'>  enum status: {
-</span><span class='line'>    active: 0,
-</span><span class='line'>    archived: 1
-</span><span class='line'>  }
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看總共有哪些狀態(名字加複數)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Conversation.statuses
-</span><span class='line'># { "active"=&gt;0, "archived"=&gt;1 }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看目前狀態</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>conversation = Conversation.last
-</span><span class='line'>conversatino.active!
-</span><span class='line'>conversation.status # active</span></code></pre></td></tr></table></div></figure>
-
-
-<p>變更欄位狀態</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>conversation = Conversation.last
-</span><span class='line'>conversatino.archived!
-</span><span class='line'>conversatino.archived?  #true</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查詢是否為此狀態</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>conversation = Conversation.last
-</span><span class='line'>conversatino.active!
-</span><span class='line'>conversatino.active?    #true
-</span><span class='line'>conversatino.archived?  #false</span></code></pre></td></tr></table></div></figure>
-
-
-<p>當作where 查詢條件</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Conversation.where(status: [:active, :archived])</span></code></pre></td></tr></table></div></figure>
-
-
-<p>加入_prefix</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Conversation &lt; ActiveRecord::Base
-</span><span class='line'>  enum comments_status: [:active, :inactive], _prefix: :comments
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>conversation.comments_inactive!
-</span><span class='line'>conversation.comments_active? # =&gt; false</span></code></pre></td></tr></table></div></figure>
-
-
-<p>加入_suffix</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Conversation &lt; ActiveRecord::Base
-</span><span class='line'>  enum status: [:active, :archived], _suffix: true
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>conversation.active_status!
-</span><span class='line'>conversation.archived_status? # =&gt; false</span></code></pre></td></tr></table></div></figure>
-
-
-<p>轉成陣列 (options_for_select)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Conversation.statuses.invert.to_a # [[0, "active"], [1, "archived"]]</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>優點</h3>
-
-<ul>
-<li>database 仍儲存數字代碼，查詢速度較快</li>
-<li>程式部分仍可以使用文字方式開發，提高閱讀性</li>
-</ul>
-
-
-<h3>References</h3>
-
-<ul>
-<li><a href="http://edgeapi.rubyonrails.org/classes/ActiveRecord/Enum.html">ActiveRecord::Enum</a></li>
-</ul>
-
-</div>
+  <div class="entry-content"></div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/22/activerecord-module-enum/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -1353,95 +398,20 @@
 
 <time class='entry-date' datetime='2016-08-21T10:54:21+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>10:54 am</span></time>
         
+         | <a href="/blog/2016/08/21/logic-show-184/#disqus_thread">Comments</a>
+        
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><img src="/images/posts/2016082101.jpg" alt="Logic Show" /></p>
-
-<blockquote><p>本集雖說是如何成為一個高手，但實質是說明學習的目的和如何自己建立一套有效的學習方法</p>
-
-<p>「學習」的本質就是脫離舒適區</p>
-
-<p>學習的過程就是把新東西和自己原來的結構縫在一起</p></blockquote>
-
-<h2>先說見解</h2>
-
-<ol>
-<li>評論性見解：各自提出見解，但不解決問題</li>
-<li>工程學見解：拆解為具體的行為，把問題解決掉</li>
-</ol>
-
-
-<h2>刻意練習</h2>
-
-<h3>練習</h3>
-
-<ul>
-<li>基本功（套路）：知識罐頭，把前人已經搞明白的東西，抽象為一個非常簡潔的東西，然後我們拿來就用
-
-<ul>
-<li>套路一：書上找不到，但這行的前輩總結<strong>最值錢的經驗</strong></li>
-<li>套路二：<strong>概念</strong>了解清晰的內涵和外延，其實你把整坨的知識全部拿到手，因此在累積知識的過程，一定要學這些概念，把它打磨清楚</li>
-</ul>
-</li>
-<li><p>真正的練習：把大的知識體系拆碎，成為一個個小模塊（知識罐頭），然後分頭練習，這才是真正的練習。例如：吉他演奏家，就要練爬格子、鋼琴演奏家，就要練哈農指法訓練、運動選手，某個特定球員身上某個特定的肌肉群訓練。簡言之，<strong>學習別人的套路</strong></p></li>
-<li><p>除了套路，最關鍵還是要<strong>反覆地重複訓練</strong>，因為大腦就是要靠重複訓練，來產生神經網路</p></li>
-<li><p>總結：針對性重複地練習，就是練習的本質 :+1:</p></li>
-</ul>
-
-
-<h3>刻意</h3>
-
-<ul>
-<li><p>持續不斷做你不會做的事 （這很重要，所以說三遍!!!）</p></li>
-<li><p>心理學界把人的學習分成三個區：舒適區（都擅長）> 學習區/脫離舒適區 > 恐慌區（都不會）</p></li>
-<li><p>刻意去學習，也才會成爲高手，例如：玩遊戲，圖個爽只是被遊戲玩，反而要脫離舒適，專研地圖或是計算遊戲公式，才能成為高手</p></li>
-<li><p>脫離舒適：不是找完全看不懂的天書，而是找對自己專業有挑戰的書，這樣讀書才真正有效</p></li>
-<li><p>以Tiger Woods 為例：在揮竿時，如果覺得受到干擾或出現意外狀況，可以立刻停止揮竿。永遠不讓自己進入舒適區，平時訓練經常找高難度的情形，任何一個動作都進入失控狀態，他要去控制每個動作</p></li>
-<li><p>對專業高爾夫球選手來說，Tiger 這是特別厲害的能力，畢竟揮竿早就成為肌肉記憶，下意識的動作，看起來非常熟練，但本質上也是失控的，因為大腦已經起不了作用，萬一如果球場出現意外狀況，肯定是打不好的</p></li>
-<li><p>基本訓練：可以透過長久訓練，帶入舒適區，形成肌肉記憶</p></li>
-<li><p>中國教育：以考試為中心，一個確定性的結局，因此成績好的學生，只要將考試的內容背的滾瓜爛熟，誘導自己進入舒適區，但高考狀元在事業發展反而不太順利</p></li>
-<li><p>其實工作能力就是學習能力：因為在舒適區待久了，對新知識的強烈挑戰慾望，沒有學生時期那麼強</p></li>
-<li><p>以Zuckerberg 為例：他的行為就是不斷挑戰非舒適區，每一年都給自己下一個全新的任務，2010 學中文、2011 只吃自己親手殺死的動物、2012 重新學習自己寫程式&hellip;</p></li>
-<li><p>一般人要如何成為高手：讓自己進入一個好的學習環境，被動的被脫離舒適區，進入學習區</p></li>
-<li><p>什麼是好的學習環境：能夠即時提供回饋的環境，就是你每個微小的進步，外界都會給你回饋，告訴你對還是錯。例如：上網寫小說，讀者能夠即時給予回饋、籃球教練，針對為小錯誤的動作給予回饋、貝爾實驗室，有個不成文規定，只要年輕人問問題，不能迴避，必須給予回答</p></li>
-<li><p>研究所的教授或導師，英文稱為adviser，字也能翻成顧問，也就是導師不斷的對我們所做的事情，提供即時的回饋，導師的本質其實是顧問的角色</p></li>
-<li><p>師徒制是未來人類學習的總方向：互相切搓學問，任何一點增長或疑問，都能得到及時回饋</p></li>
-</ul>
-
-
-<h2>學習過程</h2>
-
-<ul>
-<li><p>以此書討論網路與學習過程<a href="http://www.books.com.tw/products/CN10715146">淺薄︰互聯網如何毒化了我們的大腦</a></p></li>
-<li><p>網路的出現，使人類學習構建一種障礙，甚至是一點點地摧毀深度思考的能力</p></li>
-<li><p>網路讓知識來源變得豐富，但對於學習者或閱讀者，帶來另一種負擔，要不斷地選擇做什麼的決策，這都是被聰明人所設計一種套路</p></li>
-<li><p>Google：讓使用者可快速做決策，透過搜尋讓使用者快進快出，也是他們的核心策略，如此廣告才能賺錢</p></li>
-<li><p>網路讓人類進入一種非常沈重的決策負擔，人類是由大腦前額葉做出理性的決策，但前額葉不負責學習，也就是選擇的時候，並沒有在學習</p></li>
-<li><p>真正在學習的大腦：不斷把新的訊息和原本的知識結構縫接，在編制一個密不可分的網絡，所有的高手特點是，看到新的東西，馬上跟自己腦中的記憶結合</p></li>
-<li><p>信息：一堆碎的東西</p></li>
-<li><p>知識：必須是信息形成結構，互相之間形成關聯之後，再進入庫存，這才叫知識</p></li>
-<li><p>每個信息在高手腦子里，是活的且有關聯的，而且和他的實踐操作有關係</p></li>
-<li><p>真正的高手，家裡不藏書，但有做筆記</p></li>
-<li><p>筆記是什麼：把書裡面的信息跟自己記憶結構，正在生長的結構對接出來的產物，就是一個人大腦的外掛</p></li>
-<li><p>儲存想看的網路文章：實際上，儲存起來，就不會再打開，因此要強迫自己去看，並且得寫一個心得，目的是為了跟這個知識形成一次互動，也就是學習</p></li>
-<li><p>例如：看美劇學英文，如果只是看中英字幕，永遠學不會的，應該把單字或句子做成筆記，跟知識有互動</p></li>
-<li><p>人類不僅創造工具，工具也反過來塑造人類，世上出現一個新工具，一定連接產生兩個結果，一是工具帶來便利性，二是把人類分成兩群，一群是享受工具的舒適區，另一群則是帶著工具產生新的可能，探索文明的新邊疆，例如：自動翻譯機，一群人就是不需要苦學英文，享受自動翻譯，另一群人就帶著這個深入了解外國人的主流社會</p></li>
-<li><p>大部分人智商都差不多的，只有極～少部份人是高智商或低智商，但認知就不同，是冪律分佈，只有極少的人能到達認知的高層，背後是通過不斷的練習，不斷獲得認知的回饋，也就不斷提高認知</p></li>
-</ul>
-
-
-<h2>Youtube</h2>
-
-<ul>
-<li><a href="https://www.youtube.com/watch?v=4JhlfRAzVKY">Logic show ep.184</a></li>
-</ul>
-
-</div>
+  <div class="entry-content"></div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/21/logic-show-184/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -1463,6 +433,8 @@
 
 <time class='entry-date' datetime='2016-08-10T00:07:13+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:07 am</span></time>
         
+         | <a href="/blog/2016/08/10/ruby-proc-lamdba-yield/#disqus_thread">Comments</a>
+        
         
       </p>
     
@@ -1473,745 +445,12 @@
 
 <p>順便寫一篇記錄Proc Class 的基本應用，不是很好入門，但是多看幾次就能慢慢了解其中意義</p></blockquote>
 
-<h2>Proc</h2>
-
-<p>Proc 為一種<strong>匿名</strong>區塊(Block) 物件，根據傳入的參數執行邏輯運算</p>
-
-<p>如果傳入數量與宣告不同，則以<code>nil</code> 替代</p>
-
-<h3>宣告 &amp; 執行</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># 宣告1
-</span><span class='line'>proc1 = Proc.new do |x|
-</span><span class='line'>    puts x
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'># 宣告2
-</span><span class='line'>proc2 = proc do |x|
-</span><span class='line'>    puts x
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'># Proc#call
-</span><span class='line'>proc1.call("hello world")  # hello world
-</span><span class='line'>
-</span><span class='line'># Proc#[]
-</span><span class='line'>proc2["hey, how are you?"] # hey, how are you?</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Feature of Closure</h3>
-
-<p>可透過Proc 達到closure 的目的</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def counter
-</span><span class='line'> c=0
-</span><span class='line'> Proc.new do c += 1 end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>c1 = counter
-</span><span class='line'>c2 = counter
-</span><span class='line'>
-</span><span class='line'>c1.call # 1
-</span><span class='line'>c1.call # 2
-</span><span class='line'>c2.call # 1</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Lambda</h2>
-
-<p>Proc 的另一種寫法，稱為lambda。創建出來的也是Proc 物件，通過lambda 建立的Proc 其行為更接近method。</p>
-
-<h3>宣告 &amp; 執行</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lambda1 = lambda do |x|
-</span><span class='line'>  return x
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>lambda1.call("hello world")
-</span><span class='line'>lambda1["hey, ok"]
-</span><span class='line'>
-</span><span class='line'># 另一種宣告方式 -&gt;(參數) { 邏輯處理 }
-</span><span class='line'>lambda2 = -&gt;(x) { return x * 2 }
-</span><span class='line'>lambda2.call("hello world")
-</span><span class='line'>lambda2["ok, fine!"]</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>與Proc 差異</h3>
-
-<ol>
-<li>傳入參數數量需與宣告時一致</li>
-<li><strong>(重要)可以使用return 將值傳回 (Proc 遇到return  就會跳出區域並結束)</strong></li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def power_of(n)
-</span><span class='line'>  lambda do |x|
-</span><span class='line'>    return x ** n
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>cube = power_of(3)
-</span><span class='line'>cube.call(5)  # 125
-</span><span class='line'>
-</span><span class='line'># using Proc
-</span><span class='line'>def power_of(n)
-</span><span class='line'>  Proc.new do |x|
-</span><span class='line'>    return x ** n
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>cube = power_of(3)
-</span><span class='line'>cube.call(5)  # LocalJumpError</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>to_proc 方法</h3>
-
-<p>有些object 可以使用<code>#to_proc</code>，如果傳入的參數有加上 <code>&amp;</code> Symbol，則#to_proc 就會自動調用，進而生成Proc Object</p>
-
-<p>可能需要一點時間熟悉這樣的寫法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>%w(42 52 14).map { |n| n.to_i }
-</span><span class='line'>
-</span><span class='line'># 上下相同
-</span><span class='line'>
-</span><span class='line'>%w(42 52 14).map(&:to_i)</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>yield</h2>
-
-<p>蠻頭痛的，這題不知道要寫在ruby method 還是在這，但思考之後，認為先有了Proc 的觀念，再來討論這個，或許會更了解吧！</p>
-
-<p>這有點類似 Java 的abstract class，將method 要實作的部分放<code>yield</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def my_method_no_arg
-</span><span class='line'>  puts "warm up 1"
-</span><span class='line'>  yield
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>def my_method_with_arg
-</span><span class='line'>  puts "warm up 2"
-</span><span class='line'>  # yield('james')
-</span><span class='line'>  yield(%W(a b))
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>my_method_no_arg do
-</span><span class='line'>  puts "running alone"
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>my_method_with_arg do |friends|
-</span><span class='line'>    # puts friends.class
-</span><span class='line'>    if friends.class == String
-</span><span class='line'>      puts "running with #{friends}"
-</span><span class='line'>    else
-</span><span class='line'>      friends.each do |friend|
-</span><span class='line'>        puts "running with #{friend}"
-</span><span class='line'>      end
-</span><span class='line'>    end
-</span><span class='line'>end
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>總結</h2>
-
-<ul>
-<li><code>yield = &amp;block + block.call()</code></li>
-<li><code>&amp;block = Proc | Lambda</code></li>
-</ul>
-
-
-<h2>References</h2>
-
-<ul>
-<li>RailsFun.tw 新手教學</li>
-<li>Ruby Programming ver.4</li>
-</ul>
-
 </div>
   
   
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/08/08/ruby-module/">Ruby Module - Namespace | Mixin | Include | Extend</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-08-08T15:26:54+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:26 pm</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>module 算是Ruby 的獨有特色，瞭解後在程式開發或是閱讀原始碼有很大的幫助</p></blockquote>
-
-<h2>宣告</h2>
-
-<p>示範module 內是可以包含多種內容，但實際在設計時，還是依照功能分類</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Module name 第一個字必需大寫
-</span><span class='line'>module Module_name
-</span><span class='line'>  # adding class
-</span><span class='line'>  class MyClass
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  # adding method
-</span><span class='line'>  def myMethod
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  # namespace
-</span><span class='line'>  module another_moudle_name
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>用途</h2>
-
-<ul>
-<li>NameSpace</li>
-<li>Mixin</li>
-</ul>
-
-
-<h3>NameSpace</h3>
-
-<p>用來區分命名空間，當有相同命名時，可透過module 區分命名空間</p>
-
-<h3>Mixin</h3>
-
-<p>因為Ruby Class有單一繼承的限制。所以就可透過此方法，擴充Class 的功能</p>
-
-<p>Mixin 分成兩類：</p>
-
-<ol>
-<li><p>include：class instance 才能操作</p></li>
-<li><p>extend：不需instance 就可以透過 <code>class_name.method_name</code> 操作</p></li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module Power
-</span><span class='line'>  def calPower(num)
-</span><span class='line'>    num ** num
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>module StringUtil
-</span><span class='line'>  def repeating(num, string)
-</span><span class='line'>    string * num
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>class Example
-</span><span class='line'>  include Power
-</span><span class='line'>  extend StringUtil
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>p Example.new.calPower(2) # 4
-</span><span class='line'>p Example.repeating(2,"a") # "aa"</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>單獨操作Module</h2>
-
-<p>以上介紹都是把module 放在class 內，再透過mixin 方式操作，但如果想要直接操作可以根據以下方式：</p>
-
-<ul>
-<li>module_function</li>
-<li>self.method</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module CompanyA
-</span><span class='line'>  def greeting(name)
-</span><span class='line'>    "Hello #{name} at CompanyA"
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  module_function :greeting
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'># 上下功能相同
-</span><span class='line'>module CompanyB
-</span><span class='line'>  def self.greeting(name)
-</span><span class='line'>    "Hello #{name} at CompanyB"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>p CompanyA.greeting("JT") # "Hello JT at CompanyA"
-</span><span class='line'>p CompanyB.greeting("JT") # "Hello JT at CompanyB"</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>References</h2>
-
-<ul>
-<li>Ruby Programming ver.4</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/08/06/ruby-class/">Ruby Class - Inheritance | Class_method | Instance_method | Class_eval | Instance_eval</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-08-06T11:42:18+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:42 am</span></time>
-        
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>Ruby 萬物皆物件</p>
-
-<p>Class 可以生成(new) 物件</p>
-
-<p>抽象化的概念很重要</p></blockquote>
-
-<h2>宣告</h2>
-
-<ul>
-<li>Class name 第一個字必需大寫</li>
-<li>initialize 只在初始化設定</li>
-<li>instance variable：以＠開頭命名，使用域在instance</li>
-<li>class variable：以＠＠開頭命名，等同此class 的全域變數，也就是class 的instance 都可以存取此變數</li>
-<li>class method 也可以設定pubic, protected, private 等存取權限</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Class_name
-</span><span class='line'>   def initialize(input=defalt_value)
-</span><span class='line'>     #...
-</span><span class='line'>   end
-</span><span class='line'>
-</span><span class='line'>   def methodA
-</span><span class='line'>     #...
-</span><span class='line'>   end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>可以使用 <code>.class</code> 查看instance 是哪個class</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>p [].class    # Array
-</span><span class='line'>p "abc".class # String</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>存取類別資料</h2>
-
-<ul>
-<li>method 直接設定</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass
-</span><span class='line'>  @name
-</span><span class='line'>
-</span><span class='line'>  def name  # getter
-</span><span class='line'>    @name
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def name=(name) # setter
-</span><span class='line'>    @name = name
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>設定Accessor</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass
-</span><span class='line'>  attr_reader  :name  // 同MyClass#name
-</span><span class='line'>  attr_writer  :name  // 同MyClass#name=
-</span><span class='line'>  attr_acessor :name  // 等於以上兩種方法
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Class Method</h2>
-
-<p>不需要instance 就可以呼叫class.method，同Java 的static</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># 方法一
-</span><span class='line'>class &lt;&lt; MyClass
-</span><span class='line'>  def methodA
-</span><span class='line'>    puts "Hello"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'># 方法二
-</span><span class='line'>class MyClass
-</span><span class='line'> class &lt;&lt; self
-</span><span class='line'>   def methodA
-</span><span class='line'>     puts "Hello"
-</span><span class='line'>   end
-</span><span class='line'> end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'># 方法三
-</span><span class='line'>class MyClass
-</span><span class='line'>  def self.methodA
-</span><span class='line'>    puts "Hello"
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>繼承</h2>
-
-<ul>
-<li>只能單一繼承，也就是一個子類別只能有一個父類別（很重要！）</li>
-<li>Object 是Ruby 所有class 的父類別，而Object 繼承BasicObject</li>
-<li>如果沒有繼承，Ruby 默認所有class 為Object 的子類別</li>
-<li>使用<code>is_a?</code> 或<code>.instance_of?</code> 確認是否為屬於（繼承）此類別</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[].is_a?(Array)  # true
-</span><span class='line'>"".is_a?(String) # true
-</span><span class='line'>
-</span><span class='line'>p [].instance_of?(Array)  # true
-</span><span class='line'>p [].instance_of?(String) # false
-</span><span class='line'>p "".instance_of?(String) # true</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>使用 <code>&lt;</code> 繼承super class</li>
-<li>使用<code>super()</code> 呼叫父類別中同名稱的method</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class RingAry &lt; Array
-</span><span class='line'>  def [](i)
-</span><span class='line'>   idx = i % size
-</span><span class='line'>   super(idx)
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>CLASS_EVAL、INSTANCE_EVAL</h2>
-
-<ul>
-<li>instance_eval 定義class method，也可以使用 &lt;&lt; 替代</li>
-<li>class_eval 定義instance method</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Foo = Class.new
-</span><span class='line'>Foo.class_eval do
-</span><span class='line'>  def class_bar
-</span><span class='line'>    "class_bar"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>Foo.instance_eval do
-</span><span class='line'>  def instance_bar
-</span><span class='line'>    "instance_bar"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>Foo.class_bar       #=&gt; undefined method ‘class_bar’ for Foo:Class
-</span><span class='line'>Foo.new.class_bar   #=&gt; "class_bar"
-</span><span class='line'>Foo.instance_bar       #=&gt; "instance_bar"
-</span><span class='line'>Foo.new.instance_bar   #=&gt; undefined method ‘instance_bar’ for #&lt;Foo:0x7dce8&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>alias、 undef</h2>
-
-<p>設定或取消 method 的別名</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># alias origin_name new_name
-</span><span class='line'># alias :origin_name :new_name
-</span><span class='line'>class C1
-</span><span class='line'>  def hello
-</span><span class='line'>   "hello"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>class C2 &lt; C1
-</span><span class='line'>  alias super_hello hello
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>p C2.new.super_hello # "hello"
-</span><span class='line'>
-</span><span class='line'># undef method
-</span><span class='line'># undef :method
-</span><span class='line'>class C1
-</span><span class='line'>  def methodA
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>class C2 &lt; C1
-</span><span class='line'>  undef methodA
-</span><span class='line'>  # ...
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>References</h2>
-
-<ul>
-<li>Ruby Programming ver.4</li>
-</ul>
-
-</div>
-  
+    <footer>
+      <a rel="full-article" href="/blog/2016/08/10/ruby-proc-lamdba-yield/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -2234,17 +473,39 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - James Tong -
+  Copyright &copy; 2017 - James Tong -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
 </p>
 
 </footer>
   
 
+<script type="text/javascript">
+      var disqus_shortname = 'rt-tong-blog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 
 
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 
 

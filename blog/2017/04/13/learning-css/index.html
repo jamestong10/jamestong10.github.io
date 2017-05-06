@@ -1,0 +1,555 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Learning CSS - JT's Blog</title>
+  <meta name="author" content="James Tong">
+
+  
+  <meta name="description" content="Learning Css">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://rt-tong.com/blog/2017/04/13/learning-css">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="JT's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" type="text/css">
+<!--- MathJax Configuration -->
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67847667-3', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">JT's Blog</a></h1>
+  
+    <h2>Do the right things and do the things right.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscribe" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewbox="0 0 100 100"><path class="social" d="M 13.310204,73.332654 C 5.967347,73.332654 0,79.322448 0,86.621428 c 0,7.338776 5.967347,13.262246 13.310204,13.262246 7.370408,0 13.328572,-5.92245 13.328572,-13.262246 0,-7.29898 -5.958164,-13.288774 -13.328572,-13.288774 z M 0.01530612,33.978572 V 53.143878 C 12.493878,53.143878 24.229592,58.02347 33.068368,66.865306 41.894898,75.685714 46.767346,87.47449 46.767346,100 h 19.25 C 66.017346,63.592858 36.4,33.979592 0.01530612,33.978572 l 0,0 z M 0.03877552,0 V 19.17449 C 44.54796,19.17551 80.77551,55.437756 80.77551,100 H 100 C 100,44.87653 55.15102,0 0.03877552,0 z"></path></svg></a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+<ul class="subscribe">
+  <li><a href="https://github.com/jamestong10" rel="subscribe-github" title="@jamestong10 on GitHub" target="_blank"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewbox="0 0 100 100"><path class="social" d="M 50,0 C 22.385714,0 0,22.385714 0,50 0,77.614286 22.385714,100 50,100 77.614286,100 100,77.614286 100,50 100,22.385714 77.614286,0 50,0 z m 29.692858,79.692858 c -3.859184,3.859182 -8.351022,6.887754 -13.35,9.00306 -1.27041,0.536736 -2.560204,1.009184 -3.867348,1.415306 v -7.493878 c 0,-3.938774 -1.35102,-6.835714 -4.053062,-8.690816 1.692858,-0.163264 3.24694,-0.390816 4.663266,-0.683672 1.416326,-0.292858 2.913266,-0.716328 4.491838,-1.27041 1.57857,-0.55408 2.994896,-1.213264 4.247958,-1.97755 1.253062,-0.765306 2.458164,-1.758164 3.613266,-2.978572 1.155102,-1.220408 2.12449,-2.604082 2.905102,-4.15 0.780612,-1.545918 1.4,-3.40204 1.855102,-5.566326 0.455102,-2.164286 0.683674,-4.54898 0.683674,-7.153062 0,-5.045918 -1.643878,-9.341836 -4.931634,-12.890816 C 77.44796,33.35 77.285714,29.10204 75.463266,24.512244 l -1.22143,-0.145918 c -0.845918,-0.09796 -2.368366,0.260204 -4.565306,1.07449 -2.196938,0.814286 -4.663264,2.14796 -7.396938,4.004082 -3.87449,-1.07449 -7.893878,-1.611224 -12.061224,-1.611224 -4.19898,0 -8.203062,0.536734 -12.012246,1.611224 -1.72449,-1.17245 -3.361224,-2.139796 -4.907142,-2.905102 C 31.753062,25.77449 30.516326,25.254082 29.587756,24.97653 28.660204,24.7 27.79796,24.528572 27,24.463266 c -0.79796,-0.0653 -1.310204,-0.08062 -1.537756,-0.04898 -0.22755,0.03164 -0.390816,0.0653 -0.487754,0.09796 -1.82347,4.62245 -1.985714,8.87143 -0.487756,12.743878 -3.287754,3.54796 -4.931632,7.844898 -4.931632,12.890816 0,2.604082 0.227552,4.988776 0.683674,7.153062 0.456122,2.164286 1.07449,4.020408 1.855102,5.566326 0.780612,1.545918 1.75,2.929592 2.905102,4.15 1.155102,1.220408 2.360204,2.213266 3.613264,2.978572 1.253062,0.766326 2.669388,1.42449 4.24796,1.97755 1.578572,0.554082 3.07551,0.976532 4.491836,1.27041 1.416328,0.292856 2.970408,0.521428 4.663266,0.683672 -2.669388,1.82347 -4.004082,4.720408 -4.004082,8.690816 v 7.639796 C 36.536734,89.818368 35.083674,89.3 33.656122,88.695918 c -4.99898,-2.115306 -9.490816,-5.143878 -13.35,-9.00306 -3.859184,-3.859184 -6.887754,-8.351022 -9.00306,-13.35 C 9.1163263,61.171428 8.0071428,55.67347 8.0071428,50 c 0,-5.67347 1.1091835,-11.171428 3.2969392,-16.342858 2.115306,-4.998978 5.143878,-9.490816 9.00306,-13.35 3.859184,-3.859182 8.351022,-6.887754 13.35,-9.00306 C 38.828572,9.1163266 44.32653,8.0071428 50,8.0071428 c 5.67347,0 11.171428,1.1091838 16.342858,3.2969392 5,2.115306 9.490816,5.143878 13.35,9.00306 3.859182,3.859184 6.887754,8.351022 9.00306,13.35 2.186736,5.17245 3.295918,10.67041 3.295918,16.342858 0,5.672448 -1.109182,11.171428 -3.296938,16.342858 -2.115306,4.998978 -5.143878,9.490816 -9.00204,13.35 l 0,0 z"></path></svg></a></li>
+</ul>
+  
+  
+  
+  
+  
+  
+  
+  
+    
+      <form action="https://www.google.com/search" method="get">
+        <fieldset role="search">
+          <input type="hidden" name="sitesearch" value="rt-tong.com" />
+    
+          <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+        </fieldset>
+      </form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Learning CSS</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-04-13T13:31:59+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>1:31 pm</span></time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!-- more -->
+
+
+<h2>Selector</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#  HTML id    attribute
+</span><span class='line'>.  HTML class attribute
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>套用順序性</h3>
+
+<ul>
+<li>權限：id 的優先權大於class，class 的優先權又大於其他元素</li>
+<li>套用順序：由上到下，相同class name，套用最後後面執行的效果 （當然也要考慮權重問題）</li>
+</ul>
+
+
+<h3>Selector 規則</h3>
+
+<p><a href="http://codepen.io/jamestong10/pen/LRorBr">codepen</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 同時有這兩個class 才會套用
+</span><span class='line'>.classA.classB
+</span><span class='line'>
+</span><span class='line'># 父子關係 父親classA 第一層子元素classB 才會套用此css
+</span><span class='line'>.classA &gt; .classB
+</span><span class='line'>
+</span><span class='line'># 父孫關係 父親classA 所有子元素classB 皆會套用此css
+</span><span class='line'>.classA .classB
+</span><span class='line'>
+</span><span class='line'># 只要有 classA, classB 皆會套用
+</span><span class='line'>.classA, .classB</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Css Values</h2>
+
+<p>css 預設許多值，可以透過MDN Css (<a href="https://developer.mozilla.org/en-US/docs/Web/CSS">https://developer.mozilla.org/en-US/docs/Web/CSS</a>)查看每個css  有哪些預設值可以使用，以下使用 font-size (<a href="https://developer.mozilla.org/zh-TW/docs/Web/CSS/font-size">https://developer.mozilla.org/zh-TW/docs/Web/CSS/font-size</a>) 示範</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* Global values */
+</span><span class='line'>font-size: inherit;
+</span><span class='line'>font-size: initial;
+</span><span class='line'>font-size: unset;
+</span><span class='line'>
+</span><span class='line'>/* &lt;absolute-size&gt; values */
+</span><span class='line'>font-size: xx-small;
+</span><span class='line'>font-size: x-small;
+</span><span class='line'>font-size: small;
+</span><span class='line'>font-size: medium;
+</span><span class='line'>font-size: large;
+</span><span class='line'>font-size: x-large;
+</span><span class='line'>font-size: xx-large;
+</span><span class='line'>
+</span><span class='line'>/* &lt;relative-size&gt; values */
+</span><span class='line'>font-size: larger;
+</span><span class='line'>font-size: smaller;
+</span><span class='line'>
+</span><span class='line'>/* &lt;length&gt; values */
+</span><span class='line'>font-size: 12px;
+</span><span class='line'>font-size: 0.8em;
+</span><span class='line'>
+</span><span class='line'>/* &lt;percentage&gt; values */
+</span><span class='line'>font-size: 80%;</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Position</h2>
+
+<p><a href="http://codepen.io/jamestong10/pen/PbzvWN">codepen</a></p>
+
+<ul>
+<li>static: default</li>
+<li>relative: 相對位置</li>
+<li>absolute: 絕對位置</li>
+<li>fixed:    固定位置</li>
+</ul>
+
+
+<h2>Box-sizing</h2>
+
+<p>使用<code>box-sizing:border-box</code> 之後，width, height 就會包含 padding 和border 的寬度</p>
+
+<p><img src="/images/posts/2017041301.jpg" width="500" alt="border-box" /></p>
+
+<h2>Box-shadow</h2>
+
+<p>呈現陰影或光暈的效果</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>box-shadow: x y blur spread color inset;
+</span><span class='line'># 前面 4 個都是尺寸值 (length，不接受 %)
+</span><span class='line'># 水平位移距離 (x)
+</span><span class='line'># 垂直位移距離 (y)
+</span><span class='line'># 模糊強度 (blur)
+</span><span class='line'># 擴散強度 (spread)
+</span><span class='line'># 內陰影   (inset)</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Overflow</h2>
+
+<p>定義元素超過某個範圍的時候該如何呈現</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>overflow: auto;　  //預設會自動使用捲軸
+</span><span class='line'>overflow: visible; //顯示的文字或圖片會直接超出範圍，不使用捲軸。
+</span><span class='line'>overflow: hidden;　//自動隱藏超出的文字或圖片。
+</span><span class='line'>overflow: scroll;　//自動產生捲軸。
+</span><span class='line'>overflow: inherit; //繼承自父元素的可見性</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Flexbox</h2>
+
+<p>Flexbox 中文意思就是可伸縮靈活的盒子，所以它用途就是讓容器內的子項目能夠靈活改變寬、高、大小、排序&hellip;等</p>
+
+<p>要讓元素垂直置中非常好用</p>
+
+<ul>
+<li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">A Complete Guide to Flexbox</a></li>
+<li><a href="https://flexbox.io/">What the Flexbox</a></li>
+<li><a href="http://sweeteason.pixnet.net/blog/post/42781628">CSS Flexbox Layout 學習心得筆記</a></li>
+</ul>
+
+
+<h2>Pseudo Elements</h2>
+
+<p><a href="http://codepen.io/jamestong10/pen/VPPJYm">codepen</a></p>
+
+<p>常用的elements</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>::before
+</span><span class='line'>::after
+</span><span class='line'>::selection
+</span><span class='line'>::first-line
+</span><span class='line'>::first-letter</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Pseudo Classes</h2>
+
+<p><a href="http://codepen.io/jamestong10/pen/LxOZPd">codepen</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:active      # 常用在此連結與此頁面被點選時套用
+</span><span class='line'>:checked
+</span><span class='line'>:first-child # 取css selector 第一個 element
+</span><span class='line'>:last-child  # 取css selector 最後一個 element
+</span><span class='line'>:not()
+</span><span class='line'>:nth-child()</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Tips</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 置底 (父element 需要是position: relative)
+</span><span class='line'>position: absolute;
+</span><span class='line'>bottom: 0;
+</span><span class='line'>
+</span><span class='line'># 外面顯示inline 裡面顯示block
+</span><span class='line'># 根據內容大小縮放
+</span><span class='line'>display: inline-block;
+</span><span class='line'>
+</span><span class='line'># 浮動;如果是block 則是在左邊
+</span><span class='line'>float: left;
+</span><span class='line'># 情境：一個div 內有兩個div 一個要顯示在左邊、另一個顯示在右邊
+</span><span class='line'># http://codepen.io/jamestong10/pen/dpLqRL
+</span><span class='line'>
+</span><span class='line'># 文字特效。情境：不想要文字有下底線
+</span><span class='line'>text-decoration: none;
+</span><span class='line'>
+</span><span class='line'># 改變滑鼠游標形狀。情境：自己寫div link 可以套用
+</span><span class='line'>cursor: pointer;
+</span><span class='line'>
+</span><span class='line'># 設定最大高度、最大寬度
+</span><span class='line'>max-width: 800px
+</span><span class='line'>max-height: 800px
+</span><span class='line'>
+</span><span class='line'># 消除文字或元素之間的空白區塊
+</span><span class='line'># 方法1：在最大的div 使用，而內部需要把這屬性復原
+</span><span class='line'>.outer-block
+</span><span class='line'>  white-space: nowrap
+</span><span class='line'>.inner-block
+</span><span class='line'>  white-space: normal
+</span><span class='line'>
+</span><span class='line'># 方法2：在最大的div 使用，而內部需要把這屬性復原
+</span><span class='line'>.outer-block
+</span><span class='line'>  font-size: 0
+</span><span class='line'>.inner-block
+</span><span class='line'>  font-size: initial
+</span><span class='line'>
+</span><span class='line'># 使用「*」取的所有元素或子元素
+</span><span class='line'>*
+</span><span class='line'>  font-family: sans-serif
+</span><span class='line'>
+</span><span class='line'>.block
+</span><span class='line'>  *
+</span><span class='line'>    display: inline-block
+</span><span class='line'>
+</span><span class='line'># 水平正常，但垂直走鐘
+</span><span class='line'>vertical-align: top
+</span><span class='line'>
+</span><span class='line'># 產生有透明度的顏色
+</span><span class='line'>rgba(0,0,0,0.5)</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+
+
+  <span class="byline author vcard">Authored by <span class="fn">
+  
+    James Tong
+  
+  </span></span>
+
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-04-13T13:31:59+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>1:31 pm</span></time>
+      
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/css/'>css</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rt-tong.com/blog/2017/04/13/learning-css/" data-via="" data-counturl="http://rt-tong.com/blog/2017/04/13/learning-css/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-layout="button_count" data-send="false" data-width="300" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/09/11/use-vagrant-to-operating-virtual-box/" title="Previous Post: 使用Vagrant 操作Virtaul Boxes">&laquo; 使用Vagrant 操作Virtaul Boxes</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2017/05/04/rwd-conecpt/" title="Next Post: RWD Conecpt">RWD Conecpt &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+
+</div>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - James Tong -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'rt-tong-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://rt-tong.com/blog/2017/04/13/learning-css/';
+        var disqus_url = 'http://rt-tong.com/blog/2017/04/13/learning-css/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

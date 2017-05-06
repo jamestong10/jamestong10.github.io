@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://rt-tong.com/blog/2017/05/04/rwd-conecpt/</loc>
+<lastmod>2017-05-04T17:12:09+08:00</lastmod>
+</url>
+<url>
+<loc>http://rt-tong.com/blog/2017/04/13/learning-css/</loc>
+<lastmod>2017-04-13T13:31:59+08:00</lastmod>
+</url>
+<url>
 <loc>http://rt-tong.com/blog/2016/09/11/use-vagrant-to-operating-virtual-box/</loc>
 <lastmod>2016-09-11T00:45:21+08:00</lastmod>
 </url>
@@ -67,13 +75,13 @@
 <loc>http://rt-tong.com/blog/</loc>
 </url>
 <url>
+<loc>http://rt-tong.com/</loc>
+</url>
+<url>
 <loc>http://rt-tong.com/archives/</loc>
 </url>
 <url>
 <loc>http://rt-tong.com/blog/archives/</loc>
-</url>
-<url>
-<loc>http://rt-tong.com/</loc>
 </url>
 <url>
 <loc>http://rt-tong.com/about/</loc>
@@ -122,5 +130,14 @@
 </url>
 <url>
 <loc>http://rt-tong.com/blog/categories/virtualbox/</loc>
+</url>
+<url>
+<loc>http://rt-tong.com/blog/categories/css/</loc>
+</url>
+<url>
+<loc>http://rt-tong.com/blog/categories/rwd/</loc>
+</url>
+<url>
+<loc>http://rt-tong.com/posts/2/</loc>
 </url>
 </urlset>

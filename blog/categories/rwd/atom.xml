@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Rwd | JT's Blog]]></title>
+  <link href="http://rt-tong.com/blog/categories/rwd/atom.xml" rel="self"/>
+  <link href="http://rt-tong.com/"/>
+  <updated>2017-05-06T22:46:11+08:00</updated>
+  <id>http://rt-tong.com/</id>
+  <author>
+    <name><![CDATA[James Tong]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[RWD Conecpt]]></title>
+    <link href="http://rt-tong.com/blog/2017/05/04/rwd-conecpt/"/>
+    <updated>2017-05-04T17:12:09+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/05/04/rwd-conecpt</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Content-is-like-water-1980.jpg/800px-Content-is-like-water-1980.jpg" alt="content is like water" /></p>
+
+<blockquote><p>「內容就像水」，這是一個說明RWD原則的說法</p></blockquote>
+
+<h2>RWD</h2>
+
+<p>Responsive web design 響應式網頁設計，縮寫為RWD。一種網頁設計的技術做法，可使網頁在不同裝置上瀏覽，可自動對應不同的顯示內容。</p>
+
+<h2>Viewport</h2>
+
+<h3>目的</h3>
+
+<p>告訴瀏覽器目前的裝置（長、寬），做為CSS 套用基準</p>
+
+<h3>用法</h3>
+
+<pre><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+</code></pre>
+
+<ul>
+<li>width: 使用 device-width (裝置寬度) 作為可視區域的寬度。</li>
+<li>initial-scale: 文檔初始的比例，用 1 表示 100% ，範圍從 0.1 ~ 10 可任填。</li>
+<li>minimum-scale: 最小可以縮放到 0.8 比例。</li>
+<li>maximum-scale: 最大可以縮放到 2.0 比例。</li>
+<li>user-scalable: 是否允許使用者進行縮放。no 不允許；yes 允許。</li>
+</ul>
+
+
+<h2>Css3 Media Query</h2>
+
+<p>使用media query 決定要套用哪些css</p>
+
+<pre><code># media screen 檢查 screen
+# max-width: 540px 最大寬度為 540px
+# 符合以上條件就會套用 css
+
+@media screen and (max-width: 540px) {
+  font-size: 14px;
+}
+</code></pre>
+
+<p>可以參考下圖，設計不同裝置，顯示對應的樣式</p>
+
+<p><img src="/images/posts/2017050401.jpg" alt="each devise of rwd device" /></p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Responsive_web_design">RWD WIKI</a></li>
+<li><a href="https://lintongtong.gitbooks.io/rwd/content/">RWD 概念分享</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

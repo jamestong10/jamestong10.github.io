@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Virtualbox | JT's Blog]]></title>
   <link href="http://rt-tong.com/blog/categories/virtualbox/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2016-09-12T23:39:47+08:00</updated>
+  <updated>2017-05-06T22:46:11+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -18,7 +18,10 @@
     <link href="http://rt-tong.com/blog/2016/09/11/use-vagrant-to-operating-virtual-box/"/>
     <updated>2016-09-11T00:45:21+08:00</updated>
     <id>http://rt-tong.com/blog/2016/09/11/use-vagrant-to-operating-virtual-box</id>
-    <content type="html"><![CDATA[<p><img src="/images/posts/2016091201.jpg" alt="vagrant_virtulaBox" /></p>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p><img src="/images/posts/2016091201.jpg" alt="vagrant_virtulaBox" /></p>
 
 <h2>Why Vagrant + Virtual Box</h2>
 

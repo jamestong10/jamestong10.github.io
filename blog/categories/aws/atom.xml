@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Aws | JT's Blog]]></title>
   <link href="http://rt-tong.com/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2016-09-12T23:39:47+08:00</updated>
+  <updated>2017-05-06T22:46:11+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -18,7 +18,10 @@
     <link href="http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3/"/>
     <updated>2016-09-02T14:09:46+08:00</updated>
     <id>http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3</id>
-    <content type="html"><![CDATA[<h2>功能介紹</h2>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>功能介紹</h2>
 
 <h3>修圖軟體</h3>
 

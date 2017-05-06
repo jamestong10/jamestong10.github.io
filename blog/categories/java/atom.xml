@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | JT's Blog]]></title>
   <link href="http://rt-tong.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2016-09-12T23:39:47+08:00</updated>
+  <updated>2017-05-06T22:46:11+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -18,7 +18,10 @@
     <link href="http://rt-tong.com/blog/2016/07/28/java-enum/"/>
     <updated>2016-07-28T00:44:15+08:00</updated>
     <id>http://rt-tong.com/blog/2016/07/28/java-enum</id>
-    <content type="html"><![CDATA[<h2>在J2SE 5.0 之前，沒有Enum</h2>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>在J2SE 5.0 之前，沒有Enum</h2>
 
 <p>使用<code>static</code>與<code>final</code>兩個修飾詞建立常數變數</p>
 
