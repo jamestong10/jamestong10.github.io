@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="http://rt-tong.com/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2017-05-06T22:46:11+08:00</updated>
+  <updated>2017-05-09T17:04:36+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -12,6 +12,247 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Cookies-and-Sessions]]></title>
+    <link href="http://rt-tong.com/blog/2017/05/09/cookies-and-sessions/"/>
+    <updated>2017-05-09T16:21:35+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/05/09/cookies-and-sessions</id>
+    <content type="html"><![CDATA[<h1><a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Cookies">Cookies</a> (Session cookies)</h1>
+
+<p>因爲 HTTP 協定是無狀態((Stateless)，所以server 端無法得知使用者在前端的操作，因此設計 cookie 來解決這個問題。</p>
+
+<h2>目的：</h2>
+
+<ul>
+<li>管理session：例如：使用者是否登入，購物車明細</li>
+<li>Personalization：使用者個人設定</li>
+<li>Tracking：分析使用者習慣</li>
+</ul>
+
+
+<h2>特性：</h2>
+
+<ul>
+<li>儲存在 client 端瀏覽器</li>
+<li>http header 裡面其中一個欄位</li>
+<li>key / value 的形式儲存</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># http header sample
+</span><span class='line'>
+</span><span class='line'>HTTP/1.0 200 OK
+</span><span class='line'>Content-type: text/html
+</span><span class='line'>Set-Cookie: yummy_cookie=choco
+</span><span class='line'>Set-Cookie: tasty_cookie=strawberry
+</span><span class='line'>
+</span><span class='line'>[page content]</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>檔案大小最多 4Kb</li>
+<li>以明文的方式在網際網路上傳輸及在 Client 端電腦儲存，不建議儲存敏感資料</li>
+<li>Expired 設定生命週期</li>
+<li>Domain 設定可存取此cookies 的domain，屬性Path 會辨識 URL 必須存在request resource</li>
+</ul>
+
+
+<h2>Tips</h2>
+
+<ul>
+<li>使用javascript 移除cookie</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>function delete_cookie( name ) {
+</span><span class='line'>  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+</span><span class='line'>}
+</span><span class='line'>delete_cookie('yummy_cookie');</span></code></pre></td></tr></table></div></figure>
+
+
+<h1><a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/sessions">Sessions</a></h1>
+
+<ul>
+<li>儲存在 server 端</li>
+<li>session 需要搭配 cookie 才能產生運作</li>
+<li>server 會傳送帶有 session id 的 cookie 給 client，當下一個 request 及cookie 再被送至 server 端時，會用 cookie 中的 session id 來辨認每個使用者所儲存的狀態與 data。</li>
+<li>相對於 cookies，session 多用來儲存敏感的資料，也常常成為攻擊的目標 <a href="http://guides.rubyonrails.org/security.html#session-hijacking">Session Hijacking</a></li>
+</ul>
+
+
+<h1>Web Stroage</h1>
+
+<ul>
+<li>HTML5 的 Web Storage 是一種可讓網頁將資料儲存於本地端的技術，其作用如同 cookie</li>
+<li>儲存於 Web Storage 中的資料，是以 key-value pair 的形式保存（同 cookie）。</li>
+<li>Cookie 儲存空間很小，最多僅能儲存 4 KB 的資料。</li>
+<li>HTML5 Web Storage 的儲存空間則大得多，且依各家瀏覽器的實作而不同。一般應該至少有 5 MB 的空間。</li>
+<li>儲存於 cookie 中的資料會在用戶端瀏覽器與伺服器之間旅行（每次瀏覽器送出 request 至伺服器時就會夾帶 cookies），Web Storage 則不會（純粹運作於用戶端）。這表示 Web Storage 不會占用網路頻寬。</li>
+<li>Web Storage 分為兩種：<strong>local storage</strong> 和 <strong>session storage</strong></li>
+</ul>
+
+
+<h1><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">Local Storage</a></h1>
+
+<ul>
+<li>window properties</li>
+<li>資料永久保存</li>
+<li>分頁、瀏覽器都使用同一個 localStorage，依據同源政策，只有同個網址才能使用同一個 localStorage</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># set
+</span><span class='line'>window.localStorage.setItem('myCat', 'Tom');
+</span><span class='line'>
+</span><span class='line'># remove
+</span><span class='line'>window.localStorage.removeItem(key);</span></code></pre></td></tr></table></div></figure>
+
+
+<h1><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage">Session Storage</a></h1>
+
+<ul>
+<li>window properties</li>
+<li>分頁或瀏覽器關閉 sesstionStorage 就會被清除</li>
+<li>不同分頁有不同的 sesstionStorage</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Save data to sessionStorage
+</span><span class='line'>sessionStorage.setItem('key', 'value');
+</span><span class='line'>
+</span><span class='line'># Get saved data from sessionStorage
+</span><span class='line'>var data = sessionStorage.getItem('key');
+</span><span class='line'>
+</span><span class='line'># Remove saved data from sessionStorage
+</span><span class='line'>sessionStorage.removeItem('key');
+</span><span class='line'>
+</span><span class='line'># Remove all saved data from sessionStorage
+</span><span class='line'>sessionStorage.clear();</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Local Storage v.s. Session Storage</h1>
+
+<ul>
+<li>sessionStorage 在瀏覽器關閉時就會消失</li>
+<li>localStorage 沒有失效時間，但也要注意避免儲存太多資料到 localStorage</li>
+</ul>
+
+
+<h1>Cookies and Sessions in Rails</h1>
+
+<h2>Sessions</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># create/update sessions
+</span><span class='line'>session[:token] = "GDYPN+N/MIK1FO4M+1D1/A=="
+</span><span class='line'>
+</span><span class='line'># delete session
+</span><span class='line'>session[:token] = nil
+</span><span class='line'>
+</span><span class='line'># reset session
+</span><span class='line'>reset_session</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Cookies</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># create/update cookies
+</span><span class='line'>cookies[:hits] = @post.hits
+</span><span class='line'>
+</span><span class='line'># create and expired cookies
+</span><span class='line'>cookies[:hits] = {
+</span><span class='line'>    value: @post.hits,
+</span><span class='line'>    expiress: 4.hours.form_now,
+</span><span class='line'>    domain: "www.domain-name.com"
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'># delete
+</span><span class='line'>cookies.delete(:hits)
+</span><span class='line'>
+</span><span class='line'># encryption cookies
+</span><span class='line'>cookies.signed[:token] = "GDYPN+N/MIK1FO4M+1D1/A=="
+</span><span class='line'>
+</span><span class='line'># permanent cookies
+</span><span class='line'>cookies.permanent[:hits] = @post.hits</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>local storage</h2>
+
+<p>local storage has nothing to do with rails. So just write javascript to call it.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script&gt;
+</span><span class='line'>localStorage.setItem("company_id", "&lt;%= @company.id %&gt;");
+</span><span class='line'>&lt;/script&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>References</h1>
+
+<ul>
+<li><a href="http://rails.ruby.tw/action_controller_overview.html#session">RailsGuides session</a></li>
+<li><a href="http://rails.ruby.tw/action_controller_overview.html#cookies">RailsGuides cookies</a></li>
+<li><a href="http://jerryzou.com/posts/cookie-and-web-storage/">cookie-and-web-storage</a></li>
+<li><a href="http://springok-blog.logdown.com/posts/2015/11/25/web101-knowledge-session-and-cookie">web101-knowledge-session-and-cookie</a></li>
+<li><a href="http://mgleon08.github.io/blog/2016/06/12/cookie-and-session/">cookie-and-session</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[RWD Conecpt]]></title>

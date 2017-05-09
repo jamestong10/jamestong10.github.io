@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://rt-tong.com/blog/2017/05/09/cookies-and-sessions/</loc>
+<lastmod>2017-05-09T16:21:35+08:00</lastmod>
+</url>
+<url>
 <loc>http://rt-tong.com/blog/2017/05/04/rwd-conecpt/</loc>
 <lastmod>2017-05-04T17:12:09+08:00</lastmod>
 </url>
@@ -136,6 +140,12 @@
 </url>
 <url>
 <loc>http://rt-tong.com/blog/categories/rwd/</loc>
+</url>
+<url>
+<loc>http://rt-tong.com/blog/categories/cookies/</loc>
+</url>
+<url>
+<loc>http://rt-tong.com/blog/categories/sessions/</loc>
 </url>
 <url>
 <loc>http://rt-tong.com/posts/2/</loc>
