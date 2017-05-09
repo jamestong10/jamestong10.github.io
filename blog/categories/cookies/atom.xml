@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cookies | JT's Blog]]></title>
   <link href="http://rt-tong.com/blog/categories/cookies/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2017-05-09T17:04:36+08:00</updated>
+  <updated>2017-05-09T17:11:23+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -18,7 +18,10 @@
     <link href="http://rt-tong.com/blog/2017/05/09/cookies-and-sessions/"/>
     <updated>2017-05-09T16:21:35+08:00</updated>
     <id>http://rt-tong.com/blog/2017/05/09/cookies-and-sessions</id>
-    <content type="html"><![CDATA[<h1><a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Cookies">Cookies</a> (Session cookies)</h1>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h1><a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Cookies">Cookies</a> (Session cookies)</h1>
 
 <p>因爲 HTTP 協定是無狀態((Stateless)，所以server 端無法得知使用者在前端的操作，因此設計 cookie 來解決這個問題。</p>
 
