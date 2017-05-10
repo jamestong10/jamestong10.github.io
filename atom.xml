@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="http://rt-tong.com/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2017-05-09T17:13:31+08:00</updated>
+  <updated>2017-05-10T23:34:21+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -12,6 +12,140 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Forwardable (Delegator)]]></title>
+    <link href="http://rt-tong.com/blog/2017/05/10/ruby-forwardable/"/>
+    <updated>2017-05-10T14:02:58+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/05/10/ruby-forwardable</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>ruby method 是一行程式碼且執行動作跟 method_name 相同，就可以使用 forwardable 簡化</p></blockquote>
+
+<h2>語法</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Define method as delegator instance method with an optional alias name ali.
+</span><span class='line'># Method calls to ali will be delegated to accessor.method.
+</span><span class='line'>def_instance_delegator(accessor, method, ali = method)
+</span><span class='line'>
+</span><span class='line'># Shortcut for defining multiple delegator methods,
+</span><span class='line'># but with no provision for using a different name.
+</span><span class='line'>def_instance_delegators(accessor, *methods)
+</span><span class='line'>
+</span><span class='line'># 定義單一個 method, alias for: def_instance_delegator
+</span><span class='line'>def_delegator(accessor, method, ali = method)
+</span><span class='line'>
+</span><span class='line'># 定義多個 methods, alias for: def_instance_delegators
+</span><span class='line'>def_delegators(accessor, *methods)</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>範例</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 一般 class Queue
+</span><span class='line'>class Queue
+</span><span class='line'>  def initialize
+</span><span class='line'>    @q = []
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def push(val)
+</span><span class='line'>    @q.push(val)
+</span><span class='line'>  end
+</span><span class='line'>  def shift
+</span><span class='line'>    @q.shift
+</span><span class='line'>  end
+</span><span class='line'>  def size
+</span><span class='line'>    @q.size
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'># 使用forwardable 可以把method 優化
+</span><span class='line'>require 'forwardable'
+</span><span class='line'>
+</span><span class='line'>class Queue
+</span><span class='line'>  extend Forwardable
+</span><span class='line'>  def initialize
+</span><span class='line'>    @q = []
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def_delegator :@q, :push
+</span><span class='line'>  def_delegator :@q, :shift
+</span><span class='line'>  def_delegator :@q, :size
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'># 更可以一次宣告多個
+</span><span class='line'>class Queue
+</span><span class='line'>  extend Forwardable
+</span><span class='line'>  def initialize
+</span><span class='line'>    @q = []
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def_delegators :@q, :push, :shift, :size
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://ruby-doc.org/stdlib-2.0.0/libdoc/forwardable/rdoc/Forwardable.html">ruby-doc Forwardable</a></li>
+<li><a href="https://www.saturnflyer.com/blog/ruby-forwardable-deep-dive">ruby-forwardable-deep-dive</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Cookies and Sessions]]></title>
@@ -162,7 +296,7 @@
 </span><span class='line'>sessionStorage.clear();</span></code></pre></td></tr></table></div></figure>
 
 
-<h1>Local Storage v.s. Session Storage</h1>
+<h1>Local Storage vs. Session Storage</h1>
 
 <ul>
 <li>sessionStorage 在瀏覽器關閉時就會消失</li>

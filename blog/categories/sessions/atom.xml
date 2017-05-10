@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sessions | JT's Blog]]></title>
   <link href="http://rt-tong.com/blog/categories/sessions/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2017-05-09T17:13:31+08:00</updated>
+  <updated>2017-05-10T23:34:21+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -151,7 +151,7 @@ sessionStorage.removeItem('key');
 sessionStorage.clear();
 </code></pre>
 
-<h1>Local Storage v.s. Session Storage</h1>
+<h1>Local Storage vs. Session Storage</h1>
 
 <ul>
 <li>sessionStorage 在瀏覽器關閉時就會消失</li>

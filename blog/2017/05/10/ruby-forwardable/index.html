@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>About - JT's Blog</title>
+  <title>Ruby Forwardable (Delegator) - JT's Blog</title>
   <meta name="author" content="James Tong">
 
   
-  <meta name="description" content="About Jul 28th, 2016 12:35 pm | James Tong (JT.) Java EE Developer (6y+) Ruby on Rails Developer Resume Github
-Email：&#x74;&#x75;&#110;&#x67;&#114 &hellip;">
+  <meta name="description" content="ruby forwardable">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ Email：&#x74;&#x75;&#110;&#x67;&#114 &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://rt-tong.com/about">
+  <link rel="canonical" href="http://rt-tong.com/blog/2017/05/10/ruby-forwardable">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="JT's Blog" type="application/atom+xml">
@@ -97,72 +96,195 @@ Email：&#x74;&#x75;&#110;&#x67;&#114 &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">About</h1>
     
-        <p class="meta">
-            
-
-
-
-
-<time class='entry-date' datetime='2016-07-28T12:35:00+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:35 pm</span></time> |
-              
-        </p>
+      
+        <h1 class="entry-title">Ruby Forwardable (Delegator)</h1>
+      
     
-  </header>
-  
-  <h2>James Tong (JT.)</h2>
-
-<h3>Java EE Developer (6y+)</h3>
-
-<h3>Ruby on Rails Developer</h3>
-
-<h3>Resume</h3>
-
-<ul>
-<li><a href="https://github.com/jamestong10">Github</a></li>
-<li>Email：<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#116;&#x75;&#110;&#103;&#114;&#117;&#105;&#x74;&#101;&#110;&#x67;&#64;&#103;&#x6d;&#97;&#x69;&#x6c;&#46;&#x63;&#111;&#109;">&#x74;&#x75;&#110;&#x67;&#114;&#x75;&#105;&#x74;&#x65;&#110;&#x67;&#x40;&#103;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#111;&#109;</a></li>
-<li>Skills：
-
-<ul>
-<li>Java, Spring, Hibernate</li>
-<li>Javascript, jQuery</li>
-<li>Ruby, Rails</li>
-<li>T-SQL, PL/SQL</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Portfolio</h3>
-
-<ul>
-<li><a href="https://github.com/jamestong10/reddit">Rails 12in12 - Reddit</a></li>
-<li><a href="https://github.com/jamestong10/ajax01">使用ajax 上傳與paperclip 處理照片</a></li>
-<li><a href="">電子購物平台、後台管理(AdminLTE)</a></li>
-</ul>
-
-
-  
-    <footer>
+    
       <p class="meta">
         
+
+
+
+
+<time class='entry-date' datetime='2017-05-10T14:02:58+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>2:02 pm</span></time>
         
-
-
-
-
-<time class='entry-date' datetime='2016-07-28T12:35:00+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:35 pm</span></time>
+         | <a href="#disqus_thread">Comments</a>
         
         
       </p>
+    
+  </header>
+
+
+<div class="entry-content"><!-- more -->
+
+
+<blockquote><p>ruby method 是一行程式碼且執行動作跟 method_name 相同，就可以使用 forwardable 簡化</p></blockquote>
+
+<h2>語法</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Define method as delegator instance method with an optional alias name ali.
+</span><span class='line'># Method calls to ali will be delegated to accessor.method.
+</span><span class='line'>def_instance_delegator(accessor, method, ali = method)
+</span><span class='line'>
+</span><span class='line'># Shortcut for defining multiple delegator methods,
+</span><span class='line'># but with no provision for using a different name.
+</span><span class='line'>def_instance_delegators(accessor, *methods)
+</span><span class='line'>
+</span><span class='line'># 定義單一個 method, alias for: def_instance_delegator
+</span><span class='line'>def_delegator(accessor, method, ali = method)
+</span><span class='line'>
+</span><span class='line'># 定義多個 methods, alias for: def_instance_delegators
+</span><span class='line'>def_delegators(accessor, *methods)</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>範例</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 一般 class Queue
+</span><span class='line'>class Queue
+</span><span class='line'>  def initialize
+</span><span class='line'>    @q = []
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def push(val)
+</span><span class='line'>    @q.push(val)
+</span><span class='line'>  end
+</span><span class='line'>  def shift
+</span><span class='line'>    @q.shift
+</span><span class='line'>  end
+</span><span class='line'>  def size
+</span><span class='line'>    @q.size
+</span><span class='line'>  end
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'># 使用forwardable 可以把method 優化
+</span><span class='line'>require 'forwardable'
+</span><span class='line'>
+</span><span class='line'>class Queue
+</span><span class='line'>  extend Forwardable
+</span><span class='line'>  def initialize
+</span><span class='line'>    @q = []
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def_delegator :@q, :push
+</span><span class='line'>  def_delegator :@q, :shift
+</span><span class='line'>  def_delegator :@q, :size
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'># 更可以一次宣告多個
+</span><span class='line'>class Queue
+</span><span class='line'>  extend Forwardable
+</span><span class='line'>  def initialize
+</span><span class='line'>    @q = []
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def_delegators :@q, :push, :shift, :size
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://ruby-doc.org/stdlib-2.0.0/libdoc/forwardable/rdoc/Forwardable.html">ruby-doc Forwardable</a></li>
+<li><a href="https://www.saturnflyer.com/blog/ruby-forwardable-deep-dive">ruby-forwardable-deep-dive</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
       
-        <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rt-tong.com/about/index.html" data-via="" data-counturl="http://rt-tong.com/about/index.html" >Tweet</a>
+
+
+
+  <span class="byline author vcard">Authored by <span class="fn">
+  
+    James Tong
+  
+  </span></span>
+
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-05-10T14:02:58+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>2:02 pm</span></time>
+      
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rt-tong.com/blog/2017/05/10/ruby-forwardable/" data-via="" data-counturl="http://rt-tong.com/blog/2017/05/10/ruby-forwardable/" >Tweet</a>
   
   
   
@@ -170,9 +292,14 @@ Email：&#x74;&#x75;&#110;&#x67;&#114 &hellip;">
   
 </div>
 
+    
+    <p class="meta">
       
-    </footer>
-  
+        <a class="basic-alignment left" href="/blog/2017/05/09/cookies-and-sessions/" title="Previous Post: Cookies and Sessions">&laquo; Cookies and Sessions</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
   <section>
@@ -183,13 +310,6 @@ Email：&#x74;&#x75;&#110;&#x67;&#114 &hellip;">
 
 
 </div>
-
-<aside class="sidebar">
-  
-    
-  
-</aside>
-
 
     </div>
   </div>
@@ -206,8 +326,8 @@ Email：&#x74;&#x75;&#110;&#x67;&#114 &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://rt-tong.com/about/index.html';
-        var disqus_url = 'http://rt-tong.com/about/index.html';
+        var disqus_identifier = 'http://rt-tong.com/blog/2017/05/10/ruby-forwardable/';
+        var disqus_url = 'http://rt-tong.com/blog/2017/05/10/ruby-forwardable/';
         var disqus_script = 'embed.js';
       
     (function () {
