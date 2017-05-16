@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ooad | JT's Blog]]></title>
   <link href="http://rt-tong.com/blog/categories/ooad/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2017-05-16T13:53:29+08:00</updated>
+  <updated>2017-05-16T16:13:58+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -40,7 +40,7 @@
 
 <h2>OCP - Open-Close Principle</h2>
 
-<blockquote><p>對於擴展是開放的，但修改是封閉的</p></blockquote>
+<blockquote><p>物件和 Entity 的擴展是開放的，但修改是封閉的</p></blockquote>
 
 <h3>秘訣</h3>
 
@@ -56,7 +56,7 @@
 
 <blockquote><p>所有參照基礎類別（父類別）的地方，必須可以透明地使用衍生類別（子類別）的物件替代，而不需要任何改變</p>
 
-<p>必須要有繼承關係才需要考慮 LSP</p></blockquote>
+<p>有繼承關係才需要考慮 LSP</p></blockquote>
 
 <h3>秘訣</h3>
 
