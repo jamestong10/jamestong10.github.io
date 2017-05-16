@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>About - JT's Blog</title>
+  <title>Object Oriented Design Principles - JT's Blog</title>
   <meta name="author" content="James Tong">
 
   
-  <meta name="description" content="About Jul 28th, 2016 12:35 pm | James Tong (JT.) Java EE Developer (6y+) Ruby on Rails Developer Resume Github
-Email：&#x74;&#x75;&#110;&#x67;&#x72 &hellip;">
+  <meta name="description" content="object oriented design principles">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ Email：&#x74;&#x75;&#110;&#x67;&#x72 &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://rt-tong.com/about">
+  <link rel="canonical" href="http://rt-tong.com/blog/2017/05/15/object-orientend-design-priciples">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="JT's Blog" type="application/atom+xml">
@@ -97,72 +96,166 @@ Email：&#x74;&#x75;&#110;&#x67;&#x72 &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">About</h1>
     
-        <p class="meta">
-            
-
-
-
-
-<time class='entry-date' datetime='2016-07-28T12:35:00+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:35 pm</span></time> |
-              
-        </p>
+      
+        <h1 class="entry-title">Object Oriented Design Principles</h1>
+      
     
-  </header>
-  
-  <h2>James Tong (JT.)</h2>
-
-<h3>Java EE Developer (6y+)</h3>
-
-<h3>Ruby on Rails Developer</h3>
-
-<h3>Resume</h3>
-
-<ul>
-<li><a href="https://github.com/jamestong10">Github</a></li>
-<li>Email：<a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#x74;&#x75;&#110;&#103;&#114;&#x75;&#105;&#116;&#101;&#x6e;&#103;&#x40;&#x67;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#x6f;&#109;">&#x74;&#x75;&#110;&#x67;&#x72;&#117;&#105;&#116;&#x65;&#110;&#103;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#x6f;&#109;</a></li>
-<li>Skills：
-
-<ul>
-<li>Java, Spring, Hibernate</li>
-<li>Javascript, jQuery</li>
-<li>Ruby, Rails</li>
-<li>T-SQL, PL/SQL</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Portfolio</h3>
-
-<ul>
-<li><a href="https://github.com/jamestong10/reddit">Rails 12in12 - Reddit</a></li>
-<li><a href="https://github.com/jamestong10/ajax01">使用ajax 上傳與paperclip 處理照片</a></li>
-<li><a href="">電子購物平台、後台管理(AdminLTE)</a></li>
-</ul>
-
-
-  
-    <footer>
+    
       <p class="meta">
         
+
+
+
+
+<time class='entry-date' datetime='2017-05-15T11:50:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:50 am</span></time>
         
-
-
-
-
-<time class='entry-date' datetime='2016-07-28T12:35:00+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:35 pm</span></time>
+         | <a href="#disqus_thread">Comments</a>
         
         
       </p>
+    
+  </header>
+
+
+<div class="entry-content"><!-- more -->
+
+
+<p>在學習程式開發的過程，應先了解物件導向設計的五個基本原則</p>
+
+<p>這些原則比較偏向觀念，應用上，開發前規劃或是重構的過程調整</p>
+
+<h2>SRP - Single Responsibility Principle SRP</h2>
+
+<blockquote><p>讓類別只有一種職責，一個類別只能有一個變更的理由</p></blockquote>
+
+<h3>秘訣</h3>
+
+<ul>
+<li>使用專業領域分工切分職責</li>
+<li>不要貪圖方便，將所有職責放在同一個類別</li>
+<li>類別也不要切太細，會造成效能影響</li>
+</ul>
+
+
+<h2>OCP - Open-Close Principle</h2>
+
+<blockquote><p>對於擴展是開放的，但修改是封閉的</p></blockquote>
+
+<h3>秘訣</h3>
+
+<ul>
+<li>設計抽象介面與外部互動</li>
+<li>把變化委託給其他類別處理</li>
+<li>只要異動 metadata or config</li>
+<li>小心過度繼承</li>
+</ul>
+
+
+<h2>LSP - Liskov Substitution Principle</h2>
+
+<blockquote><p>所有參照基礎類別（父類別）的地方，必須可以透明地使用衍生類別（子類別）的物件替代，而不需要任何改變</p>
+
+<p>必須要有繼承關係才需要考慮 LSP</p></blockquote>
+
+<h3>秘訣</h3>
+
+<ul>
+<li>方法回傳值、丟出異常要一致</li>
+</ul>
+
+
+<h2>LKP - Least Knowledge Principle （a.k.a LOD - Law Of Demeter)</h2>
+
+<blockquote><p>一個物件應該對其他物件有最少的瞭解</p>
+
+<p>一個物件不要有太多public method</p></blockquote>
+
+<h3>秘訣</h3>
+
+<ul>
+<li>已經成形的操作流程就封裝起來</li>
+<li>不必要公開的方法就設為 private 或 protected</li>
+<li>外面知道的越少，耦合度就越低</li>
+</ul>
+
+
+<h2>ISP - Interface Segregation Principle</h2>
+
+<blockquote><p>用戶端不應該依賴它使用不到的介面</p></blockquote>
+
+<h3>秘訣</h3>
+
+<ul>
+<li>把interface 當成可以做什麼</li>
+<li>減少讓每個interface 可以做的事情</li>
+<li>如果發現有空的實作時，就表示interface 可以再細化</li>
+</ul>
+
+
+<h2>DIP - Dependency Inversion Principle</h2>
+
+<blockquote><p>高層模組不應該相依於低層模組，兩者都應該相依於抽象</p>
+
+<p>抽象不應該相依於具體，具體應該相依於抽象</p></blockquote>
+
+<h3>秘訣</h3>
+
+<ul>
+<li>互動的部份交給抽象類別或介面</li>
+<li>會改變的實作，就放到子類別裡面</li>
+</ul>
+
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://slides.com/jaceju/design-patterns-by-examples/#/">從實例學設計模式</a></li>
+<li><a href="http://rockssdlog.blogspot.tw/2012/03/oo-solid.html">白話- OO設計原則 (SOLID原則) - 附生活實例</a></li>
+<li><a href="http://teddy-chen-tw.blogspot.tw/2014/04/solid.html">Teddy-SOLID</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
       
-        <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rt-tong.com/about/index.html" data-via="" data-counturl="http://rt-tong.com/about/index.html" >Tweet</a>
+
+
+
+  <span class="byline author vcard">Authored by <span class="fn">
+  
+    James Tong
+  
+  </span></span>
+
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-05-15T11:50:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>11:50 am</span></time>
+      
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ooad/'>ooad</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rt-tong.com/blog/2017/05/15/object-orientend-design-priciples/" data-via="" data-counturl="http://rt-tong.com/blog/2017/05/15/object-orientend-design-priciples/" >Tweet</a>
   
   
   
@@ -170,9 +263,14 @@ Email：&#x74;&#x75;&#110;&#x67;&#x72 &hellip;">
   
 </div>
 
+    
+    <p class="meta">
       
-    </footer>
-  
+        <a class="basic-alignment left" href="/blog/2017/05/10/ruby-forwardable/" title="Previous Post: Ruby forwardable (delegator)">&laquo; Ruby forwardable (delegator)</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
   <section>
@@ -183,13 +281,6 @@ Email：&#x74;&#x75;&#110;&#x67;&#x72 &hellip;">
 
 
 </div>
-
-<aside class="sidebar">
-  
-    
-  
-</aside>
-
 
     </div>
   </div>
@@ -206,8 +297,8 @@ Email：&#x74;&#x75;&#110;&#x67;&#x72 &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://rt-tong.com/about/index.html';
-        var disqus_url = 'http://rt-tong.com/about/index.html';
+        var disqus_identifier = 'http://rt-tong.com/blog/2017/05/15/object-orientend-design-priciples/';
+        var disqus_url = 'http://rt-tong.com/blog/2017/05/15/object-orientend-design-priciples/';
         var disqus_script = 'embed.js';
       
     (function () {

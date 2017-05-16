@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="http://rt-tong.com/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2017-05-10T23:34:21+08:00</updated>
+  <updated>2017-05-16T13:53:29+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -12,6 +12,111 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Object Oriented Design Principles]]></title>
+    <link href="http://rt-tong.com/blog/2017/05/15/object-orientend-design-priciples/"/>
+    <updated>2017-05-15T11:50:00+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/05/15/object-orientend-design-priciples</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>在學習程式開發的過程，應先了解物件導向設計的五個基本原則</p>
+
+<p>這些原則比較偏向觀念，應用上，開發前規劃或是重構的過程調整</p>
+
+<h2>SRP - Single Responsibility Principle SRP</h2>
+
+<blockquote><p>讓類別只有一種職責，一個類別只能有一個變更的理由</p></blockquote>
+
+<h3>秘訣</h3>
+
+<ul>
+<li>使用專業領域分工切分職責</li>
+<li>不要貪圖方便，將所有職責放在同一個類別</li>
+<li>類別也不要切太細，會造成效能影響</li>
+</ul>
+
+
+<h2>OCP - Open-Close Principle</h2>
+
+<blockquote><p>對於擴展是開放的，但修改是封閉的</p></blockquote>
+
+<h3>秘訣</h3>
+
+<ul>
+<li>設計抽象介面與外部互動</li>
+<li>把變化委託給其他類別處理</li>
+<li>只要異動 metadata or config</li>
+<li>小心過度繼承</li>
+</ul>
+
+
+<h2>LSP - Liskov Substitution Principle</h2>
+
+<blockquote><p>所有參照基礎類別（父類別）的地方，必須可以透明地使用衍生類別（子類別）的物件替代，而不需要任何改變</p>
+
+<p>必須要有繼承關係才需要考慮 LSP</p></blockquote>
+
+<h3>秘訣</h3>
+
+<ul>
+<li>方法回傳值、丟出異常要一致</li>
+</ul>
+
+
+<h2>LKP - Least Knowledge Principle （a.k.a LOD - Law Of Demeter)</h2>
+
+<blockquote><p>一個物件應該對其他物件有最少的瞭解</p>
+
+<p>一個物件不要有太多public method</p></blockquote>
+
+<h3>秘訣</h3>
+
+<ul>
+<li>已經成形的操作流程就封裝起來</li>
+<li>不必要公開的方法就設為 private 或 protected</li>
+<li>外面知道的越少，耦合度就越低</li>
+</ul>
+
+
+<h2>ISP - Interface Segregation Principle</h2>
+
+<blockquote><p>用戶端不應該依賴它使用不到的介面</p></blockquote>
+
+<h3>秘訣</h3>
+
+<ul>
+<li>把interface 當成可以做什麼</li>
+<li>減少讓每個interface 可以做的事情</li>
+<li>如果發現有空的實作時，就表示interface 可以再細化</li>
+</ul>
+
+
+<h2>DIP - Dependency Inversion Principle</h2>
+
+<blockquote><p>高層模組不應該相依於低層模組，兩者都應該相依於抽象</p>
+
+<p>抽象不應該相依於具體，具體應該相依於抽象</p></blockquote>
+
+<h3>秘訣</h3>
+
+<ul>
+<li>互動的部份交給抽象類別或介面</li>
+<li>會改變的實作，就放到子類別裡面</li>
+</ul>
+
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://slides.com/jaceju/design-patterns-by-examples/#/">從實例學設計模式</a></li>
+<li><a href="http://rockssdlog.blogspot.tw/2012/03/oo-solid.html">白話- OO設計原則 (SOLID原則) - 附生活實例</a></li>
+<li><a href="http://teddy-chen-tw.blogspot.tw/2014/04/solid.html">Teddy-SOLID</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ruby Forwardable (Delegator)]]></title>
