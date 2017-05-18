@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Activesupport | JT's Blog]]></title>
+  <link href="http://rt-tong.com/blog/categories/activesupport/atom.xml" rel="self"/>
+  <link href="http://rt-tong.com/"/>
+  <updated>2017-05-18T15:55:28+08:00</updated>
+  <id>http://rt-tong.com/</id>
+  <author>
+    <name><![CDATA[James Tong]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Concerns]]></title>
+    <link href="http://rt-tong.com/blog/2017/05/18/concerns/"/>
+    <updated>2017-05-18T15:45:21+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/05/18/concerns</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Module#concerning</h2>
+
+<p>Rails 4.1 新增的功能，如果module 內容不多，但又非得新增一個module，或許可以考慮用concerning 的方式</p>
+
+<p>一般使用mixin 使用方式</p>
+
+<pre><code class="ruby"># app/models/article.rb
+class Article &lt; ActiveRecord::Base
+  include Tagging
+end
+
+# app/models/concerns/tagging.rb
+module Tagging
+ # ...
+end
+</code></pre>
+
+<p>使用concerning</p>
+
+<pre><code class="ruby">class Article &lt; ActiveRecord::Base
+  # 基本：建立一般的 instance method
+  concerning :Tagging do
+    def news do
+      # ...
+    end
+  end
+  # 進階1:加入included (include 時執行)
+  concerning :Scope do
+    included di
+      scope :published, -&gt; { where(state: 'published') }
+    end
+  end
+  # 進階2：加入class method
+  concerning :Search do
+    class_methods do
+      def published do
+        # ...
+      end
+    end
+  end
+end
+</code></pre>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="http://api.rubyonrails.org/v4.1/classes/Module/Concerning.html">Module#Concerning</a></li>
+</ul>
+
+
+<h2>ActiveSupport::Concern</h2>
+
+<ul>
+<li>將共用的邏輯寫到module 並用mixin 的方式，如此可以集中管理</li>
+<li>讓module 的相依性降低（低耦合），方便管理</li>
+<li>命名以able结尾</li>
+</ul>
+
+
+<p>一般module 要mixin 到class  要使用included</p>
+
+<pre><code class="ruby">module M
+  def self.included(base)
+    base.extend ClassMethods
+    base.class_eval do
+      scope :disabled, -&gt; { where(disabled: true)}
+    end
+  end
+
+  module ClassMethods
+    # ...
+  end
+end
+</code></pre>
+
+<p>如果使用ActiveSupport::Concern module 就可以改寫</p>
+
+<pre><code class="ruby">require 'active_support/concern'
+
+module M
+  extend ActiveSupport::Concern
+
+  # 在include 的時執行
+  # 加入 scope 或 attr_accessor
+  included do
+    scope :disabled, -&gt; { where(disabled: true)}
+  end
+
+  # 定義class methods
+  class_methods do
+    # ...
+  end
+
+  # 除了上面兩個區塊外，都屬於 instance methods
+end
+</code></pre>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://ruby-china.org/topics/19812">ActiveSupport::Concern 小结</a></li>
+<li><a href="http://api.rubyonrails.org/classes/ActiveSupport/Concern.html">ActiveSupport::Concern</a></li>
+<li><a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/concern.rb">concern.rb</a></li>
+<li><a href="http://signalvnoise.com/posts/3372-put-chubby-models-on-a-diet-with-concerns">put-chubby-models-on-a-diet-with-concerns</a></li>
+<li><a href="http://mgleon08.github.io/blog/2016/03/26/concern/">concern</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

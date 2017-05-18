@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://rt-tong.com/blog/2017/05/18/concerns/</loc>
+<lastmod>2017-05-18T15:45:21+08:00</lastmod>
+</url>
+<url>
 <loc>http://rt-tong.com/blog/2017/05/15/object-orientend-design-priciples/</loc>
 <lastmod>2017-05-15T11:50:00+08:00</lastmod>
 </url>
@@ -159,6 +163,9 @@
 <loc>http://rt-tong.com/blog/categories/ooad/</loc>
 </url>
 <url>
-<loc>http://rt-tong.com/posts/2/</loc>
+<loc>http://rt-tong.com/blog/categories/ruby-module/</loc>
+</url>
+<url>
+<loc>http://rt-tong.com/blog/categories/activesupport/</loc>
 </url>
 </urlset>
