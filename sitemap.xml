@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://rt-tong.com/blog/2017/05/29/scss-and-sass/</loc>
+<lastmod>2017-05-29T15:56:26+08:00</lastmod>
+</url>
+<url>
+<loc>http://rt-tong.com/blog/2017/05/26/ruby-block-map-collect/</loc>
+<lastmod>2017-05-26T13:51:46+08:00</lastmod>
+</url>
+<url>
+<loc>http://rt-tong.com/blog/2017/05/23/make-a-plus-https-web-server/</loc>
+<lastmod>2017-05-23T15:16:20+08:00</lastmod>
+</url>
+<url>
+<loc>http://rt-tong.com/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem/</loc>
+<lastmod>2017-05-23T14:39:53+08:00</lastmod>
+</url>
+<url>
+<loc>http://rt-tong.com/blog/2017/05/23/rspec/</loc>
+<lastmod>2017-05-23T11:32:44+08:00</lastmod>
+</url>
+<url>
 <loc>http://rt-tong.com/blog/2017/05/18/concerns/</loc>
 <lastmod>2017-05-18T15:45:21+08:00</lastmod>
 </url>
@@ -167,5 +187,14 @@
 </url>
 <url>
 <loc>http://rt-tong.com/blog/categories/activesupport/</loc>
+</url>
+<url>
+<loc>http://rt-tong.com/blog/categories/rspec/</loc>
+</url>
+<url>
+<loc>http://rt-tong.com/blog/categories/ssl-certificates/</loc>
+</url>
+<url>
+<loc>http://rt-tong.com/blog/categories/https/</loc>
 </url>
 </urlset>

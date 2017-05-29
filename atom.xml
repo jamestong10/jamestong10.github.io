@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="http://rt-tong.com/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2017-05-18T15:55:28+08:00</updated>
+  <updated>2017-05-29T16:25:57+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -12,6 +12,1152 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Scss and Sass]]></title>
+    <link href="http://rt-tong.com/blog/2017/05/29/scss-and-sass/"/>
+    <updated>2017-05-29T15:56:26+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/05/29/scss-and-sass</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>學會 scss / sass 可以加速寫 css</p>
+
+<p>sass 跟 scss 的差別，不需要寫大括號和分號和mixins 的用法</p></blockquote>
+
+<h2>SCSS</h2>
+
+<p>檔名存成 .scss</p>
+
+<h3>常用功能</h3>
+
+<ol>
+<li>使用@import</li>
+<li>算數</li>
+<li>顏色</li>
+</ol>
+
+
+<h3>變數命名</h3>
+
+<p>已 $ 開頭命名</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$base_font_size: 10px;
+</span><span class='line'>$base_color: #666;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Nesting（＆可省略, 注意「空格」）</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.main {
+</span><span class='line'>  &.sec {
+</span><span class='line'>    # .main.sec
+</span><span class='line'>  }
+</span><span class='line'>  & .third {
+</span><span class='line'>    # .main .third
+</span><span class='line'>  }
+</span><span class='line'>  .fourth {}
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Mixins</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@mixin roundedBox {
+</span><span class='line'>  $radius: 10px;
+</span><span class='line'>  border-radius: $radius;
+</span><span class='line'>}
+</span><span class='line'>.main {
+</span><span class='line'>  @include roundedBox;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Mixins(預設參數）</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@mixin roundedBox($radius: 5px) {
+</span><span class='line'>  border-radius: $radius;
+</span><span class='line'>}
+</span><span class='line'>.main {
+</span><span class='line'>  @include roundedBox(10px);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Inheritance</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.red-color {
+</span><span class='line'>  color: red;
+</span><span class='line'>}
+</span><span class='line'>.error {
+</span><span class='line'>  font-size: $base_font_size * 1.4;
+</span><span class='line'>  @extend .red-color;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Operators</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$margin : 16px;
+</span><span class='line'>
+</span><span class='line'>.island {
+</span><span class='line'>    background: #cc0000;
+</span><span class='line'>    width: $column * 4;
+</span><span class='line'>    margin: $margin * 2 $margin / 2 $margin + 20 $margin;
+</span><span class='line'>    padding: $margin * 0.25;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>SASS</h2>
+
+<p>檔名存成 .sass</p>
+
+<h3>變數命名</h3>
+
+<p>已 $ 開頭命名</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$base_font_size: 10px
+</span><span class='line'>$base_color: #666</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Nesting（＆可省略, 注意「空格」）</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.main
+</span><span class='line'>  &.sec
+</span><span class='line'>    # .main.sec
+</span><span class='line'>  & .third
+</span><span class='line'>    # .main .third
+</span><span class='line'>  .fourth
+</span><span class='line'>    # .main.fourth
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Mixins</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>=roundedBox {
+</span><span class='line'>  $radius: 10px;
+</span><span class='line'>  border-radius: 5px;
+</span><span class='line'>}
+</span><span class='line'>.main {
+</span><span class='line'>  +roundedBox;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Mixins(預設參數）</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>=roundedBox($radius: 5px) {
+</span><span class='line'>  border-radius: $radius;
+</span><span class='line'>}
+</span><span class='line'>.main {
+</span><span class='line'>  +roundedBox(10px);
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Inheritance</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.red-color
+</span><span class='line'>  color: red
+</span><span class='line'>
+</span><span class='line'>.error
+</span><span class='line'>  font-size: $base_font_size * 1.4
+</span><span class='line'>  @extend .red-color</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Operators</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>article[role="main"]
+</span><span class='line'>  float: left
+</span><span class='line'>  width: 600px / 960px * 100%</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Mixin + media screen</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$base_font_size: 10px
+</span><span class='line'>$phone: "(max-width: 540px)"
+</span><span class='line'>
+</span><span class='line'>=font-size($large: $base_font_size*3, $small: $base_font_size*2)
+</span><span class='line'>  font-size: $large
+</span><span class='line'>  @media screen and #{phone}
+</span><span class='line'>    font-size: $small</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://augus-blog.logdown.com/posts/143401-scss-tutorial">scss tutorial</a></li>
+<li><a href="http://sass-lang.com/documentation/Sass/Script/Functions.html">scss documentation</a></li>
+<li><a href="http://blog.visioncan.com/2011/sass-scss-your-css/">使用scss來加速寫css吧</a></li>
+<li><a href="http://sass-lang.com/documentation/file.SASS_REFERENCE.html">sass documentation</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Each / Map / Collect]]></title>
+    <link href="http://rt-tong.com/blog/2017/05/26/ruby-block-map-collect/"/>
+    <updated>2017-05-26T13:51:46+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/05/26/ruby-block-map-collect</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Map / Collect</h2>
+
+<p>一般來說，會把這兩個視為同一種功能，也有說法是map 是collect 的別名</p>
+
+<p>stackoverflow 有針對 map 和 collect 做 benchmark，<strong>使用 map 效能會比較好</strong></p>
+
+<p>map 和 collect 是屬於 Enumerable Module 的 methods</p>
+
+<p>map 和 collect 會回傳新的 array，而 array 內的值是 block 執行的結果</p>
+
+<p>Array、Hash 都有include enumerable module，就可以使用map 和 collect</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Array</span>
+</span><span class='line'><span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">].</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">}</span>
+</span><span class='line'><span class="c1"># =&gt; [2, 3, 4]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Hash</span>
+</span><span class='line'><span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="ss">:age</span> <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span> <span class="ss">:phone</span> <span class="o">=&gt;</span> <span class="s2">&quot;0910111000&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="nb">hash</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span> <span class="n">value</span> <span class="p">}</span>
+</span><span class='line'><span class="c1"># =&gt; [&quot;John&quot;, 30, &quot;0910111000&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>&amp;: 是block 在簡化的符號</h2>
+
+<p>在Rails 中，假設要取得所有User 的姓名，使用map 的寫法如下</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">map</span><span class="p">{</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span> <span class="n">user</span><span class="o">[</span><span class="ss">:name</span><span class="o">]</span> <span class="p">}</span><span class="o">.</span><span class="n">compact</span>
+</span><span class='line'><span class="c1"># compact: Returns a copy of self with all nil elements removed.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但如果只針對 Array 中的取某個值或是執行某個 method 就可以使用 <code>&amp;:</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># 取值</span>
+</span><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:name</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 轉大寫</span>
+</span><span class='line'><span class="o">[</span><span class="s2">&quot;vanessa&quot;</span><span class="p">,</span> <span class="s2">&quot;david&quot;</span><span class="p">,</span> <span class="s2">&quot;thomas&quot;</span><span class="o">].</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:upcase</span><span class="p">)</span>
+</span><span class='line'><span class="c1">#=&gt; [&quot;VANESSA&quot;, &quot;DAVID&quot;, &quot;THOMAS&quot;]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>跟 each 差別在哪呢？</h2>
+
+<p>看完 map, collect 感覺跟一般常用的 each 很像，那他們的差別在哪邊呢？</p>
+
+<p>首先 Array、Hash 都有各自實作 <code>#each</code></p>
+
+<p>執行的方式，跟執行 block 的動作是一樣的</p>
+
+<p><strong>主要差別在 each 是回傳self (Array、Hash)，而map 和 collect 回傳 new array</strong></p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://motion-express.com/blog/20141010-ruby-block-map-collect">常見 block 說明和應用：do, map, collect</a></li>
+<li><a href="http://stackoverflow.com/questions/1217088/what-does-mapname-mean-in-ruby">what-does-mapname-mean-in-ruby</a></li>
+<li><a href="http://stackoverflow.com/questions/5254732/difference-between-map-and-collect-in-ruby">difference-between-map-and-collect-in-ruby</a></li>
+<li><a href="https://stackoverflow.com/questions/12084507/what-does-the-map-method-do-in-ruby">what-does-the-map-method-do-in-ruby</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Make a+ HTTPS Web Server]]></title>
+    <link href="http://rt-tong.com/blog/2017/05/23/make-a-plus-https-web-server/"/>
+    <updated>2017-05-23T15:16:20+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/05/23/make-a-plus-https-web-server</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>購買憑證 / 續購憑證</h2>
+
+<p>憑證是從 <a href="https://www.namecheap.com/">namecheap</a> 購買</p>
+
+<p>在購買之前可以先了解 level of validation: DV, OV, EV</p>
+
+<p><img src="http://rt-tong.com/images/posts/2017052301.jpg" alt="dv/ov/ev" /></p>
+
+<p>網頁也有詳細說明</p>
+
+<p><img src="http://rt-tong.com/images/posts/2017052302.jpg" alt="instructions" /></p>
+
+<p>購買的部分，因為太簡單了，就不再贅述</p>
+
+<h2>設定憑證</h2>
+
+<p>分成四個步驟 CSR -> Validation -> Contacts -> Confirm</p>
+
+<p>四個步驟中，就 CSR 比較複雜，其餘看說明就可以囉!</p>
+
+<h3>CSR - Certificate Signing Request</h3>
+
+<p>如果是新的網站，就要自己建立一組 private key</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ openssl req -new -newkey rsa:2048 -sha256 -nodes -keyout server.key -out server.csr
+</span><span class='line'>
+</span><span class='line'># 填寫憑證資訊
+</span><span class='line'>Country Name (2 letter code) [AU]:TW
+</span><span class='line'>State or Province Name (full name) [Some-State]:TAIWAN
+</span><span class='line'>Locality Name (eg, city) []:NEW TAIPEI CITY
+</span><span class='line'>Organization Name (eg, company) [Internet Widgits Pty Ltd]:DOMAIN LTD
+</span><span class='line'>Organizational Unit Name (eg, section) []:
+</span><span class='line'>
+</span><span class='line'># 網址
+</span><span class='line'># 根據購買certificate 的種類有關
+</span><span class='line'># PremiumSSL Wildcard 多個網址：*.domain.com
+</span><span class='line'>Common Name (e.g. server FQDN or YOUR name) []:*.domain.com
+</span><span class='line'># PositiveSSL 單一網址：www.domain.com
+</span><span class='line'>Common Name (e.g. server FQDN or YOUR name) []:www.domain.com
+</span><span class='line'>
+</span><span class='line'>Email Address []:service@domain.com
+</span><span class='line'>
+</span><span class='line'>Please enter the following 'extra' attributes
+</span><span class='line'>to be sent with your certificate request
+</span><span class='line'>A challenge password []:
+</span><span class='line'>An optional company name []:</span></code></pre></td></tr></table></div></figure>
+
+
+<p>複製 CSR 資訊，貼到 CSR 區塊</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cat server.csr
+</span><span class='line'># -----BEGIN CERTIFICATE REQUEST-----
+</span><span class='line'># ...
+</span><span class='line'># -----END CERTIFICATE REQUEST-----</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>HTTPS Setting</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># /etc/nginx/sites-enabled/domain.conf
+</span><span class='line'>server {
+</span><span class='line'>    listen 80;
+</span><span class='line'>    listen 443 ssl spdy default_server;
+</span><span class='line'>    server_name domain.com;
+</span><span class='line'>
+</span><span class='line'>    # Tell Nginx and Passenger where your app's 'public' directory is
+</span><span class='line'>    root /home/apps/myguide/current/public;
+</span><span class='line'>
+</span><span class='line'>    # SSL configuration
+</span><span class='line'>    # 根據之前購買的憑證，會寄送domain.crt 檔案到信箱
+</span><span class='line'>    # 然後把步驟一的 server.key 和 domain.crt 上傳到server /etc/ssl/
+</span><span class='line'>    ssl on;
+</span><span class='line'>    ssl_certificate      /etc/ssl/domain.crt;
+</span><span class='line'>    ssl_certificate_key  /etc/ssl/domain.key;
+</span><span class='line'>    # spdy_headers_comp 0;
+</span><span class='line'>    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+</span><span class='line'>    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA;
+</span><span class='line'>    ssl_prefer_server_ciphers on;
+</span><span class='line'>
+</span><span class='line'>    # Turn on Passenger
+</span><span class='line'>    passenger_enabled on;
+</span><span class='line'>    passenger_ruby /home/apps/.rvm/gems/ruby-2.2.5/wrappers/ruby;
+</span><span class='line'>
+</span><span class='line'>    rails_env "production";
+</span><span class='line'>
+</span><span class='line'>    location ~* ^/(assets|images)/ {
+</span><span class='line'>      expires 1y;
+</span><span class='line'>      add_header Cache-Control "public";
+</span><span class='line'>
+</span><span class='line'>      if ($request_filename ~* ^.*?\.(eot|ttf|woff|svg|otf|woff2)$) {
+</span><span class='line'>        add_header Access-Control-Allow-Origin *;
+</span><span class='line'>      }
+</span><span class='line'>      break;
+</span><span class='line'>    }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>加強安全性</h2>
+
+<p>如果到這一步，表示你之前都已經完成了!(當然..)</p>
+
+<p>請到 <a href="https://www.ssllabs.com/ssltest/index.html">ssl labs</a>  測試網站安全性</p>
+
+<p>沒看錯得到了分數 B !!</p>
+
+<p><img src="http://rt-tong.com/images/posts/2017052303.jpg" alt="level B" /></p>
+
+<p>感謝網路大神分享文章 <a href="https://www.peterdavehello.org/2015/10/build-an-a-plus-best-practice-https-web-server-via-nginx-chinese-version/">用 nginx 建置一個 A+ 等級的 https 網頁伺服器</a> 解決labs 指出需改善的問題</p>
+
+<p><strong>1.This server supports weak Diffie-Hellman (DH) key exchange parameters. Grade capped to B.</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 使用 openssl 命令產升 4096-bit “Strong” Diffie Hellman Group
+</span><span class='line'>$ openssl dhparam -out dhparams.pem 4096
+</span><span class='line'>
+</span><span class='line'># 產生出來的 dhparams.pem 請把它當作你其他的 private key 一樣好好保管
+</span><span class='line'># 安全起見請調整檔案的owner, group以及權限
+</span><span class='line'>$ sudo chown www-data:www-data dhparams.pem
+</span><span class='line'>$ sudo chmod 400 dhparams.pem
+</span><span class='line'>
+</span><span class='line'># /etc/nginx/sites-enabled/myguide.conf
+</span><span class='line'>server {
+</span><span class='line'> # ...
+</span><span class='line'> ssl_certificate      /etc/ssl/domain.crt;
+</span><span class='line'> ssl_certificate_key  /etc/ssl/domain.key;
+</span><span class='line'>+ ssl_dhparam /etc/ssl/dhparams.pem;
+</span><span class='line'> # ...
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'># reload config
+</span><span class='line'>$ sudo service nginx reload
+</span><span class='line'>
+</span><span class='line'># 測試成功！！但還是拿到Rank B</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>2.This server&rsquo;s certificate chain is incomplete</strong></p>
+
+<p>這是因為憑證只有最後簽發的，並未包含中間簽核單位的資訊，導致此問題出現</p>
+
+<p>憑證是跟 Comodo 購買的所以網站上可找到中間簽核單位的憑證</p>
+
+<ul>
+<li>Intermediate #3 申請的憑證 www_domain_com.crt</li>
+<li>[Intermediate #2 (SHA-2)] Comodo RSA Domain Validation Secure Server CA (<a href="https://goo.gl/pNFYR8">https://goo.gl/pNFYR8</a>)</li>
+<li>[Intermediate #1 (SHA-2)] COMODO RSA Certification Authority (<a href="https://goo.gl/b32Q0T">https://goo.gl/b32Q0T</a>)</li>
+</ul>
+
+
+<p>接著把 #3, #2, #1 照順序組合在一起變成一個檔案</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># /etc/nginx/sites-enabled/domain.conf
+</span><span class='line'>
+</span><span class='line'>server {
+</span><span class='line'> # ...
+</span><span class='line'> - ssl_certificate      /etc/ssl/domain.crt;
+</span><span class='line'> + ssl_certificate      /etc/ssl/domain_bundle.crt;
+</span><span class='line'> # ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上問題都調整完之後，再測試一次，終於會得 A+</p>
+
+<p><img src="http://rt-tong.com/images/posts/2017052304.jpg" alt="level A plus" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Using Joins and Includes to Avoid N+1 Query Problem]]></title>
+    <link href="http://rt-tong.com/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem/"/>
+    <updated>2017-05-23T14:39:53+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>就使用上來說，要從多筆資料去找 belongs_to 的資料，似乎是不太合邏輯</p>
+
+<p>但熟悉使用 ORM 使用者，因為一切都被包裝太的好，或許就會忘記想到有這樣的問題</p>
+
+<h2>Model Relation</h2>
+
+<p>場景設定，使用者有多個Comments</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/user.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:comments</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># app/models/comment.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>觸發條件 (has_many)</h2>
+
+<p>取得所有的comments，並找出該 comment 的 user 的 email</p>
+
+<p>之所以為 N+1 Query 就是一筆查所有comments，N 筆查每個comment.user.email</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'><span class="n">comments</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">comment</span><span class="o">|</span> <span class="n">comment</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>使用 Joins</h2>
+
+<p><a href="https://apidock.com/rails/ActiveRecord/QueryMethods/joins">joins</a></p>
+
+<p>joins 使用 INNER JOIN 的方式查詢，結果只有comments</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Comment</span><span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># SELECT users.* FROM comments INNER JOIN users ON users.id = comments.user_id</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>使用 Includes</h2>
+
+<p><a href="https://apidock.com/rails/v4.2.7/ActiveRecord/QueryMethods/includes">includes</a></p>
+
+<p>includes 使用 WHERE IN 的方式查詢，同時會一併取得users 的資料</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Comment</span><span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># SELECT comments.* FROM comments</span>
+</span><span class='line'><span class="c1"># SELECT users.* FROM users WHERE users.id IN (1)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>反向思考：如果user 使用 joins / includes 會怎樣呢？</h2>
+
+<blockquote><p>雖然都知道可以使用 user.comments 就可以得到答案，但就想實驗使用後的結果</p></blockquote>
+
+<ul>
+<li>joins</li>
+</ul>
+
+
+<p>產生重複的 User 資料，得到得資料還得用 <code>.uniq</code> 刪除</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:comments</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>includes</li>
+</ul>
+
+
+<p>結果一樣，同時會一併取得 comments 的資料</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">includes</span><span class="p">(</span><span class="ss">:comments</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RSpec]]></title>
+    <link href="http://rt-tong.com/blog/2017/05/23/rspec/"/>
+    <updated>2017-05-23T11:32:44+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/05/23/rspec</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>介紹</h2>
+
+<ul>
+<li>用來測試 Ruby / Rails 的測試工具</li>
+<li>程式開發過程，可以確保程式的正確性，也可以讓開發人員有效的重構</li>
+<li>當成一種程式文件</li>
+</ul>
+
+
+<h2>慣例</h2>
+
+<ol>
+<li>一個 <em>.rb 要搭配同名的 </em>_spec.rb</li>
+<li><code>#method</code> 表示 instance method, <code>.method</code> 表示class method</li>
+<li>在 Rails 寫 RSpec 建議順序 Model > Controller > View</li>
+</ol>
+
+
+<h2>安裝</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Gemfile</span>
+</span><span class='line'><span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rspec-rails&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">$</span> <span class="n">rails</span> <span class="n">generate</span> <span class="ss">rspec</span><span class="p">:</span><span class="n">install</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定取消自動產生 rspec</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/application.rb</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Application</span> <span class="o">&lt;</span> <span class="no">Rails</span><span class="o">::</span><span class="no">Application</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">generators</span> <span class="k">do</span> <span class="o">|</span><span class="n">g</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">g</span><span class="o">.</span><span class="n">controller_specs</span> <span class="kp">false</span>
+</span><span class='line'>    <span class="n">g</span><span class="o">.</span><span class="n">model_specs</span> <span class="kp">false</span>
+</span><span class='line'>    <span class="n">g</span><span class="o">.</span><span class="n">view_specs</span> <span class="kp">false</span>
+</span><span class='line'>    <span class="n">g</span><span class="o">.</span><span class="n">helper_specs</span> <span class="kp">false</span>
+</span><span class='line'>    <span class="n">g</span><span class="o">.</span><span class="n">routing_specs</span> <span class="kp">false</span>
+</span><span class='line'>    <span class="n">g</span><span class="o">.</span><span class="n">request_specs</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>測試指令</h2>
+
+<ul>
+<li><code>rspec</code> 全部測試</li>
+<li><code>rspec spec/controllers</code> 整個資料夾測試</li>
+<li><code>rspec filename_spec.rb</code> 單一檔案測試</li>
+<li><code>rspec filename_spec.rb:linenumber</code> 執行某行之後的測試</li>
+</ul>
+
+
+<h2>輸出</h2>
+
+<p>預設不產出文件</p>
+
+<ul>
+<li>產生document 並輸出 specdoc  文件</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="err">$</span> <span class="n">rspec</span> <span class="n">spec</span> <span class="o">--</span><span class="nb">format</span> <span class="n">documentation</span> <span class="o">--</span><span class="n">out</span> <span class="n">rspec_result</span><span class="o">.</span><span class="n">txt</span>
+</span><span class='line'>  <span class="err">$</span> <span class="n">rspec</span> <span class="n">spec</span> <span class="o">-</span><span class="n">fd</span> <span class="o">-</span><span class="n">o</span> <span class="n">rspec_result</span><span class="o">.</span><span class="n">txt</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>輸出 html 文件</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="err">$</span> <span class="n">rspec</span> <span class="n">spec</span> <span class="o">--</span><span class="nb">format</span> <span class="n">html</span> <span class="o">--</span><span class="n">out</span> <span class="n">rspec_result</span><span class="o">.</span><span class="n">html</span>
+</span><span class='line'>  <span class="err">$</span> <span class="n">rspec</span> <span class="n">spec</span> <span class="o">-</span><span class="n">fh</span> <span class="o">-</span><span class="n">o</span> <span class="n">rspec_result</span><span class="o">.</span><span class="n">html</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Describe / Context / it</h2>
+
+<p>RSpec 的主要區塊，所有的測試都寫在 describe 裡面，裡面則包含多個 context、it 測試</p>
+
+<p>descirbe 超過 40 個字，就需要使用 context、it 分段，讓你的測試更明確、有條理，保持可讀性</p>
+
+<h2>Before &amp; After</h2>
+
+<p>同unit test 的setup 與teardown</p>
+
+<ul>
+<li>before(:each) 每段it之前執行</li>
+<li>before(:all)  整段describe前只執行一次</li>
+<li>after(:each)  每段it之後執行</li>
+<li>after(:all)   整段describe後只執行一次</li>
+</ul>
+
+
+<h2>let &amp; let!</h2>
+
+<ul>
+<li>let 用到的時候再會被執行</li>
+<li>let! 每個測試前都會執行</li>
+</ul>
+
+
+<p>建議用 let 代替 before 來建立 instance variable</p>
+
+<p>因為 let 有 lazy load 特性，只在測項第一次用到該 variable 時被執行，並且會 cache 直到該測項結束</p>
+
+<p>這個技巧在產生 database 內容以測試 query 和 scope 時十分好用</p>
+
+<h2>Stubs</h2>
+
+<p>Stub: For replacing a method with code that returns a specified result.</p>
+
+<ul>
+<li>用stub 假造 method，讓它忽略這個 method，或是指定回傳東西，可以避免在測試時，測試不必要的東西。</li>
+<li>專注於要測試的東西，如果 method 有呼叫其他 method 就可以 stub 掉</li>
+<li>製造假物件，指定這個假物件能回應哪些訊息，還有對應的回傳值，讓要測試的主角，在執行過程中一些地方，能獲得一致的結果</li>
+<li>要測試的 model</li>
+</ul>
+
+
+<h2>Mocks</h2>
+
+<p>Mock: A stub with an expectations that the method gets called.</p>
+
+<ul>
+<li>假造 method，不只忽略這個 method ，並且期望被呼叫到</li>
+<li>「模擬」與一個「協作者」的互動，設立一個「會收到指定訊息」的期望，去驗證互動是否真的有發生。</li>
+<li>簡單來說 mock 就是 stub + expectation , 說它是 stub 是因為它也可以像 stub 一樣偽造方法, 阻斷對原來方法的調用, expectation 是說它不僅偽造了這個方法,它還期望你(必須)調用這個方法,如果沒有被調用到,這個 test 就 fail 了</li>
+<li>一樣製造假物件，但是現在我們改對這個假物件斷言，在主角的執行過程中，應該要收到什麼訊息、收到的訊息應該夾帶什麼參數、訊息收到的次數…等等，但是會有程式碼的流程些微不自然的問題（準備、斷言、（準備）、執行）</li>
+</ul>
+
+
+<p>使用 mock objects，在 RSpec 裡面叫做 double（替身），來取代「外部邏輯」資料</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># 讓 Post.save 失敗</span>
+</span><span class='line'><span class="n">allow_any_instance_of</span><span class="p">(</span><span class="no">Post</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">receive</span><span class="p">(</span><span class="ss">:save</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="kp">false</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 讓 Post.update 失敗</span>
+</span><span class='line'><span class="n">allow_any_instance_of</span><span class="p">(</span><span class="no">Post</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">receive</span><span class="p">(</span><span class="ss">:update</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="kp">false</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Controller Specs</h2>
+
+<p>Examples</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rails_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">TeamsController</span><span class="p">,</span> <span class="ss">:type</span> <span class="o">=&gt;</span> <span class="ss">:controller</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">describe</span> <span class="s2">&quot;GET index&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;assigns @teams&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">team</span> <span class="o">=</span> <span class="no">Team</span><span class="o">.</span><span class="n">create</span>
+</span><span class='line'>      <span class="n">get</span> <span class="ss">:index</span>
+</span><span class='line'>      <span class="n">expect</span><span class="p">(</span><span class="n">assigns</span><span class="p">(</span><span class="ss">:teams</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="o">[</span><span class="n">team</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;renders the index template&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">get</span> <span class="ss">:index</span>
+</span><span class='line'>      <span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Matchers</p>
+
+<ul>
+<li>render_template</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">render_template</span><span class="p">(</span><span class="ss">:new</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>redirect_to</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">redirect_to</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>have_http_status</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="ss">:created</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># success 就有四種寫法 XD</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="ss">:ok</span><span class="p">)</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="ss">:success</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># page not found</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>be_a_new</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># assigns(:widget) 表示 action 要回傳的 @widget</span>
+</span><span class='line'><span class="c1"># be_a_new 只是否等同 Widget.new</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">assigns</span><span class="p">(</span><span class="ss">:widget</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">be_a_new</span><span class="p">(</span><span class="no">Widget</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Model Specs</h2>
+
+<p>Examples</p>
+
+<p>使用 reload 重新載入資料</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s2">&quot;rails_helper&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Post</span><span class="p">,</span> <span class="ss">:type</span> <span class="o">=&gt;</span> <span class="ss">:model</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">context</span> <span class="s2">&quot;with 2 or more comments&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;orders them in reverse chronologically&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">post</span> <span class="o">=</span> <span class="no">Post</span><span class="o">.</span><span class="n">create!</span>
+</span><span class='line'>      <span class="n">comment1</span> <span class="o">=</span> <span class="n">post</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="ss">:body</span> <span class="o">=&gt;</span> <span class="s2">&quot;first comment&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">comment2</span> <span class="o">=</span> <span class="n">post</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="ss">:body</span> <span class="o">=&gt;</span> <span class="s2">&quot;second comment&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">expect</span><span class="p">(</span><span class="n">post</span><span class="o">.</span><span class="n">reload</span><span class="o">.</span><span class="n">comments</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="o">[</span><span class="n">comment2</span><span class="p">,</span> <span class="n">comment1</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>取消 transactions</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s2">&quot;rails_helper&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">use_transactional_examples</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="s2">&quot;defined&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Widget</span><span class="p">,</span> <span class="ss">:type</span> <span class="o">=&gt;</span> <span class="ss">:model</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;has none to begin with&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">Widget</span><span class="o">.</span><span class="n">count</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;has one after adding one&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">Widget</span><span class="o">.</span><span class="n">create</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">Widget</span><span class="o">.</span><span class="n">count</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># 關閉 transactions，剛剛建立的 Widget 就不會消失</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;has one after one was created in a previous example&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">Widget</span><span class="o">.</span><span class="n">count</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">after</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="p">{</span> <span class="no">Widget</span><span class="o">.</span><span class="n">destroy_all</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Routing Specs</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="s2">&quot;posts&quot;</span><span class="p">,</span> <span class="ss">:type</span> <span class="o">=&gt;</span> <span class="ss">:routing</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="ss">:get</span> <span class="o">=&gt;</span> <span class="s2">&quot;/events&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">route_to</span><span class="p">(</span><span class="s2">&quot;events#index&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="ss">:get</span> <span class="o">=&gt;</span> <span class="s2">&quot;/widgets/1/edit&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">not_to</span> <span class="n">be_routable</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="ss">:get</span> <span class="o">=&gt;</span> <span class="s2">&quot;/posts/1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">route_to</span><span class="p">(</span>
+</span><span class='line'>        <span class="ss">:controller</span> <span class="o">=&gt;</span> <span class="s2">&quot;posts&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="s2">&quot;show&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s2">&quot;1&quot;</span>
+</span><span class='line'>        <span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>:type => ??</h2>
+
+<p>設定 type 為 controller / model / routing 是 rspec metadata，可以讓 rspec 知道目前的 type</p>
+
+<p>當然也可以在 rails_helper 加入設定，這樣就不需要再每個 spec 檔都加入 type ，只要把檔案放在對應的資料夾，就可以代表該檔案的type</p>
+
+<p>e.g. spec/models -> 認定為 model</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># rails_helper</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">infer_spec_type_from_file_location!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://www.relishapp.com/rspec/rspec-rails/v/3-5/docs">RSpec Rails 3.5</a></li>
+<li><a href="http://betterspecs.org/zh_tw/">Better Specs</a></li>
+<li><a href="http://motion-express.com/trainings/rspec-rails-1">特快車-RSpec-Rails</a></li>
+<li><a href="http://mgleon08.github.io/blog/2016/01/29/rspec-plus-factory-girl/">用 Rspec + Factory Girl + CircleCi 寫測試</a></li>
+<li><a href="https://github.com/festime/stubs-mocks-spies-in-rspec">了解 Stubs, Mocks, and Spies</a></li>
+<li><a href="https://xdite.gitbooks.io/rspec-101/content/">RSpec on Rails 101</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Concerns]]></title>
@@ -2696,1085 +3842,6 @@
 
 <ul>
 <li>Ruby Programming ver.4</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby Class - Inheritance | Class_method | Instance_method | Class_eval | Instance_eval]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/06/ruby-class/"/>
-    <updated>2016-08-06T11:42:18+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/06/ruby-class</id>
-    <content type="html"><![CDATA[<blockquote><p>Ruby 萬物皆物件</p>
-
-<p>Class 可以生成(new) 物件</p>
-
-<p>抽象化的概念很重要</p></blockquote>
-
-<!-- more -->
-
-
-<h2>宣告</h2>
-
-<ul>
-<li>Class name 第一個字必需大寫</li>
-<li>initialize 只在初始化設定</li>
-<li>instance variable：以＠開頭命名，使用域在instance</li>
-<li>class variable：以＠＠開頭命名，等同此class 的全域變數，也就是class 的instance 都可以存取此變數</li>
-<li>class method 也可以設定pubic, protected, private 等存取權限</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Class_name
-</span><span class='line'>   def initialize(input=defalt_value)
-</span><span class='line'>     #...
-</span><span class='line'>   end
-</span><span class='line'>
-</span><span class='line'>   def methodA
-</span><span class='line'>     #...
-</span><span class='line'>   end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>可以使用 <code>.class</code> 查看instance 是哪個class</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>p [].class    # Array
-</span><span class='line'>p "abc".class # String</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>存取類別資料</h2>
-
-<ul>
-<li>method 直接設定</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass
-</span><span class='line'>  @name
-</span><span class='line'>
-</span><span class='line'>  def name  # getter
-</span><span class='line'>    @name
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def name=(name) # setter
-</span><span class='line'>    @name = name
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>設定Accessor</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass
-</span><span class='line'>  attr_reader  :name  // 同MyClass#name
-</span><span class='line'>  attr_writer  :name  // 同MyClass#name=
-</span><span class='line'>  attr_acessor :name  // 等於以上兩種方法
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Class Method</h2>
-
-<p>不需要instance 就可以呼叫class.method，同Java 的static</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># 方法一
-</span><span class='line'>class &lt;&lt; MyClass
-</span><span class='line'>  def methodA
-</span><span class='line'>    puts "Hello"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'># 方法二
-</span><span class='line'>class MyClass
-</span><span class='line'> class &lt;&lt; self
-</span><span class='line'>   def methodA
-</span><span class='line'>     puts "Hello"
-</span><span class='line'>   end
-</span><span class='line'> end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'># 方法三
-</span><span class='line'>class MyClass
-</span><span class='line'>  def self.methodA
-</span><span class='line'>    puts "Hello"
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>繼承</h2>
-
-<ul>
-<li>只能單一繼承，也就是一個子類別只能有一個父類別（很重要！）</li>
-<li>Object 是Ruby 所有class 的父類別，而Object 繼承BasicObject</li>
-<li>如果沒有繼承，Ruby 默認所有class 為Object 的子類別</li>
-<li>使用<code>is_a?</code> 或<code>.instance_of?</code> 確認是否為屬於（繼承）此類別</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[].is_a?(Array)  # true
-</span><span class='line'>"".is_a?(String) # true
-</span><span class='line'>
-</span><span class='line'>p [].instance_of?(Array)  # true
-</span><span class='line'>p [].instance_of?(String) # false
-</span><span class='line'>p "".instance_of?(String) # true</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>使用 <code>&lt;</code> 繼承super class</li>
-<li>使用<code>super()</code> 呼叫父類別中同名稱的method</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class RingAry &lt; Array
-</span><span class='line'>  def [](i)
-</span><span class='line'>   idx = i % size
-</span><span class='line'>   super(idx)
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>CLASS_EVAL、INSTANCE_EVAL</h2>
-
-<ul>
-<li>instance_eval 定義class method，也可以使用 &lt;&lt; 替代</li>
-<li>class_eval 定義instance method</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Foo = Class.new
-</span><span class='line'>Foo.class_eval do
-</span><span class='line'>  def class_bar
-</span><span class='line'>    "class_bar"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>Foo.instance_eval do
-</span><span class='line'>  def instance_bar
-</span><span class='line'>    "instance_bar"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>Foo.class_bar       #=&gt; undefined method ‘class_bar’ for Foo:Class
-</span><span class='line'>Foo.new.class_bar   #=&gt; "class_bar"
-</span><span class='line'>Foo.instance_bar       #=&gt; "instance_bar"
-</span><span class='line'>Foo.new.instance_bar   #=&gt; undefined method ‘instance_bar’ for #&lt;Foo:0x7dce8&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>alias、 undef</h2>
-
-<p>設定或取消 method 的別名</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># alias origin_name new_name
-</span><span class='line'># alias :origin_name :new_name
-</span><span class='line'>class C1
-</span><span class='line'>  def hello
-</span><span class='line'>   "hello"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>class C2 &lt; C1
-</span><span class='line'>  alias super_hello hello
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>p C2.new.super_hello # "hello"
-</span><span class='line'>
-</span><span class='line'># undef method
-</span><span class='line'># undef :method
-</span><span class='line'>class C1
-</span><span class='line'>  def methodA
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>class C2 &lt; C1
-</span><span class='line'>  undef methodA
-</span><span class='line'>  # ...
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>References</h2>
-
-<ul>
-<li>Ruby Programming ver.4</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby Method - *argv | &block]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/05/ruby-method/"/>
-    <updated>2016-08-05T08:36:06+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/05/ruby-method</id>
-    <content type="html"><![CDATA[<blockquote><p>用來包裝邏輯處理，算是一種refactor</p></blockquote>
-
-<!-- more -->
-
-
-<h2>語法</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def method_name
-</span><span class='line'>  # logical processes
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>用法</h2>
-
-<ul>
-<li>module: module_name.method_name()</li>
-<li>instance_method: class_name.new.method_name()</li>
-<li>class_method: class_name.method_name()</li>
-</ul>
-
-
-<h2>參數用法</h2>
-
-<h3>普通參數</h3>
-
-<ul>
-<li>默認參數：不傳入值，以默認值替代，但若有使用除了<strong>第一個參數</strong>外，其餘皆需設定默認值</li>
-<li><code>*argv</code>：傳入不定長度的普通參數</li>
-<li><code>&amp;block</code>：編寫要執行的邏輯 (Proc)</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># *argv
-</span><span class='line'>def sum(a,b=0,*argv)
-</span><span class='line'>  sum = a + b
-</span><span class='line'>  argv.each { |num| sum += num } if argv
-</span><span class='line'>  return sum
-</span><span class='line'> end
-</span><span class='line'>
-</span><span class='line'>p sum(10)          # 10
-</span><span class='line'>p sum(10,10)       # 20
-</span><span class='line'>p sum(10,10,10)    # 30
-</span><span class='line'>p sum(10,10,10,10) # 40
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'># &block
-</span><span class='line'>def def_by_myself(*argv, &block)
-</span><span class='line'>  block.call(argv)
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>def_by_myself(('a'..'z').to_a) do |n|
-</span><span class='line'>  puts n.to_s.upcase
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>關鍵字參數</h2>
-
-<p>Ruby ver.2.0 加入，參數有key-value 的關係</p>
-
-<ul>
-<li>默認參數：不傳入值，則以默認值替代</li>
-<li><code>**argv</code>：傳入不定長度的關鍵字參數</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def area(x: 0, y: 0, z: 0)
-</span><span class='line'>  return ((x*y)+(y*z)+(z*x))*2
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>p area(x: 10)              # 0
-</span><span class='line'>p area(x: 10, y:10)        # 200
-</span><span class='line'>p area(x: 10, y:10, z: 10) # 600</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>組合(普通＋關鍵字)</h3>
-
-<p>機器人都可以組合，method 也一定可以!!</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def func(a, b=0, c:0, d:0)
-</span><span class='line'>  # ...
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>References</h2>
-
-<ul>
-<li>Ruby Programming ver.4</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Basic of Ruby]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/04/ruby-basic/"/>
-    <updated>2016-08-04T10:41:35+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/04/ruby-basic</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<h2>必須知道的網站</h2>
-
-<ol>
-<li><a href="http://ruby-doc.org/">http://ruby-doc.org/</a>
-
-<ol>
-<li>core：核心程式，也就是執行ruby 一定要載入的程式</li>
-<li>std-lib：標準套件，要使用require 載入，例如：Time</li>
-</ol>
-</li>
-<li><a href="https://www.ruby-toolbox.com/">https://www.ruby-toolbox.com/</a>
-
-<ol>
-<li>ruby gems</li>
-<li>D.R.Y. 不要自己造輪子</li>
-</ol>
-</li>
-</ol>
-
-
-<h2>Ruby Object</h2>
-
-<p>Ruby 萬物皆物件，所以要先知道物件屬於什麼Class，有哪些methods 可以使用</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ "123".class
-</span><span class='line'>$ String.methods
-</span><span class='line'># 如果method 不熟，就可以到doc 查詢說明與用法</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>基本型別</h2>
-
-<p>Fixnum/Bignum, Float, Array, String, Nil, True, False</p>
-
-<h2>變數命名規則</h2>
-
-<ul>
-<li>local variable：以英文字或是下底線開頭</li>
-<li>global variable：以$ 開頭</li>
-<li>instance variable：以＠開頭命名</li>
-<li>class variable：以＠＠開頭命名</li>
-<li>constant：常量，為全英文大寫命名，常用設定環境變數</li>
-</ul>
-
-
-<h2>多重賦值</h2>
-
-<p>只要等號兩邊結構一致，在複雜的結構，多重賦值皆可輕鬆對應</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>a,b,c = 1,2,3
-</span><span class='line'>
-</span><span class='line'>a,*b,c = 1,2,3,4,5,6
-</span><span class='line'># [1,[2,3,4,5],6]
-</span><span class='line'>
-</span><span class='line'>a,b,*c = 1,2,3,4,5,6
-</span><span class='line'># [1,2,[3,4,5,6]
-</span><span class='line'>
-</span><span class='line'># 交換值
-</span><span class='line'>a,b=0,1
-</span><span class='line'>a,b=b,a
-</span><span class='line'>
-</span><span class='line'># 分配陣列值
-</span><span class='line'>ary = [1,2]
-</span><span class='line'>a,b = ary
-</span><span class='line'>
-</span><span class='line'># 取得槽狀陣列元素
-</span><span class='line'>ary = [1,[2,3],4]
-</span><span class='line'>a,b,c = ary
-</span><span class='line'>
-</span><span class='line'># 取得槽狀陣列組合
-</span><span class='line'>ary = [1,[2,3],4]
-</span><span class='line'>a,(b1,b2),c = ary</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>三元判斷式(if)</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if x &gt; 10
-</span><span class='line'>  puts "bigger"
-</span><span class='line'>else
-</span><span class='line'>  puts "smaller"
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'># 上下相同
-</span><span class='line'>(x&gt;10) ? "bigger" : "smaller"</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>if Condition, unless Condition</h2>
-
-<p>if 和unless 可以放在希望執行的程式後面</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>puts "a is bigger than b" if a &gt; b
-</span><span class='line'>
-</span><span class='line'>puts "a is bigger than b" unless a &lt; b</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Array</h2>
-
-<p>使用<code>[]</code>表示</p>
-
-<h2>Hash</h2>
-
-<p>key, value 的組合，使用<code>{}</code>表示</p>
-
-<h2>Symbol vs. String</h2>
-
-<ul>
-<li>每建立一個String 物件，就會產生一個新的String 物件</li>
-<li>Symbol 是有名字的物件，一個名字只會有一個，不可修改(immutable)，也不能賦予值，當作hash key</li>
-<li><a href="http://stackoverflow.com/questions/2341837/understanding-symbols-in-ruby">#很多人也搞不懂Symbol</a></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># String
-</span><span class='line'>3.times { puts "foo".object_id }
-</span><span class='line'># 70094949931660
-</span><span class='line'># 70094949931540
-</span><span class='line'># 70094949931480
-</span><span class='line'>
-</span><span class='line'># Symbol-1
-</span><span class='line'>3.times { puts :foo.object_id }
-</span><span class='line'># 1149788
-</span><span class='line'># 1149788
-</span><span class='line'># 1149788
-</span><span class='line'>
-</span><span class='line'># Symbol-2
-</span><span class='line'>present1 = { :toy =&gt; "cars"}
-</span><span class='line'>present2 = { :toy =&gt; "dolls"}
-</span><span class='line'>p present1[:toy] # cars
-</span><span class='line'>p present2[:toy] # dolls</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>深入了解Classes</h2>
-
-<p>如果在使用上有問題，可以到<a href="http://ruby-doc.org/core-2.3.1/">Ruby Doc</a> Classes 查看說明</p>
-
-<h2>References</h2>
-
-<ul>
-<li>RailsFun.tw 新手教學</li>
-<li>Ruby Programming ver.4</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Git Commands]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/01/git-commands/"/>
-    <updated>2016-08-01T00:43:42+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/01/git-commands</id>
-    <content type="html"><![CDATA[<blockquote><p>本篇並非Git 教學，只是記錄常用的Git 指令，有學到新的指令會再更新上來
-如果不太熟悉可在指令後加入 &ndash;help 查詢用法</p></blockquote>
-
-<!-- more -->
-
-
-<h2>Git 基本設定</h2>
-
-<p>查詢設定資訊</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config --list</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定全域的使用者與Email (個人使用)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git config --global user.name [author_name]
-</span><span class='line'>git config --global user.email [contact_email_address]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定區域的使用者與Email (參與計劃或公司專案)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd local_repo
-</span><span class='line'>git config --local user.name [author_name]
-</span><span class='line'>git config --local user.email [contact_email_address]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定別名</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git config --global alias.st status   # git st
-</span><span class='line'>$ git config --global alias.ci commit   # git ci
-</span><span class='line'>$ git config --global alias.co checkout # git co
-</span><span class='line'>$ git config --global alias.br branch   # git br</span></code></pre></td></tr></table></div></figure>
-
-
-<p>建立一個全新的Git Repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git init --bare project_name.git</span></code></pre></td></tr></table></div></figure>
-
-
-<p>本機建立新的repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git init</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看工作區(Working Directory)的異動紀錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git status
-</span><span class='line'>$ git st</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看檔案異動差異</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git diff</span></code></pre></td></tr></table></div></figure>
-
-
-<p>加入暫存區</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git add [--] [file_path | file_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>提交並加上註解</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git commit -m [comments]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>開啟editor 修改近期已經commit 的註解 (建議少用，除非必要)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git commit --amend</span></code></pre></td></tr></table></div></figure>
-
-
-<p>儲存工作：專案開發到一半，要去別的brach，可使用stash 把修改記錄暫存起來</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git stash</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看暫存的紀錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git stash list</span></code></pre></td></tr></table></div></figure>
-
-
-<p>取回暫存的紀錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git apply
-</span><span class='line'>
-</span><span class='line'># 取回較舊的暫存紀錄
-</span><span class='line'>$ git stash apply stash@{2}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>刪除暫存紀錄：apply 只是取回紀錄，但沒有執行刪除的動作</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git stash drop [stash_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>快速修正前一次 commit 的錯誤，只要修 typo 之後打這行，就會替換掉前一次的 commit-level-operations</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git commit -C HEAD -a –amend</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看提交紀錄</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git log</span></code></pre></td></tr></table></div></figure>
-
-
-<p>砍掉commit 重來</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git reset [--soft | --hard] [-q] [&lt;commit&gt;]
-</span><span class='line'>
-</span><span class='line'>$ git reset --soft HEAD^ # HEAD^ 表示前一個版本</span></code></pre></td></tr></table></div></figure>
-
-
-<p>soft: commit 內容會退回暫存區(staging area)，並保留工作區(working directory)</p>
-
-<p>hard: 工作區(working directory) 與暫存區(staging area) 會更新到指定的commit 狀態</p>
-
-<h2>Git Branch</h2>
-
-<p>列出所有分支且正在使用哪個分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch</span></code></pre></td></tr></table></div></figure>
-
-
-<p>建立新的分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>切換分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>建立新的分支並切換到此分支 (等於 git branch + git checkout)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout -b [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>修改分支名稱與刪除分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git branch -m [old_branch_name] [new_branch_name]
-</span><span class='line'>$ git branch -d [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Git Merge &amp; Git Rebase</h2>
-
-<h3>觀念：只要branch 調整完畢，應先將master merge 至branch，測試無誤後，在merge 回master</h3>
-
-<blockquote><p>merge 分支的功能加master，同時會產生新的HEAD</p></blockquote>
-
-<p>合併分支到master</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout master
-</span><span class='line'>$ git merge feature1
-</span><span class='line'>
-</span><span class='line'># 上下相同
-</span><span class='line'>$ git merge master feature1</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>rebase 是基於某一分支的內容合併，又稱為分支衍合，一樣是合併的動作，但是會銜接著mater 最新的狀態</p></blockquote>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git checkout [branch]
-</span><span class='line'>$ git rebase master</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Merge v.s. Rebase</p>
-
-<p><strong>使用時機：如果conflict 較多時，建議使用merge</strong></p>
-
-<p>假設以下例子要做合併，可以看出merge與rebase 有何差異</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>maser:  A -&gt; B -&gt; C
-</span><span class='line'>branch: D -&gt; E
-</span><span class='line'>
-</span><span class='line'>after rebase: A -&gt; B -&gt; C -&gt; D -&gt; E
-</span><span class='line'>after merge:  A -&gt; B -&gt; C -&gt; D -&gt; E -&gt; F</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Git Remote</h2>
-
-<p>列出當初加入遠端儲存庫時指定的名稱</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote</span></code></pre></td></tr></table></div></figure>
-
-
-<p>本機加入遠端repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote add [remote_name] [url]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>修改遠端repository url</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote set-url [new_remote_name] [url]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>拷貝一個已經存在的repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone [repository_url]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>變更遠端簡稱</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote rename [old_remote_name] [new_remote_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>查看remote 資訊</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote show [remote_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>移除遠端repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git remote remove [remote_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上傳至遠端repository</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git push [remote_name] [branch_name]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>合併遠端repository 至本機</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git pull [remote_name] [branch_name]
-</span><span class='line'>
-</span><span class='line'># 上下相同
-</span><span class='line'>
-</span><span class='line'>$ git pull</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>實用資訊</h2>
-
-<ul>
-<li><a href="https://github.com/RailsApps/rails-composer/blob/master/files/gitignore.txt">gitignore lists</a></li>
-</ul>
-
-
-<h2>References</h2>
-
-<ul>
-<li><a href="https://git-scm.com/doc">GitDoc</a></li>
-<li><a href="https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf">Git cheat sheet</a></li>
-<li><a href="https://ihower.tw/git/basic.html">ihower Git Basic</a></li>
-<li><a href="https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting/commit-level-operations">tutorial reset, checkout, revert</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Java Enum]]></title>
-    <link href="http://rt-tong.com/blog/2016/07/28/java-enum/"/>
-    <updated>2016-07-28T00:44:15+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/07/28/java-enum</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<h2>在J2SE 5.0 之前，沒有Enum</h2>
-
-<p>使用<code>static</code>與<code>final</code>兩個修飾詞建立常數變數</p>
-
-<ul>
-<li>static：class variable, class 未被instance 就被宣告完成且可以使用、所有class 是參考同一個變數</li>
-<li>final：使用之後此變數即是常數，無法被繼承也無法被修改</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public Class StateMachines {
-</span><span class='line'>    public static final String ORDER_PLACED = "1";
-</span><span class='line'>    public static final String PAID = "2";
-</span><span class='line'>    public static final String SHIPPING = "3";
-</span><span class='line'>    public static final String SHIPPED = "4";
-</span><span class='line'>    public static final String ORDER_CANCELLED = "5";
-</span><span class='line'>    public static final String GOOD_RETURNED = "6";
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Enum 使用方法</h2>
-
-<ol>
-<li>定義常數，例如要定義購買流程狀態，就定出已下訂、已付款&hellip;等代碼</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public enum StateMachines {
-</span><span class='line'>    ORDER_PLACED,PAID,SHIPPING,SHIPPED,ORDER_CANCELLED,GOOD_RETURNED;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>定義常數內容、overriding、switch case</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>public enum StateMachines {
-</span><span class='line'>      ORDER_PLACED(1),PAID(2),SHIPPING(3),SHIPPED(4),ORDER_CANCELLED(5),GOOD_RETURNED(6);
-</span><span class='line'>
-</span><span class='line'>        private int step;
-</span><span class='line'>
-</span><span class='line'>        private Direction(int step) {
-</span><span class='line'>          this.step = step;
-</span><span class='line'>        }
-</span><span class='line'>
-</span><span class='line'>        @Override
-</span><span class='line'>        public String toString() {
-</span><span class='line'>          return String.valueOf(this.step);
-</span><span class='line'>        }
-</span><span class='line'>
-</span><span class='line'>        public String getChName() {
-</span><span class='line'>          switch(this) {
-</span><span class='line'>          case ORDER_PLACED:
-</span><span class='line'>            return "已下訂";
-</span><span class='line'>          case PAID:
-</span><span class='line'>            return "已付款";
-</span><span class='line'>            // 略
-</span><span class='line'>          }
-</span><span class='line'>      }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>結論</h2>
-
-<ol>
-<li>enum 不可繼承其他類別</li>
-<li>可新增method 在enum 內</li>
-<li>可overriding 原enum 的method</li>
-<li>switch 可使用enum 作為判斷</li>
-<li>歸納同性質的常數，並可以衍生共用method</li>
-<li>常數的泛型化應用</li>
-</ol>
-
-
-<h2>References:</h2>
-
-<ul>
-<li><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html">Enum Java Docs</a></li>
-<li><a href="http://www.cnblogs.com/happyPawpaw/archive/2013/04/09/3009553.html">Java enum的用法详解</a></li>
 </ul>
 
 ]]></content>

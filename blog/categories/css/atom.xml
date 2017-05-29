@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Css | JT's Blog]]></title>
   <link href="http://rt-tong.com/blog/categories/css/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2017-05-18T15:55:28+08:00</updated>
+  <updated>2017-05-29T16:25:57+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -12,6 +12,181 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Scss and Sass]]></title>
+    <link href="http://rt-tong.com/blog/2017/05/29/scss-and-sass/"/>
+    <updated>2017-05-29T15:56:26+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/05/29/scss-and-sass</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>學會 scss / sass 可以加速寫 css</p>
+
+<p>sass 跟 scss 的差別，不需要寫大括號和分號和mixins 的用法</p></blockquote>
+
+<h2>SCSS</h2>
+
+<p>檔名存成 .scss</p>
+
+<h3>常用功能</h3>
+
+<ol>
+<li>使用@import</li>
+<li>算數</li>
+<li>顏色</li>
+</ol>
+
+
+<h3>變數命名</h3>
+
+<p>已 $ 開頭命名
+<code>
+$base_font_size: 10px;
+$base_color: #666;
+</code></p>
+
+<h3>Nesting（＆可省略, 注意「空格」）</h3>
+
+<pre><code>.main {
+  &amp;.sec {
+    # .main.sec
+  }
+  &amp; .third {
+    # .main .third
+  }
+  .fourth {}
+}
+</code></pre>
+
+<h3>Mixins</h3>
+
+<pre><code>@mixin roundedBox {
+  $radius: 10px;
+  border-radius: $radius;
+}
+.main {
+  @include roundedBox;
+}
+</code></pre>
+
+<h3>Mixins(預設參數）</h3>
+
+<pre><code>@mixin roundedBox($radius: 5px) {
+  border-radius: $radius;
+}
+.main {
+  @include roundedBox(10px);
+}
+</code></pre>
+
+<h3>Inheritance</h3>
+
+<pre><code>.red-color {
+  color: red;
+}
+.error {
+  font-size: $base_font_size * 1.4;
+  @extend .red-color;
+}
+</code></pre>
+
+<h3>Operators</h3>
+
+<pre><code>$margin : 16px;
+
+.island {
+    background: #cc0000;
+    width: $column * 4;
+    margin: $margin * 2 $margin / 2 $margin + 20 $margin;
+    padding: $margin * 0.25;
+}
+</code></pre>
+
+<h2>SASS</h2>
+
+<p>檔名存成 .sass</p>
+
+<h3>變數命名</h3>
+
+<p>已 $ 開頭命名
+<code>
+$base_font_size: 10px
+$base_color: #666
+</code></p>
+
+<h3>Nesting（＆可省略, 注意「空格」）</h3>
+
+<pre><code>.main
+  &amp;.sec
+    # .main.sec
+  &amp; .third
+    # .main .third
+  .fourth
+    # .main.fourth
+}
+</code></pre>
+
+<h3>Mixins</h3>
+
+<pre><code>=roundedBox {
+  $radius: 10px;
+  border-radius: 5px;
+}
+.main {
+  +roundedBox;
+}
+</code></pre>
+
+<h3>Mixins(預設參數）</h3>
+
+<pre><code>=roundedBox($radius: 5px) {
+  border-radius: $radius;
+}
+.main {
+  +roundedBox(10px);
+}
+</code></pre>
+
+<h3>Inheritance</h3>
+
+<pre><code>.red-color
+  color: red
+
+.error
+  font-size: $base_font_size * 1.4
+  @extend .red-color
+</code></pre>
+
+<h3>Operators</h3>
+
+<pre><code>article[role="main"]
+  float: left
+  width: 600px / 960px * 100%
+</code></pre>
+
+<h3>Mixin + media screen</h3>
+
+<pre><code>$base_font_size: 10px
+$phone: "(max-width: 540px)"
+
+=font-size($large: $base_font_size*3, $small: $base_font_size*2)
+  font-size: $large
+  @media screen and #{phone}
+    font-size: $small
+</code></pre>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://augus-blog.logdown.com/posts/143401-scss-tutorial">scss tutorial</a></li>
+<li><a href="http://sass-lang.com/documentation/Sass/Script/Functions.html">scss documentation</a></li>
+<li><a href="http://blog.visioncan.com/2011/sass-scss-your-css/">使用scss來加速寫css吧</a></li>
+<li><a href="http://sass-lang.com/documentation/file.SASS_REFERENCE.html">sass documentation</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Learning CSS]]></title>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | JT's Blog]]></title>
   <link href="http://rt-tong.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://rt-tong.com/"/>
-  <updated>2017-05-18T15:55:28+08:00</updated>
+  <updated>2017-05-29T16:25:57+08:00</updated>
   <id>http://rt-tong.com/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -12,6 +12,409 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Each / Map / Collect]]></title>
+    <link href="http://rt-tong.com/blog/2017/05/26/ruby-block-map-collect/"/>
+    <updated>2017-05-26T13:51:46+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/05/26/ruby-block-map-collect</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Map / Collect</h2>
+
+<p>一般來說，會把這兩個視為同一種功能，也有說法是map 是collect 的別名</p>
+
+<p>stackoverflow 有針對 map 和 collect 做 benchmark，<strong>使用 map 效能會比較好</strong></p>
+
+<p>map 和 collect 是屬於 Enumerable Module 的 methods</p>
+
+<p>map 和 collect 會回傳新的 array，而 array 內的值是 block 執行的結果</p>
+
+<p>Array、Hash 都有include enumerable module，就可以使用map 和 collect</p>
+
+<pre><code class="ruby"># Array
+[1,2,3].map {|x| x + 1 }
+# =&gt; [2, 3, 4]
+
+# Hash
+hash = {:name =&gt; "John", :age =&gt; 30, :phone =&gt; "0910111000"}
+hash.map {|key, value| value }
+# =&gt; ["John", 30, "0910111000"]
+</code></pre>
+
+<h2>&amp;: 是block 在簡化的符號</h2>
+
+<p>在Rails 中，假設要取得所有User 的姓名，使用map 的寫法如下</p>
+
+<pre><code class="ruby">names = User.all.map{ |user| user[:name] }.compact
+# compact: Returns a copy of self with all nil elements removed.
+</code></pre>
+
+<p>但如果只針對 Array 中的取某個值或是執行某個 method 就可以使用 <code>&amp;:</code></p>
+
+<pre><code class="ruby"># 取值
+names = User.all.map(&amp;:name)
+
+# 轉大寫
+["vanessa", "david", "thomas"].map(&amp;:upcase)
+#=&gt; ["VANESSA", "DAVID", "THOMAS"]
+</code></pre>
+
+<h2>跟 each 差別在哪呢？</h2>
+
+<p>看完 map, collect 感覺跟一般常用的 each 很像，那他們的差別在哪邊呢？</p>
+
+<p>首先 Array、Hash 都有各自實作 <code>#each</code></p>
+
+<p>執行的方式，跟執行 block 的動作是一樣的</p>
+
+<p><strong>主要差別在 each 是回傳self (Array、Hash)，而map 和 collect 回傳 new array</strong></p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://motion-express.com/blog/20141010-ruby-block-map-collect">常見 block 說明和應用：do, map, collect</a></li>
+<li><a href="http://stackoverflow.com/questions/1217088/what-does-mapname-mean-in-ruby">what-does-mapname-mean-in-ruby</a></li>
+<li><a href="http://stackoverflow.com/questions/5254732/difference-between-map-and-collect-in-ruby">difference-between-map-and-collect-in-ruby</a></li>
+<li><a href="https://stackoverflow.com/questions/12084507/what-does-the-map-method-do-in-ruby">what-does-the-map-method-do-in-ruby</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[RSpec]]></title>
+    <link href="http://rt-tong.com/blog/2017/05/23/rspec/"/>
+    <updated>2017-05-23T11:32:44+08:00</updated>
+    <id>http://rt-tong.com/blog/2017/05/23/rspec</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>介紹</h2>
+
+<ul>
+<li>用來測試 Ruby / Rails 的測試工具</li>
+<li>程式開發過程，可以確保程式的正確性，也可以讓開發人員有效的重構</li>
+<li>當成一種程式文件</li>
+</ul>
+
+
+<h2>慣例</h2>
+
+<ol>
+<li>一個 <em>.rb 要搭配同名的 </em>_spec.rb</li>
+<li><code>#method</code> 表示 instance method, <code>.method</code> 表示class method</li>
+<li>在 Rails 寫 RSpec 建議順序 Model > Controller > View</li>
+</ol>
+
+
+<h2>安裝</h2>
+
+<pre><code class="ruby"># Gemfile
+group :development, :test do
+  gem 'rspec-rails'
+end
+
+$ rails generate rspec:install
+</code></pre>
+
+<p>設定取消自動產生 rspec</p>
+
+<pre><code># config/application.rb
+
+class Application &lt; Rails::Application
+  config.generators do |g|
+    g.controller_specs false
+    g.model_specs false
+    g.view_specs false
+    g.helper_specs false
+    g.routing_specs false
+    g.request_specs false
+  end
+end
+</code></pre>
+
+<h2>測試指令</h2>
+
+<ul>
+<li><code>rspec</code> 全部測試</li>
+<li><code>rspec spec/controllers</code> 整個資料夾測試</li>
+<li><code>rspec filename_spec.rb</code> 單一檔案測試</li>
+<li><code>rspec filename_spec.rb:linenumber</code> 執行某行之後的測試</li>
+</ul>
+
+
+<h2>輸出</h2>
+
+<p>預設不產出文件</p>
+
+<ul>
+<li>產生document 並輸出 specdoc  文件
+<code>
+$ rspec spec --format documentation --out rspec_result.txt
+$ rspec spec -fd -o rspec_result.txt
+</code></li>
+<li>輸出 html 文件
+<code>
+$ rspec spec --format html --out rspec_result.html
+$ rspec spec -fh -o rspec_result.html
+</code></li>
+</ul>
+
+
+<h2>Describe / Context / it</h2>
+
+<p>RSpec 的主要區塊，所有的測試都寫在 describe 裡面，裡面則包含多個 context、it 測試</p>
+
+<p>descirbe 超過 40 個字，就需要使用 context、it 分段，讓你的測試更明確、有條理，保持可讀性</p>
+
+<h2>Before &amp; After</h2>
+
+<p>同unit test 的setup 與teardown</p>
+
+<ul>
+<li>before(:each) 每段it之前執行</li>
+<li>before(:all)  整段describe前只執行一次</li>
+<li>after(:each)  每段it之後執行</li>
+<li>after(:all)   整段describe後只執行一次</li>
+</ul>
+
+
+<h2>let &amp; let!</h2>
+
+<ul>
+<li>let 用到的時候再會被執行</li>
+<li>let! 每個測試前都會執行</li>
+</ul>
+
+
+<p>建議用 let 代替 before 來建立 instance variable</p>
+
+<p>因為 let 有 lazy load 特性，只在測項第一次用到該 variable 時被執行，並且會 cache 直到該測項結束</p>
+
+<p>這個技巧在產生 database 內容以測試 query 和 scope 時十分好用</p>
+
+<h2>Stubs</h2>
+
+<p>Stub: For replacing a method with code that returns a specified result.</p>
+
+<ul>
+<li>用stub 假造 method，讓它忽略這個 method，或是指定回傳東西，可以避免在測試時，測試不必要的東西。</li>
+<li>專注於要測試的東西，如果 method 有呼叫其他 method 就可以 stub 掉</li>
+<li>製造假物件，指定這個假物件能回應哪些訊息，還有對應的回傳值，讓要測試的主角，在執行過程中一些地方，能獲得一致的結果</li>
+<li>要測試的 model</li>
+</ul>
+
+
+<h2>Mocks</h2>
+
+<p>Mock: A stub with an expectations that the method gets called.</p>
+
+<ul>
+<li>假造 method，不只忽略這個 method ，並且期望被呼叫到</li>
+<li>「模擬」與一個「協作者」的互動，設立一個「會收到指定訊息」的期望，去驗證互動是否真的有發生。</li>
+<li>簡單來說 mock 就是 stub + expectation , 說它是 stub 是因為它也可以像 stub 一樣偽造方法, 阻斷對原來方法的調用, expectation 是說它不僅偽造了這個方法,它還期望你(必須)調用這個方法,如果沒有被調用到,這個 test 就 fail 了</li>
+<li>一樣製造假物件，但是現在我們改對這個假物件斷言，在主角的執行過程中，應該要收到什麼訊息、收到的訊息應該夾帶什麼參數、訊息收到的次數…等等，但是會有程式碼的流程些微不自然的問題（準備、斷言、（準備）、執行）</li>
+</ul>
+
+
+<p>使用 mock objects，在 RSpec 裡面叫做 double（替身），來取代「外部邏輯」資料</p>
+
+<pre><code># 讓 Post.save 失敗
+allow_any_instance_of(Post).to receive(:save).and_return(false)
+
+# 讓 Post.update 失敗
+allow_any_instance_of(Post).to receive(:update).and_return(false)
+</code></pre>
+
+<h2>Controller Specs</h2>
+
+<p>Examples
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">rails_helper</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;describe TeamsController, :type =&gt; :controller do</span>
+</span><span class='line'><span class="sr">  describe &amp;ldquo;GET index&amp;rdquo; do</span>
+</span><span class='line'><span class="sr">    it &amp;ldquo;assigns @teams&amp;rdquo; do</span>
+</span><span class='line'><span class="sr">      team = Team.create</span>
+</span><span class='line'><span class="sr">      get :index</span>
+</span><span class='line'><span class="sr">      expect(assigns(:teams)).to eq([team])</span>
+</span><span class='line'><span class="sr">    end&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">it</span> <span class="s2">&quot;renders the index template&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">get</span> <span class="ss">:index</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Matchers</p>
+
+<ul>
+<li><p>render_template
+<code>
+expect(response).to render_template(:new)
+</code></p></li>
+<li><p>redirect_to
+<code>
+expect(response).to redirect_to(location)
+</code></p></li>
+<li><p>have_http_status
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="ss">:created</span><span class="p">)</span><span class="o">&lt;</span><span class="sr">/p&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/ul&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;success 就有四種寫法 XD&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="ss">:ok</span><span class="p">)</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="ss">:success</span><span class="p">)</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;page not found&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<ul>
+<li>be_a_new
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">assigns</span><span class="p">(</span><span class="ss">:widget</span><span class="p">)</span> <span class="err">表示</span> <span class="n">action</span> <span class="err">要回傳的</span> <span class="vi">@widget</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;be_a_new 只是否等同 Widget.new&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">expect</span><span class="p">(</span><span class="n">assigns</span><span class="p">(</span><span class="ss">:widget</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">be_a_new</span><span class="p">(</span><span class="no">Widget</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></p></li>
+</ul>
+
+
+<h2>Model Specs</h2>
+
+<p>Examples</p>
+
+<p>使用 reload 重新載入資料</p>
+
+<pre><code class="ruby">require "rails_helper"
+
+describe Post, :type =&gt; :model do
+  context "with 2 or more comments" do
+    it "orders them in reverse chronologically" do
+      post = Post.create!
+      comment1 = post.comments.create!(:body =&gt; "first comment")
+      comment2 = post.comments.create!(:body =&gt; "second comment")
+      expect(post.reload.comments).to eq([comment2, comment1])
+    end
+  end
+end
+</code></pre>
+
+<p>取消 transactions</p>
+
+<pre><code class="ruby">require "rails_helper"
+
+RSpec.configure do |c|
+  c.use_transactional_examples = false
+  c.order = "defined"
+end
+
+describe Widget, :type =&gt; :model do
+  it "has none to begin with" do
+    expect(Widget.count).to eq 0
+  end
+
+  it "has one after adding one" do
+    Widget.create
+    expect(Widget.count).to eq 1
+  end
+
+  # 關閉 transactions，剛剛建立的 Widget 就不會消失
+  it "has one after one was created in a previous example" do
+    expect(Widget.count).to eq 1
+  end
+
+  after(:all) { Widget.destroy_all }
+end
+</code></pre>
+
+<h2>Routing Specs</h2>
+
+<pre><code class="ruby">describe "posts", :type =&gt; :routing do
+
+  expect(:get =&gt; "/events").to route_to("events#index")
+  expect(:get =&gt; "/widgets/1/edit").not_to be_routable
+
+  expect(:get =&gt; "/posts/1").to route_to(
+        :controller =&gt; "posts",
+        :action =&gt; "show",
+        :id =&gt; "1"
+        )
+end
+</code></pre>
+
+<h2>:type => ??</h2>
+
+<p>設定 type 為 controller / model / routing 是 rspec metadata，可以讓 rspec 知道目前的 type</p>
+
+<p>當然也可以在 rails_helper 加入設定，這樣就不需要再每個 spec 檔都加入 type ，只要把檔案放在對應的資料夾，就可以代表該檔案的type</p>
+
+<p>e.g. spec/models -> 認定為 model</p>
+
+<pre><code># rails_helper
+config.infer_spec_type_from_file_location!
+</code></pre>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://www.relishapp.com/rspec/rspec-rails/v/3-5/docs">RSpec Rails 3.5</a></li>
+<li><a href="http://betterspecs.org/zh_tw/">Better Specs</a></li>
+<li><a href="http://motion-express.com/trainings/rspec-rails-1">特快車-RSpec-Rails</a></li>
+<li><a href="http://mgleon08.github.io/blog/2016/01/29/rspec-plus-factory-girl/">用 Rspec + Factory Girl + CircleCi 寫測試</a></li>
+<li><a href="https://github.com/festime/stubs-mocks-spies-in-rspec">了解 Stubs, Mocks, and Spies</a></li>
+<li><a href="https://xdite.gitbooks.io/rspec-101/content/">RSpec on Rails 101</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ruby Forwardable (Delegator)]]></title>
@@ -267,36 +670,38 @@ end
 <h2>nil?</h2>
 
 <p>可使用在任何的<code>object</code>，檢查是否為<code>nil</code>，如果是<code>nil</code>會回傳<code>true</code>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>a = &ldquo;str&rdquo;
-</span><span class='line'>b = nil&lt;/p&gt;
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">str</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="kp">nil</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'>&lt;p&gt;a.nil? # false
-</span><span class='line'>b.nil? # true</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'><span class="sr">&lt;p&gt;a.nil? # false</span>
+</span><span class='line'><span class="sr">b.nil? # true</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h2>empty?</h2>
 
 <p>可使用在<code>String</code>、<code>Array</code>、<code>Hash</code>，如果為長度為0 會回傳<code>true</code></p>
 
 <p>如果object 是<code>nil</code>，使用empty? 會出現<code>NoMethodError</code>
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>a = &ldquo;&rdquo;
-</span><span class='line'>b = []
-</span><span class='line'>c = {}&lt;/p&gt;
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
+</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'><span class="n">c</span> <span class="o">=</span> <span class="p">{}</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
 </span><span class='line'>
-</span><span class='line'>&lt;p&gt;a.empty? # true
-</span><span class='line'>b.empty? # true
-</span><span class='line'>c.empty? # true</span></code></pre></td></tr></table></div></figure></p>
+</span><span class='line'><span class="sr">&lt;p&gt;a.empty? # true</span>
+</span><span class='line'><span class="sr">b.empty? # true</span>
+</span><span class='line'><span class="sr">c.empty? # true</span>
+</span></code></pre></td></tr></table></div></figure></p>
 
 <h2>blank?</h2>
 
@@ -345,352 +750,6 @@ false.present?  # false
 <p>剛剛測試的結果，已經有整理成一份表格，可以透過表格查看要使用什麼方式來檢查boolean 值~</p>
 
 <p><img src="/images/posts/2016082401.jpg" alt="nil_empty_blank_present" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby Module - Namespace | Mixin | Include | Extend]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/08/ruby-module/"/>
-    <updated>2016-08-08T15:26:54+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/08/ruby-module</id>
-    <content type="html"><![CDATA[<blockquote><p>module 算是Ruby 的獨有特色，瞭解後在程式開發或是閱讀原始碼有很大的幫助</p></blockquote>
-
-<!-- more -->
-
-
-<h2>宣告</h2>
-
-<p>示範module 內是可以包含多種內容，但實際在設計時，還是依照功能分類</p>
-
-<pre><code># Module name 第一個字必需大寫
-module Module_name
-  # adding class
-  class MyClass
-  end
-
-  # adding method
-  def myMethod
-  end
-
-  # namespace
-  module another_moudle_name
-  end
-end
-</code></pre>
-
-<h2>用途</h2>
-
-<ul>
-<li>NameSpace</li>
-<li>Mixin</li>
-</ul>
-
-
-<h3>NameSpace</h3>
-
-<p>用來區分命名空間，當有相同命名時，可透過module 區分命名空間</p>
-
-<h3>Mixin</h3>
-
-<p>因為Ruby Class有單一繼承的限制。所以就可透過此方法，擴充Class 的功能</p>
-
-<p>Mixin 分成兩類：</p>
-
-<ol>
-<li><p>include：class instance 才能操作</p></li>
-<li><p>extend：不需instance 就可以透過 <code>class_name.method_name</code> 操作</p></li>
-</ol>
-
-
-<pre><code>module Power
-  def calPower(num)
-    num ** num
-  end
-end
-
-module StringUtil
-  def repeating(num, string)
-    string * num
-  end
-end
-
-class Example
-  include Power
-  extend StringUtil
-end
-
-p Example.new.calPower(2) # 4
-p Example.repeating(2,"a") # "aa"
-</code></pre>
-
-<h2>單獨操作Module</h2>
-
-<p>以上介紹都是把module 放在class 內，再透過mixin 方式操作，但如果想要直接操作可以根據以下方式：</p>
-
-<ul>
-<li>module_function</li>
-<li>self.method</li>
-</ul>
-
-
-<pre><code>module CompanyA
-  def greeting(name)
-    "Hello #{name} at CompanyA"
-  end
-
-  module_function :greeting
-end
-
-# 上下功能相同
-module CompanyB
-  def self.greeting(name)
-    "Hello #{name} at CompanyB"
-  end
-end
-
-p CompanyA.greeting("JT") # "Hello JT at CompanyA"
-p CompanyB.greeting("JT") # "Hello JT at CompanyB"
-</code></pre>
-
-<h2>References</h2>
-
-<ul>
-<li>Ruby Programming ver.4</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby Class - Inheritance | Class_method | Instance_method | Class_eval | Instance_eval]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/06/ruby-class/"/>
-    <updated>2016-08-06T11:42:18+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/06/ruby-class</id>
-    <content type="html"><![CDATA[<blockquote><p>Ruby 萬物皆物件</p>
-
-<p>Class 可以生成(new) 物件</p>
-
-<p>抽象化的概念很重要</p></blockquote>
-
-<!-- more -->
-
-
-<h2>宣告</h2>
-
-<ul>
-<li>Class name 第一個字必需大寫</li>
-<li>initialize 只在初始化設定</li>
-<li>instance variable：以＠開頭命名，使用域在instance</li>
-<li>class variable：以＠＠開頭命名，等同此class 的全域變數，也就是class 的instance 都可以存取此變數</li>
-<li>class method 也可以設定pubic, protected, private 等存取權限</li>
-</ul>
-
-
-<pre><code>class Class_name
-   def initialize(input=defalt_value)
-     #...
-   end
-
-   def methodA
-     #...
-   end
-end
-</code></pre>
-
-<p>可以使用 <code>.class</code> 查看instance 是哪個class
-<code>
-p [].class    # Array
-p "abc".class # String
-</code></p>
-
-<h2>存取類別資料</h2>
-
-<ul>
-<li><p>method 直接設定
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MyClass
-</span><span class='line'>@name&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;def name  # getter
-</span><span class='line'>  @name
-</span><span class='line'>end&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;def name=(name) # setter
-</span><span class='line'>  @name = name
-</span><span class='line'>end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p></li>
-<li>設定Accessor
-<code>
-class MyClass
-attr_reader  :name  // 同MyClass#name
-attr_writer  :name  // 同MyClass#name=
-attr_acessor :name  // 等於以上兩種方法
-end
-</code></li>
-</ul>
-
-
-<h2>Class Method</h2>
-
-<p>不需要instance 就可以呼叫class.method，同Java 的static</p>
-
-<pre><code># 方法一
-class &lt;&lt; MyClass
-  def methodA
-    puts "Hello"
-  end
-end
-
-# 方法二
-class MyClass
- class &lt;&lt; self
-   def methodA
-     puts "Hello"
-   end
- end
-end
-
-# 方法三
-class MyClass
-  def self.methodA
-    puts "Hello"
-  end
-end
-</code></pre>
-
-<h2>繼承</h2>
-
-<ul>
-<li>只能單一繼承，也就是一個子類別只能有一個父類別（很重要！）</li>
-<li>Object 是Ruby 所有class 的父類別，而Object 繼承BasicObject</li>
-<li>如果沒有繼承，Ruby 默認所有class 為Object 的子類別</li>
-<li>使用<code>is_a?</code> 或<code>.instance_of?</code> 確認是否為屬於（繼承）此類別
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[].is_a?(Array)  # true
-</span><span class='line'>&ldquo;&rdquo;.is_a?(String) # true&lt;/li&gt;
-</span><span class='line'>&lt;/ul&gt;
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;p [].instance_of?(Array)  # true
-</span><span class='line'>p [].instance_of?(String) # false
-</span><span class='line'>p &ldquo;&rdquo;.instance_of?(String) # true
-</span><span class='line'>&lt;code&gt;
-</span><span class='line'>- 使用 `&lt;` 繼承super class
-</span><span class='line'>- 使用`super()` 呼叫父類別中同名稱的method
-</span><span class='line'>&lt;/code&gt;
-</span><span class='line'>class RingAry &lt; Array
-</span><span class='line'>  def &lt;a href="i"&gt;&lt;/a&gt;
-</span><span class='line'>   idx = i % size
-</span><span class='line'>   super(idx)
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure></p>
-
-<h2>CLASS_EVAL、INSTANCE_EVAL</h2>
-
-<ul>
-<li>instance_eval 定義class method，也可以使用 &lt;&lt; 替代</li>
-<li>class_eval 定義instance method
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Foo = Class.new
-</span><span class='line'>Foo.class_eval do
-</span><span class='line'>def class_bar
-</span><span class='line'>  &ldquo;class_bar&rdquo;
-</span><span class='line'>end
-</span><span class='line'>end&lt;/li&gt;
-</span><span class='line'>&lt;/ul&gt;
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;Foo.instance_eval do
-</span><span class='line'>  def instance_bar
-</span><span class='line'>    &ldquo;instance_bar&rdquo;
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>Foo.class_bar       #=&gt; undefined method ‘class_bar’ for Foo:Class
-</span><span class='line'>Foo.new.class_bar   #=&gt; &ldquo;class_bar&rdquo;
-</span><span class='line'>Foo.instance_bar       #=&gt; &ldquo;instance_bar&rdquo;
-</span><span class='line'>Foo.new.instance_bar   #=&gt; undefined method ‘instance_bar’ for #&lt;Foo:0x7dce8&gt;</span></code></pre></td></tr></table></div></figure></p>
-
-<h2>alias、 undef</h2>
-
-<p>設定或取消 method 的別名</p>
-
-<pre><code># alias origin_name new_name
-# alias :origin_name :new_name
-class C1
-  def hello
-   "hello"
-  end
-end
-
-class C2 &lt; C1
-  alias super_hello hello
-end
-
-p C2.new.super_hello # "hello"
-
-# undef method
-# undef :method
-class C1
-  def methodA
-  end
-end
-
-class C2 &lt; C1
-  undef methodA
-  # ...
-end
-</code></pre>
-
-<h2>References</h2>
-
-<ul>
-<li>Ruby Programming ver.4</li>
-</ul>
-
 ]]></content>
   </entry>
   

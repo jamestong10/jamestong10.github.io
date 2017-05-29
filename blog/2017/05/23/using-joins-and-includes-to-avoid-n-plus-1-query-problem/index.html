@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>About - JT's Blog</title>
+  <title>Using Joins and Includes to Avoid N+1 Query Problem - JT's Blog</title>
   <meta name="author" content="James Tong">
 
   
-  <meta name="description" content="About Jul 28th, 2016 12:35 pm | James Tong (JT.) Java EE Developer (6y+) Ruby on Rails Developer Resume Github
-Email：&#x74;&#117;&#x6e;&#x67;&#114 &hellip;">
+  <meta name="description" content="using joins and includes to avoid n+1 query problem">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ Email：&#x74;&#117;&#x6e;&#x67;&#114 &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://rt-tong.com/about">
+  <link rel="canonical" href="http://rt-tong.com/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="JT's Blog" type="application/atom+xml">
@@ -97,72 +96,169 @@ Email：&#x74;&#117;&#x6e;&#x67;&#114 &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">About</h1>
     
-        <p class="meta">
-            
-
-
-
-
-<time class='entry-date' datetime='2016-07-28T12:35:00+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:35 pm</span></time> |
-              
-        </p>
+      
+        <h1 class="entry-title">Using Joins and Includes to Avoid N+1 Query Problem</h1>
+      
     
-  </header>
-  
-  <h2>James Tong (JT.)</h2>
-
-<h3>Java EE Developer (6y+)</h3>
-
-<h3>Ruby on Rails Developer</h3>
-
-<h3>Resume</h3>
-
-<ul>
-<li><a href="https://github.com/jamestong10">Github</a></li>
-<li>Email：<a href="&#109;&#97;&#105;&#108;&#x74;&#x6f;&#x3a;&#116;&#117;&#x6e;&#103;&#114;&#x75;&#105;&#x74;&#x65;&#x6e;&#103;&#x40;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#99;&#111;&#x6d;">&#x74;&#117;&#x6e;&#x67;&#114;&#117;&#x69;&#116;&#x65;&#x6e;&#103;&#x40;&#103;&#109;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#x6d;</a></li>
-<li>Skills：
-
-<ul>
-<li>Java, Spring, Hibernate</li>
-<li>Javascript, jQuery</li>
-<li>Ruby, Rails</li>
-<li>T-SQL, PL/SQL</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Portfolio</h3>
-
-<ul>
-<li><a href="https://github.com/jamestong10/reddit">Rails 12in12 - Reddit</a></li>
-<li><a href="https://github.com/jamestong10/ajax01">使用ajax 上傳與paperclip 處理照片</a></li>
-<li><a href="">電子購物平台、後台管理(AdminLTE)</a></li>
-</ul>
-
-
-  
-    <footer>
+    
       <p class="meta">
         
+
+
+
+
+<time class='entry-date' datetime='2017-05-23T14:39:53+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2017</span></span> <span class='time'>2:39 pm</span></time>
         
-
-
-
-
-<time class='entry-date' datetime='2016-07-28T12:35:00+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:35 pm</span></time>
+         | <a href="#disqus_thread">Comments</a>
         
         
       </p>
+    
+  </header>
+
+
+<div class="entry-content"><!-- more -->
+
+
+<p>就使用上來說，要從多筆資料去找 belongs_to 的資料，似乎是不太合邏輯</p>
+
+<p>但熟悉使用 ORM 使用者，因為一切都被包裝太的好，或許就會忘記想到有這樣的問題</p>
+
+<h2>Model Relation</h2>
+
+<p>場景設定，使用者有多個Comments</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/user.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:comments</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># app/models/comment.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>觸發條件 (has_many)</h2>
+
+<p>取得所有的comments，並找出該 comment 的 user 的 email</p>
+
+<p>之所以為 N+1 Query 就是一筆查所有comments，N 筆查每個comment.user.email</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'><span class="n">comments</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">comment</span><span class="o">|</span> <span class="n">comment</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>使用 Joins</h2>
+
+<p><a href="https://apidock.com/rails/ActiveRecord/QueryMethods/joins">joins</a></p>
+
+<p>joins 使用 INNER JOIN 的方式查詢，結果只有comments</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Comment</span><span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># SELECT users.* FROM comments INNER JOIN users ON users.id = comments.user_id</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>使用 Includes</h2>
+
+<p><a href="https://apidock.com/rails/v4.2.7/ActiveRecord/QueryMethods/includes">includes</a></p>
+
+<p>includes 使用 WHERE IN 的方式查詢，同時會一併取得users 的資料</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Comment</span><span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># SELECT comments.* FROM comments</span>
+</span><span class='line'><span class="c1"># SELECT users.* FROM users WHERE users.id IN (1)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>反向思考：如果user 使用 joins / includes 會怎樣呢？</h2>
+
+<blockquote><p>雖然都知道可以使用 user.comments 就可以得到答案，但就想實驗使用後的結果</p></blockquote>
+
+<ul>
+<li>joins</li>
+</ul>
+
+
+<p>產生重複的 User 資料，得到得資料還得用 <code>.uniq</code> 刪除</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:comments</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>includes</li>
+</ul>
+
+
+<p>結果一樣，同時會一併取得 comments 的資料</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">includes</span><span class="p">(</span><span class="ss">:comments</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
       
-        <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rt-tong.com/about/index.html" data-via="" data-counturl="http://rt-tong.com/about/index.html" >Tweet</a>
+
+
+
+  <span class="byline author vcard">Authored by <span class="fn">
+  
+    James Tong
+  
+  </span></span>
+
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-05-23T14:39:53+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2017</span></span> <span class='time'>2:39 pm</span></time>
+      
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rt-tong.com/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem/" data-via="" data-counturl="http://rt-tong.com/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem/" >Tweet</a>
   
   
   
@@ -170,9 +266,16 @@ Email：&#x74;&#117;&#x6e;&#x67;&#114 &hellip;">
   
 </div>
 
+    
+    <p class="meta">
       
-    </footer>
-  
+        <a class="basic-alignment left" href="/blog/2017/05/23/rspec/" title="Previous Post: RSpec">&laquo; RSpec</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2017/05/23/make-a-plus-https-web-server/" title="Next Post: make A+ HTTPS web server">make A+ HTTPS web server &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
 
   <section>
@@ -183,13 +286,6 @@ Email：&#x74;&#117;&#x6e;&#x67;&#114 &hellip;">
 
 
 </div>
-
-<aside class="sidebar">
-  
-    
-  
-</aside>
-
 
     </div>
   </div>
@@ -206,8 +302,8 @@ Email：&#x74;&#117;&#x6e;&#x67;&#114 &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://rt-tong.com/about/index.html';
-        var disqus_url = 'http://rt-tong.com/about/index.html';
+        var disqus_identifier = 'http://rt-tong.com/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem/';
+        var disqus_url = 'http://rt-tong.com/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem/';
         var disqus_script = 'embed.js';
       
     (function () {
