@@ -191,7 +191,7 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Comment</span><span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Comment</span><span class="o">.</span><span class="n">includes</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1"># SELECT comments.* FROM comments</span>
 </span><span class='line'><span class="c1"># SELECT users.* FROM users WHERE users.id IN (1)</span>
