@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: I18n | JT's Blog]]></title>
-  <link href="http://rt-tong.com/blog/categories/i18n/atom.xml" rel="self"/>
-  <link href="http://rt-tong.com/"/>
-  <updated>2017-05-31T21:56:44+08:00</updated>
-  <id>http://rt-tong.com/</id>
+  <link href="https://jamestong10.github.io/blog/categories/i18n/atom.xml" rel="self"/>
+  <link href="https://jamestong10.github.io/"/>
+  <updated>2017-06-09T22:10:38+08:00</updated>
+  <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
     
@@ -14,64 +14,204 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Rails - I18n | Timezone]]></title>
-    <link href="http://rt-tong.com/blog/2016/09/01/rails-i18n-timezone/"/>
+    <title type="html"><![CDATA[Rails I18n]]></title>
+    <link href="https://jamestong10.github.io/blog/2016/09/01/rails-i18n-timezone/"/>
     <updated>2016-09-01T11:35:19+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/09/01/rails-i18n-timezone</id>
+    <id>https://jamestong10.github.io/blog/2016/09/01/rails-i18n-timezone</id>
     <content type="html"><![CDATA[<blockquote><p>國際化的設計，根據不同使用者採用不同的語言、數字格式、日期格式，簡稱i18n</p></blockquote>
 
 <!-- more -->
 
 
-<h2>i18n</h2>
+<h2>語系</h2>
 
-<p>Rails 預設是使用英文(en)，如要使用i18n 多語系，則需安裝 gem</p>
+<p>Rails 預設是使用英文(en)，如要使用i18n 多語系，則需安裝 <code>rails-i18n</code> gem</p>
 
-<pre><code>gem 'rails-i18n'
+<pre><code class="ruby">gem 'rails-i18n'
 </code></pre>
 
 <p>設定載入路徑、預設語系</p>
 
-<pre><code>#config/application.rb
+<pre><code class="ruby">#config/application.rb
 
-# 設定載入路徑 (二擇一)
+# 設定載入路徑
 config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+# or
 config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
 
-# 設定預設語系 zh or en (二擇一)
+# 設定預設語系 zh or en
 config.i18n.default_locale = :"zh-TW"
+# or
 config.i18n.default_locale = :en
 
-# use default locale when translation missing (二擇一)
+# use default locale when translation missing
 config.i18n.fallbacks = true
+# or
 config.i18n.fallbacks = :"zh-TW"
 </code></pre>
 
+<h2>public i18n api</h2>
+
+<p>translate：Lookup text translations</p>
+
+<pre><code class="ruby">I18.t('store.title')
+# or
+t('store.title')
+</code></pre>
+
+<p>localize：Localize Date and Time objects to local formats
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">I18</span><span class="o">.</span><span class="n">l</span><span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">)</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;h1&gt;or&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">l</span><span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
 <h2>自訂語彙</h2>
 
-<p>詞彙檔放在 config/locales ，使用YAML 格式</p>
+<ul>
+<li>詞彙檔放在 config/locales</li>
+<li>使用 YAML 格式</li>
+<li>命名方式：***.語系.yml。例如：zh-TW.yml、devise.zh-TW.yml</li>
+</ul>
+
 
 <pre><code># config/locales/zh-TW.yml
-"zh-TW":
+zh-TW:
     hello: "親愛的%{name}你好!"
     admin:
+        user: 使用者管理
         event: 活動管理
 </code></pre>
 
 <blockquote><p>注意 YAML 格式的縮排必須使用兩個空格，Tab是不允許的。直接複製貼上可能會有問題，請小心檢查縮排</p></blockquote>
 
-<p>套用語彙，可以使用<code>t Helper</code></p>
+<p>YAML 格式</p>
 
-<pre><code># 如果在View
-t("admin.event")
-t(:event, :scope=&gt;:admin)
-t(:hello, :name=&gt;current_user.name)
+<ul>
+<li>第一層：語系</li>
+<li>第二層：自訂名稱、或是 rails 保留字，如：controller、activerecord&hellip;</li>
+</ul>
 
-# 如果不在View中，則需要加上 I18n 類別
-I18n.t("admin.event")
+
+<h2>I18n.t</h2>
+
+<p>使用 <code>I18n.t</code> 根據設定的語系，替換對應的詞彙</p>
+
+<p>在 View 可使用 t 這 Helper 方法，第二參數傳入 Scope</p>
+
+<pre><code class="ruby">t("admin.event")
+t(:event, scope: :admin)
 </code></pre>
 
-<p>如何讓使用者切換語系</p>
+<p>如果不在View中，則需要加上 I18n 類別</p>
+
+<pre><code class="ruby">I18n.t("admin.event")
+</code></pre>
+
+<p>template 傳入參數，第二參數傳入變數</p>
+
+<pre><code class="ruby">t(:hello, name: current_user.name) # 親愛的James你好!
+</code></pre>
+
+<p>使用 YAML 特性加入陣列</p>
+
+<pre><code class="ruby"># config/locales/zh-TW.yml
+zh-TW:
+  date:
+    day_names:
+    - 星期日
+    - 星期一
+    - 星期二
+    - 星期三
+    - 星期四
+    - 星期五
+    - 星期六
+</code></pre>
+
+<p>透過 i18n 取得陣列資料</p>
+
+<pre><code class="ruby">I18n.t('date.day_names', locale: 'zh-TW')
+</code></pre>
+
+<p>變化：使用 i18n.t 設定網頁條款</p>
+
+<pre><code class="ruby">zh-TW:
+  example:
+    policy_html:
+      &lt;h1&gt;使用條款&lt;/h1&gt;
+      # ...
+    privacy_html:
+      &lt;h1&gt;隱私條款&lt;/h1&gt;
+      # ...
+</code></pre>
+
+<p>在 view 呼叫 i18n.t</p>
+
+<pre><code class="ruby">&lt;%= t('example.policy_html') %&gt;
+&lt;%= t('example.privacy_html') %&gt;
+</code></pre>
+
+<h2>Lazy Lookup (Convension)</h2>
+
+<p>設定語彙檔</p>
+
+<pre><code class="ruby"># config/locales/zh-TW.yml
+zh-TW:
+  books:
+    index:
+      title: 標題
+</code></pre>
+
+<p>如果在 app/views/books/index.html.erb 使用 I18n book.index.title 可以縮寫如下：</p>
+
+<pre><code class="ruby">&lt;%= t '.title' %&gt;
+</code></pre>
+
+<h2>搭配 Model 使用</h2>
+
+<p>根據 model name 建立對應的語彙檔</p>
+
+<pre><code class="ruby">zh-TW:
+  activerecord:
+    models:
+      brand: 品牌
+      category: &amp;category 分類
+    attributes:
+      brand:
+        created_at: *created_at
+        name: 名稱
+    errors:
+      messages:
+        record_invalid: "校驗失敗: %{errors}"
+        restrict_dependent_destroy:
+          has_one: 由於 %{record} 需要此記錄，所以無法移除記錄
+          has_many: 由於 %{record} 需要此記錄，所以無法移除記錄
+</code></pre>
+
+<p>第二層為 activerecord</p>
+
+<p>第三層 models 設定 model 語彙名稱</p>
+
+<pre><code>Brand.model_name.human # zh-TW =&gt; 品牌
+</code></pre>
+
+<p>設定 attributes</p>
+
+<pre><code>Brand.human_attribute_name("name") # zh-TW =&gt; 名稱
+</code></pre>
+
+<p>設定 errors</p>
+
+<pre><code>activerecord.errors.messages.record_invalid(errors: '尚未輸入資料')
+</code></pre>
+
+<h2>如何讓使用者切換語系</h2>
 
 <pre><code># controllers/application_controller.rb
 before_action :set_locale
@@ -93,18 +233,12 @@ end
 :action =&gt; action_name, :locale =&gt; "en" %&gt;
 </code></pre>
 
-<h2>時區 Timezone</h2>
-
-<p>設定app 使用的時區，設定完成需重啟服務生效</p>
-
-<pre><code># config/application.rb
-config.time_zone = "Taipei"
-</code></pre>
-
 <h2>References</h2>
 
 <ul>
-<li><a href="https://ihower.tw/rails4/i18n.html">ihower-i18n</a></li>
+<li><a href="http://guides.rubyonrails.org/i18n.html">Rails Internationalization (I18n) API</a></li>
+<li><a href="https://ihower.tw/rails/i18n.html">ihower - 多國語系及時區</a></li>
+<li><a href="https://hackmd.io/p/HJarJWGd#/">Rails I18n 實作技巧</a></li>
 </ul>
 
 ]]></content>

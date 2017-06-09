@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[JT's Blog]]></title>
-  <link href="http://rt-tong.com/atom.xml" rel="self"/>
-  <link href="http://rt-tong.com/"/>
-  <updated>2017-05-31T21:56:44+08:00</updated>
-  <id>http://rt-tong.com/</id>
+  <link href="https://jamestong10.github.io/atom.xml" rel="self"/>
+  <link href="https://jamestong10.github.io/"/>
+  <updated>2017-06-09T22:10:38+08:00</updated>
+  <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
     
@@ -14,10 +14,641 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Rails Partials]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/06/05/rails-partial/"/>
+    <updated>2017-06-05T16:41:07+08:00</updated>
+    <id>https://jamestong10.github.io/blog/2017/06/05/rails-partial</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>用來簡化 View 複雜的程式邏輯</p>
+
+<p>把細節的部份拆出去，更容易理解 View 的全局</p>
+
+<p>檔名需要<strong>以底線開頭</strong>，但呼叫時不需加上底線</p></blockquote>
+
+<p>Action View Partials 用來 render sub templates</p>
+
+<h2>Syntax</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">render</span> <span class="ss">partial</span><span class="p">:</span> <span class="n">sub_template_name</span><span class="p">,</span> <span class="o">*</span><span class="n">options</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>render</code> is a shorthand for <code>render partial:</code></li>
+<li>單使用 <code>render</code>, Rails 就不會處理後續的 options</li>
+<li>如果要使用 options 就要改成 <code>render partial:</code></li>
+</ul>
+
+
+<h2>Default Case</h2>
+
+<p>使用 <code>render</code> 產生 partial</p>
+
+<p>雖然有規定 <code>render</code> 不會處理 options，但還有一些特殊案例</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= render partial: &quot;account&quot; %&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sx"># equivalent to</span>
+</span><span class='line'><span class="sx">&lt;%=</span> <span class="n">render</span> <span class="s2">&quot;account&quot;</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>sub template name equivalent to variable name</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= render partial: &quot;accounts/account&quot;, locals: { account: @account} %&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sx"># equivalent to</span>
+</span><span class='line'><span class="sx">&lt;%=</span> <span class="n">render</span> <span class="vi">@account</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>只有單一個 locals</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= render partial: &quot;account&quot;, locals: { account: @buyer } %&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sx"># equivalent to</span>
+</span><span class='line'><span class="sx">&lt;%=</span> <span class="n">render</span> <span class="s2">&quot;account&quot;</span><span class="p">,</span> <span class="ss">account</span><span class="p">:</span> <span class="vi">@buyer</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>都同名可簡化 collection</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= render partial: &quot;posts/post&quot;, collection: @posts %&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sx"># equivalent to</span>
+</span><span class='line'><span class="sx">&lt;%=</span> <span class="n">render</span> <span class="vi">@posts</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Options</h2>
+
+<h3>locals</h3>
+
+<p>傳遞資料</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">render</span> <span class="ss">partial</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="ss">locals</span><span class="p">:</span> <span class="p">{</span> <span class="ss">user</span><span class="p">:</span> <span class="vi">@user</span><span class="p">,</span> <span class="ss">order</span><span class="p">:</span> <span class="vi">@order</span> <span class="p">}</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>collection</h3>
+
+<p>使用 for-each render 逐一產生 partial</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># index.html.erb</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sx">%= render partial: &quot;product&quot;, collection: @products %&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sx"># _product.html.erb</span>
+</span><span class='line'><span class="sx">Product Name: &lt;%=</span> <span class="n">product</span><span class="o">.</span><span class="n">name</span> <span class="sx">%&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sx"># short-hand</span>
+</span><span class='line'><span class="sx">&lt;%= @products %&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># if collection is empty, render will return nil,</span>
+</span><span class='line'><span class="c1"># should simple to provide alternative message.</span>
+</span><span class='line'><span class="o">&lt;%=</span> <span class="n">render</span><span class="p">(</span><span class="vi">@products</span><span class="p">)</span> <span class="o">||</span> <span class="s2">&quot;Empty Products&quot;</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>layout</h3>
+
+<p>指定 render layout</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">render</span> <span class="ss">partial</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="ss">locals</span><span class="p">:</span> <span class="p">{</span> <span class="ss">user</span><span class="p">:</span> <span class="vi">@user</span><span class="p">,</span> <span class="ss">order</span><span class="p">:</span> <span class="vi">@order</span> <span class="p">},</span> <span class="ss">layout</span><span class="p">:</span> <span class="s1">&#39;editor&#39;</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>進階 Layout - layout + yield</h2>
+
+<h3>動機</h3>
+
+<p>把共用的 view 寫在 layout ，然後客製（變動）的內容寫在partial</p>
+
+<h3>開發</h3>
+
+<p>1.寫一個 layout 專用的 partial view，並把需要客製的部份加上 <code>yield</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%# app/views/users/_editor.html.haml %&gt;</span>
+</span><span class='line'><span class="sx">#</span><span class="n">editor</span>
+</span><span class='line'>  <span class="o">%</span><span class="n">h1</span> <span class="n">always</span> <span class="n">the</span> <span class="n">same</span> <span class="n">headline</span>
+</span><span class='line'>  <span class="o">%</span><span class="n">h3</span> <span class="n">always</span> <span class="n">the</span> <span class="n">same</span> <span class="n">description</span>
+</span><span class='line'>  <span class="o">=</span> <span class="k">yield</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.寫客製的 partial view</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%# app/views/users/_user.html.haml %&gt;</span>
+</span><span class='line'><span class="sx">= &quot;Deadline: #</span><span class="p">{</span><span class="n">user</span><span class="o">.</span><span class="n">deadline</span><span class="p">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="s2">= &quot;</span><span class="ss">Name</span><span class="p">:</span> <span class="c1">#{user.name}&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.render 設定 partial and layout，就可以把 partial 的內容套在 layout 的 yield 區塊內</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%</span><span class="c1"># app/views/users/index.html.haml %&gt;</span>
+</span><span class='line'><span class="o">&lt;%=</span> <span class="n">render</span> <span class="ss">partial</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="ss">layout</span><span class="p">:</span> <span class="s2">&quot;editor&quot;</span><span class="p">,</span> <span class="ss">locals</span><span class="p">:</span> <span class="p">{</span> <span class="ss">user</span><span class="p">:</span> <span class="vi">@user</span> <span class="p">}</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果不用 <code>yield</code>，可以使用 block 表現</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= render layout: &quot;editor&quot;, locals: { user: @user } do %&gt;</span>
+</span><span class='line'><span class="sx">  &lt;%=</span> <span class="n">do_something</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;% end %&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>實際應用：把預覽圖片跟上傳圖片的功能提取出來，並且可個別設定內部要呈現的內容，例如：產品說明、大頭照說明等</p>
+
+<h2>Helper + Partial</h2>
+
+<p>這次要把partial 放進 helper 內</p>
+
+<p>1.一樣建立 partial，把要執行客製的部分使用 <code>capture(&amp;block)</code> 表示</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%# app/views/users/_editor.html.haml %&gt;</span>
+</span><span class='line'><span class="sx">#</span><span class="n">editor</span>
+</span><span class='line'>  <span class="o">%</span><span class="n">h1</span> <span class="n">always</span> <span class="n">the</span> <span class="n">same</span> <span class="n">headline</span>
+</span><span class='line'>  <span class="o">%</span><span class="n">h3</span> <span class="n">always</span> <span class="n">the</span> <span class="n">same</span> <span class="n">description</span>
+</span><span class='line'>  <span class="o">=</span> <span class="n">capture</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.在helper 寫method 呼叫 <code>render partial:</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># application_helper.rb</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">modal_for</span><span class="p">(</span><span class="n">heading</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">render</span><span class="p">(</span>
+</span><span class='line'>    <span class="ss">partial</span><span class="p">:</span> <span class="s1">&#39;shared/modal&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">locals</span><span class="p">:</span> <span class="p">{</span> <span class="ss">heading</span><span class="p">:</span> <span class="n">heading</span><span class="p">,</span> <span class="ss">block</span><span class="p">:</span> <span class="n">block</span> <span class="p">}</span>
+</span><span class='line'>  <span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.在view 使用helper</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">modal_for</span><span class="p">(</span><span class="s1">&#39;My Title&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">  # print dynamic things here</span>
+</span><span class='line'><span class="sx">&lt;% end %&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>實際應用：把預覽圖片跟上傳圖片的功能提取出來，並且可個別設定內部要呈現的內容，例如：產品說明、大頭照說明等</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://guides.rubyonrails.org/layouts_and_rendering.html#using-partials">Rails Guide - using partials</a></li>
+<li><a href="http://api.rubyonrails.org/classes/ActionView/PartialRenderer.html">Rails Classes - Action View Partials</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails Delegate]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/06/05/rails-delegate/"/>
+    <updated>2017-06-05T15:34:16+08:00</updated>
+    <id>https://jamestong10.github.io/blog/2017/06/05/rails-delegate</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>屬於 ActiveSupport Delegate method</p>
+
+<p>主要運用在 activerecord associations</p></blockquote>
+
+<h2>Spec</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">delegate</span><span class="p">(</span><span class="o">*</span><span class="nb">methods</span><span class="p">)</span> <span class="kp">public</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Options</h3>
+
+<ul>
+<li><code>:to</code> 指定目標物件</li>
+<li><code>:prefix</code> 設為true 就是以 :to 的物件名稱當作前綴字，或是自行設定前綴字</li>
+<li><code>:allow_nil</code> 設為 true 不會產生 NoMethodError Exception，預設為 false</li>
+</ul>
+
+
+<h2>Description</h2>
+
+<p>Provides a <a href="https://apidock.com/rails/Module/delegate">delegate</a> class method to easily expose contained objects’ public methods as your own.</p>
+
+<p>The target method must be public, otherwise it will raise NoMethodError.</p>
+
+<h2>Delegation Design Pattern</h2>
+
+<p>Delegation 設計模式是讓物件曝露一些性質，但這些性質其實是取用與當前實例相關連的其它實例的性質而來的</p>
+
+<h2>Explanation of Rails Delegate</h2>
+
+<p>根據以下範例瞭解 Rails Delegate 運作方式。建議可以查看 <a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/module/delegation.rb">delegation.rb</a> 瞭解實作方式</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:posts</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>根據以上的關聯，要如何設計呼叫 <code>@post.name</code> 可直接取得 <code>@post.user.name</code> 又不會出現 NoMethodError 呢？</p>
+
+<p>1.自行寫 <code>#name</code> 裡面在使用 <code>#try</code> 取 user.name</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="n">user</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.以 <code>#delegate</code> 表示</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">allow_nil</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Practice</h2>
+
+<p>一般在寫 Rails 會直覺使用 associations 取得資料</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># models</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Invoice</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'> <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># views</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sx">%= @invoice.user.name %&gt;</span>
+</span><span class='line'><span class="sx">&lt;%=</span> <span class="vi">@invoice</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">address</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;%= @invoice.user.cellphone %&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>若比較嚴謹來看，這樣是違反 <a href="https://jamestong10.github.io/blog/2017/05/15/object-orientend-design-priciples/">Lask Knowledge Priciple</a></p>
+
+<p>而且 Views 看起來也不漂亮</p>
+
+<p>這時可透過 Rails Delegate 優化</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># models</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Invoice</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'> <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'> <span class="n">delegate</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:address</span><span class="p">,</span> <span class="ss">:cellphone</span><span class="p">,</span>
+</span><span class='line'> <span class="ss">to</span><span class="p">:</span> <span class="ss">:user</span><span class="p">,</span>
+</span><span class='line'> <span class="ss">prefix</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+</span><span class='line'> <span class="ss">allow_nil</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># views</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sx">%= @invoice.user_name %&gt;</span>
+</span><span class='line'><span class="sx">&lt;%=</span> <span class="vi">@invoice</span><span class="o">.</span><span class="n">user_address</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;%= @invoice.user_cellphone %&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>這樣看起來是不是清爽多了~</p>
+
+<h2>Others</h2>
+
+<p>參考 <a href="https://jamestong10.github.io/blog/2017/05/10/ruby-forwardable/">Ruby Forwardable</a></p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/module/delegation.rb">delegation.rb</a></li>
+<li><a href="https://apidock.com/rails/Module/delegate">Rails doc#delegate</a></li>
+<li><a href="https://simonecarletti.com/blog/2009/12/inside-ruby-on-rails-delegate/">Understanding Ruby and Rails: Delegate</a></li>
+<li><a href="http://sharefun.logdown.com/posts/737036-understanding-rails-delegate">理解Rails delegate</a></li>
+<li><a href="http://waynechu.logdown.com/posts/206252-rails-delegate">Rails Delegate</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Tap / Fetch / Dig / Try]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/06/01/ruby-tap-fetch-dig-try/"/>
+    <updated>2017-06-01T14:44:42+08:00</updated>
+    <id>https://jamestong10.github.io/blog/2017/06/01/ruby-tap-fetch-dig-try</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Tap</h2>
+
+<p>從 <a href="https://ruby-doc.org/core-2.4.1/Object.html#method-i-tap">source code</a> 可以看出最後會傳回 self</p>
+
+<p>以下分成兩個用途，分別介紹如何運用此特性</p>
+
+<h3>用途一：調測</h3>
+
+<p>在使用 chain 時，要查看某個過程的內容，可以使用 <code>#tap</code> 印出內容，卻又不會影響執行</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">10</span><span class="p">)</span>                <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;original: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">to_a</span>                <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;array: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">0</span><span class="p">}</span> <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;evens: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="p">}</span>     <span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">puts</span> <span class="s2">&quot;squares: </span><span class="si">#{</span><span class="n">x</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>用途二：簡化代碼</h3>
+
+<p>可用在建立一個方法，要傳回一個 String/Array/Hash 的結果</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[].</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;abc&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">tap</span> <span class="p">{</span><span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">do_some_thing</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://ruby-doc.org/core-2.4.1/Object.html#method-i-tap">ruby doc - tap</a></li>
+<li><a href="https://ruby-china.org/topics/5348">Rails 技巧之 tap &amp; try</a></li>
+</ul>
+
+
+<h2>Fetch</h2>
+
+<blockquote><p>取不到值時，會以預設值取代，但沒設定預設值會出現 Error</p></blockquote>
+
+<p>Hash / Array 皆有實作 <code>#fetch</code></p>
+
+<h3>Array#fetch</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">[</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">44</span> <span class="o">]</span>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>               <span class="c1">#=&gt; 22</span>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>              <span class="c1">#=&gt; 44</span>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">)</span>        <span class="c1">#=&gt; &quot;cat&quot;</span>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span><span class="o">*</span><span class="n">i</span> <span class="p">}</span>   <span class="c1">#=&gt; 16</span>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>               <span class="c1">#=&gt; IndexError</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Hash#fetch</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">h</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;a&quot;</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span> <span class="o">=&gt;</span> <span class="mi">200</span> <span class="p">}</span>
+</span><span class='line'><span class="n">h</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>                            <span class="c1">#=&gt; 100</span>
+</span><span class='line'><span class="n">h</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="s2">&quot;go fish&quot;</span><span class="p">)</span>                 <span class="c1">#=&gt; &quot;go fish&quot;</span>
+</span><span class='line'><span class="n">h</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">el</span><span class="o">|</span> <span class="s2">&quot;go fish, </span><span class="si">#{</span><span class="n">el</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>   <span class="c1">#=&gt; &quot;go fish, z&quot;</span>
+</span><span class='line'><span class="n">h</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>                            <span class="c1">#=&gt; KeyError</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://ruby-doc.org/core-1.9.3/Array.html#method-i-fetch">ruby doc - array#fetch</a></li>
+<li><a href="https://ruby-doc.org/core-2.2.0/Hash.html#method-i-fetch">ruby doc - hash#fetch</a></li>
+</ul>
+
+
+<h2>Dig</h2>
+
+<blockquote><p>適用在多層</p>
+
+<p>跟 #try 一樣，如果其中一層為 nil，會回傳 nil 而不會出現 Error</p></blockquote>
+
+<p>Ruby 2.3.0</p>
+
+<p>Hash / Array 皆有實作 <code>#dig</code></p>
+
+<h3>Array#dig</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">[[</span><span class="mi">1</span><span class="p">,</span> <span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]]]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">dig</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                    <span class="c1">#=&gt; 3</span>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">dig</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>                    <span class="c1">#=&gt; nil</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Hash#dig</h3>
+
+<p>在 rails 取 params 時，會使用以下方式取值</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">name</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:company</span><span class="o">][</span><span class="ss">:owner</span><span class="o">][</span><span class="ss">:name</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>要避免遇到 nil，可改寫成</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">name</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:company</span><span class="o">][</span><span class="ss">:owner</span><span class="o">][</span><span class="ss">:name</span><span class="o">]</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:company</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="n">params</span><span class="o">[</span><span class="ss">:company</span><span class="o">][</span><span class="ss">:owner</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="n">params</span><span class="o">[</span><span class="ss">:company</span><span class="o">][</span><span class="ss">:owner</span><span class="o">][</span><span class="ss">:name</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用 #dig 處理</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">name</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">dig</span><span class="p">(</span><span class="ss">:company</span><span class="p">,</span> <span class="ss">:owner</span><span class="p">,</span> <span class="ss">:name</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同樣 case 用 <code>#try</code> 的 chain，看來使用 <code>#dig</code> 比較適合</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:[]</span><span class="p">,</span> <span class="ss">:company</span><span class="p">)</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:[]</span><span class="p">,</span> <span class="ss">:owner</span><span class="p">)</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:[]</span><span class="p">,</span> <span class="ss">:name</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>References</h3>
+
+<ul>
+<li><a href="http://ruby-doc.org/core-2.3.0_preview1/Array.html#method-i-dig">ruby doc - array#dig</a></li>
+<li><a href="http://ruby-doc.org/core-2.3.0_preview1/Hash.html#method-i-dig">ruby doc - hash#dig</a></li>
+</ul>
+
+
+<h2>try</h2>
+
+<p>同場加映，<code>#try</code> 是屬於 Rails Object method</p>
+
+<p>等同 <code>Object#send</code>，但 object 為 nil 時，呼叫 method <strong>會出現</strong> NoMethodError exception</p>
+
+<p>但使用 <code>#try</code>，object 為 nil 時，會回傳 nil ，而<strong>不會出現</strong> NoMethodError exception</p>
+
+<p>因此是一個相當實用的功能</p>
+
+<p>最常見的例子像是我們想判斷某些動作只有管理員可以進行操作，因此我們通常會這樣寫</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">is_admin?</span>
+</span><span class='line'>    <span class="c1"># do something</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但總會遇到 current_user 有 nil 的時候，這時就適合用 <code>#try</code> 確認 current_user 是否為 nil，再去呼叫 <code>#is_admin?</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:is_admin?</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># do something</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>#try</code> 也可以實現 block，如果 instance object 不為 nil</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@person</span><span class="o">.</span><span class="n">try</span> <span class="p">{</span> <span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">p</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">p</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://apidock.com/rails/v4.2.7/Object/try">apidock - try</a></li>
+<li><a href="https://ruby-china.org/topics/5348">Rails 技巧之 tap &amp; try</a></li>
+<li><a href="https://ihower.tw/rails/activesupport.html#try">ihower active support - try</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Scss and Sass]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/29/scss-and-sass/"/>
+    <link href="https://jamestong10.github.io/blog/2017/05/29/scss-and-sass/"/>
     <updated>2017-05-29T15:56:26+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/29/scss-and-sass</id>
+    <id>https://jamestong10.github.io/blog/2017/05/29/scss-and-sass</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -267,10 +898,10 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Ruby Each / Map / Collect]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/26/ruby-block-map-collect/"/>
+    <title type="html"><![CDATA[Ruby Map / Collect / Each]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/05/26/ruby-block-map-collect/"/>
     <updated>2017-05-26T13:51:46+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/26/ruby-block-map-collect</id>
+    <id>https://jamestong10.github.io/blog/2017/05/26/ruby-block-map-collect</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -305,9 +936,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>&amp;: 是block 在簡化的符號</h2>
+<h2>&amp; 是 <a href="https://jamestong10.github.io/blog/2016/08/10/ruby-proc-lamdba-yield/">#to_proc</a> 簡化的符號</h2>
 
-<p>在Rails 中，假設要取得所有User 的姓名，使用map 的寫法如下</p>
+<p>在Rails 中，假設要取得所有User 的姓名，使用 map 的寫法如下</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -316,7 +947,18 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>但如果只針對 Array 中的取某個值或是執行某個 method 就可以使用 <code>&amp;:</code></p>
+<p>承上，簡化 <code>user[:name]</code>，可以使用<code>&amp;</code> 執行 <code>#to_proc</code>，就變成<code>&amp;:name</code></p>
+
+<p>stackoverflow 有更詳細的<a href="https://stackoverflow.com/a/1217114">說明</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># 取值</span>
+</span><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:name</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用 String#upcase</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -324,12 +966,12 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># 取值</span>
-</span><span class='line'><span class="n">names</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:name</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 轉大寫</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># 轉大寫</span>
 </span><span class='line'><span class="o">[</span><span class="s2">&quot;vanessa&quot;</span><span class="p">,</span> <span class="s2">&quot;david&quot;</span><span class="p">,</span> <span class="s2">&quot;thomas&quot;</span><span class="o">].</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:upcase</span><span class="p">)</span>
 </span><span class='line'><span class="c1">#=&gt; [&quot;VANESSA&quot;, &quot;DAVID&quot;, &quot;THOMAS&quot;]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># equivalent to</span>
+</span><span class='line'><span class="sx">%w(vanessa david thomas)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span> <span class="n">s</span><span class="o">.</span><span class="n">upcase</span> <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -357,9 +999,9 @@
   
   <entry>
     <title type="html"><![CDATA[Make a+ HTTPS Web Server]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/23/make-a-plus-https-web-server/"/>
+    <link href="https://jamestong10.github.io/blog/2017/05/23/make-a-plus-https-web-server/"/>
     <updated>2017-05-23T15:16:20+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/23/make-a-plus-https-web-server</id>
+    <id>https://jamestong10.github.io/blog/2017/05/23/make-a-plus-https-web-server</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -369,11 +1011,11 @@
 
 <p>在購買之前可以先了解 level of validation: DV, OV, EV</p>
 
-<p><img src="http://rt-tong.com/images/posts/2017052301.jpg" alt="dv/ov/ev" /></p>
+<p><img src="https://jamestong10.github.io/images/posts/2017052301.jpg" alt="dv/ov/ev" /></p>
 
 <p>網頁也有詳細說明</p>
 
-<p><img src="http://rt-tong.com/images/posts/2017052302.jpg" alt="instructions" /></p>
+<p><img src="https://jamestong10.github.io/images/posts/2017052302.jpg" alt="instructions" /></p>
 
 <p>購買的部分，因為太簡單了，就不再贅述</p>
 
@@ -530,7 +1172,7 @@
 
 <p>沒看錯得到了分數 B !!</p>
 
-<p><img src="http://rt-tong.com/images/posts/2017052303.jpg" alt="level B" /></p>
+<p><img src="https://jamestong10.github.io/images/posts/2017052303.jpg" alt="level B" /></p>
 
 <p>感謝網路大神分享文章 <a href="https://www.peterdavehello.org/2015/10/build-an-a-plus-best-practice-https-web-server-via-nginx-chinese-version/">用 nginx 建置一個 A+ 等級的 https 網頁伺服器</a> 解決labs 指出需改善的問題</p>
 
@@ -615,15 +1257,15 @@
 
 <p>以上問題都調整完之後，再測試一次，終於會得 A+</p>
 
-<p><img src="http://rt-tong.com/images/posts/2017052304.jpg" alt="level A plus" /></p>
+<p><img src="https://jamestong10.github.io/images/posts/2017052304.jpg" alt="level A plus" /></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Using Joins and Includes to Avoid N+1 Query Problem]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem/"/>
+    <link href="https://jamestong10.github.io/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem/"/>
     <updated>2017-05-23T14:39:53+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem</id>
+    <id>https://jamestong10.github.io/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -735,9 +1377,9 @@
   
   <entry>
     <title type="html"><![CDATA[RSpec]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/23/rspec/"/>
+    <link href="https://jamestong10.github.io/blog/2017/05/23/rspec/"/>
     <updated>2017-05-23T11:32:44+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/23/rspec</id>
+    <id>https://jamestong10.github.io/blog/2017/05/23/rspec</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -1160,10 +1802,10 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Concerns]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/18/concerns/"/>
+    <title type="html"><![CDATA[Rails Module::Concerning and ActiveSupport::Concern]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/05/18/concerns/"/>
     <updated>2017-05-18T15:45:21+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/18/concerns</id>
+    <id>https://jamestong10.github.io/blog/2017/05/18/concerns</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -1343,10 +1985,10 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Object Oriented Design Principles]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/15/object-orientend-design-priciples/"/>
+    <title type="html"><![CDATA[Object Oriented Design Principles - SOLID]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/05/15/object-orientend-design-priciples/"/>
     <updated>2017-05-15T11:50:00+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/15/object-orientend-design-priciples</id>
+    <id>https://jamestong10.github.io/blog/2017/05/15/object-orientend-design-priciples</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -1449,9 +2091,9 @@
   
   <entry>
     <title type="html"><![CDATA[Ruby Forwardable (Delegator)]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/10/ruby-forwardable/"/>
+    <link href="https://jamestong10.github.io/blog/2017/05/10/ruby-forwardable/"/>
     <updated>2017-05-10T14:02:58+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/10/ruby-forwardable</id>
+    <id>https://jamestong10.github.io/blog/2017/05/10/ruby-forwardable</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -1583,9 +2225,9 @@
   
   <entry>
     <title type="html"><![CDATA[Cookies and Sessions]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/09/cookies-and-sessions/"/>
+    <link href="https://jamestong10.github.io/blog/2017/05/09/cookies-and-sessions/"/>
     <updated>2017-05-09T16:21:35+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/09/cookies-and-sessions</id>
+    <id>https://jamestong10.github.io/blog/2017/05/09/cookies-and-sessions</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -1827,9 +2469,9 @@
   
   <entry>
     <title type="html"><![CDATA[RWD Conecpt]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/04/rwd-conecpt/"/>
+    <link href="https://jamestong10.github.io/blog/2017/05/04/rwd-conecpt/"/>
     <updated>2017-05-04T17:12:09+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/04/rwd-conecpt</id>
+    <id>https://jamestong10.github.io/blog/2017/05/04/rwd-conecpt</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -1884,7 +2526,7 @@
 
 <p>可以參考下圖，設計不同裝置，顯示對應的樣式</p>
 
-<p><img src="http://rt-tong.com/images/posts/2017050401.jpg" alt="each devise of rwd device" /></p>
+<p><img src="https://jamestong10.github.io/images/posts/2017050401.jpg" alt="each devise of rwd device" /></p>
 
 <h2>References</h2>
 
@@ -1897,10 +2539,10 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Learning CSS]]></title>
-    <link href="http://rt-tong.com/blog/2017/04/13/learning-css/"/>
+    <title type="html"><![CDATA[Learning CSS and Tips]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/04/13/learning-css/"/>
     <updated>2017-04-13T13:31:59+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/04/13/learning-css</id>
+    <id>https://jamestong10.github.io/blog/2017/04/13/learning-css</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -2019,7 +2661,7 @@
 
 <p>使用<code>box-sizing:border-box</code> 之後，width, height 就會包含 padding 和border 的寬度</p>
 
-<p><img src="http://rt-tong.com/images/posts/2017041301.jpg" width="500" alt="border-box" /></p>
+<p><img src="https://jamestong10.github.io/images/posts/2017041301.jpg" width="500" alt="border-box" /></p>
 
 <h2>Box-shadow</h2>
 
@@ -2212,13 +2854,13 @@
   
   <entry>
     <title type="html"><![CDATA[使用Vagrant 操作Virtaul Boxes]]></title>
-    <link href="http://rt-tong.com/blog/2016/09/11/use-vagrant-to-operating-virtual-box/"/>
+    <link href="https://jamestong10.github.io/blog/2016/09/11/use-vagrant-to-operating-virtual-box/"/>
     <updated>2016-09-11T00:45:21+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/09/11/use-vagrant-to-operating-virtual-box</id>
+    <id>https://jamestong10.github.io/blog/2016/09/11/use-vagrant-to-operating-virtual-box</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
-<p><img src="http://rt-tong.com/images/posts/2016091201.jpg" alt="vagrant_virtulaBox" /></p>
+<p><img src="https://jamestong10.github.io/images/posts/2016091201.jpg" alt="vagrant_virtulaBox" /></p>
 
 <h2>Why Vagrant + Virtual Box</h2>
 
@@ -2523,9 +3165,9 @@
   
   <entry>
     <title type="html"><![CDATA[Rails 使用CarrierWave 上傳圖片 + 上傳AWS S3]]></title>
-    <link href="http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3/"/>
+    <link href="https://jamestong10.github.io/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3/"/>
     <updated>2016-09-02T14:09:46+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3</id>
+    <id>https://jamestong10.github.io/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -2753,26 +3395,27 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Rails - I18n | Timezone]]></title>
-    <link href="http://rt-tong.com/blog/2016/09/01/rails-i18n-timezone/"/>
+    <title type="html"><![CDATA[Rails I18n]]></title>
+    <link href="https://jamestong10.github.io/blog/2016/09/01/rails-i18n-timezone/"/>
     <updated>2016-09-01T11:35:19+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/09/01/rails-i18n-timezone</id>
+    <id>https://jamestong10.github.io/blog/2016/09/01/rails-i18n-timezone</id>
     <content type="html"><![CDATA[<blockquote><p>國際化的設計，根據不同使用者採用不同的語言、數字格式、日期格式，簡稱i18n</p></blockquote>
 
 <!-- more -->
 
 
-<h2>i18n</h2>
+<h2>語系</h2>
 
-<p>Rails 預設是使用英文(en)，如要使用i18n 多語系，則需安裝 gem</p>
+<p>Rails 預設是使用英文(en)，如要使用i18n 多語系，則需安裝 <code>rails-i18n</code> gem</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rails-i18n'</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;rails-i18n&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>設定載入路徑、預設語系</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -2785,60 +3428,116 @@
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#config/application.rb
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#config/application.rb</span>
 </span><span class='line'>
-</span><span class='line'># 設定載入路徑 (二擇一)
-</span><span class='line'>config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
-</span><span class='line'>config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
+</span><span class='line'><span class="c1"># 設定載入路徑</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">i18n</span><span class="o">.</span><span class="n">load_path</span> <span class="o">+=</span> <span class="no">Dir</span><span class="o">[</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;locales&#39;</span><span class="p">,</span> <span class="s1">&#39;**&#39;</span><span class="p">,</span> <span class="s1">&#39;*.{rb,yml}&#39;</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'><span class="c1"># or</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">i18n</span><span class="o">.</span><span class="n">load_path</span> <span class="o">+=</span> <span class="no">Dir</span><span class="o">[</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;locales&#39;</span><span class="p">,</span> <span class="s1">&#39;*.{rb,yml}&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="o">]</span>
 </span><span class='line'>
-</span><span class='line'># 設定預設語系 zh or en (二擇一)
-</span><span class='line'>config.i18n.default_locale = :"zh-TW"
-</span><span class='line'>config.i18n.default_locale = :en
+</span><span class='line'><span class="c1"># 設定預設語系 zh or en</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">i18n</span><span class="o">.</span><span class="n">default_locale</span> <span class="o">=</span> <span class="ss">:&quot;zh-TW&quot;</span>
+</span><span class='line'><span class="c1"># or</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">i18n</span><span class="o">.</span><span class="n">default_locale</span> <span class="o">=</span> <span class="ss">:en</span>
 </span><span class='line'>
-</span><span class='line'># use default locale when translation missing (二擇一)
-</span><span class='line'>config.i18n.fallbacks = true
-</span><span class='line'>config.i18n.fallbacks = :"zh-TW"</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c1"># use default locale when translation missing</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">i18n</span><span class="o">.</span><span class="n">fallbacks</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'><span class="c1"># or</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">i18n</span><span class="o">.</span><span class="n">fallbacks</span> <span class="o">=</span> <span class="ss">:&quot;zh-TW&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>public i18n api</h2>
+
+<p>translate：Lookup text translations</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">I18</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="s1">&#39;store.title&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># or</span>
+</span><span class='line'><span class="n">t</span><span class="p">(</span><span class="s1">&#39;store.title&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>localize：Localize Date and Time objects to local formats</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">I18</span><span class="o">.</span><span class="n">l</span><span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+</span><span class='line'><span class="c1">#or</span>
+</span><span class='line'><span class="n">l</span><span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>自訂語彙</h2>
 
-<p>詞彙檔放在 config/locales ，使用YAML 格式</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># config/locales/zh-TW.yml
-</span><span class='line'>"zh-TW":
-</span><span class='line'>    hello: "親愛的%{name}你好!"
-</span><span class='line'>    admin:
-</span><span class='line'>        event: 活動管理</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>詞彙檔放在 config/locales</li>
+<li>使用 YAML 格式</li>
+<li>命名方式：***.語系.yml。例如：zh-TW.yml、devise.zh-TW.yml</li>
+</ul>
 
 
-<blockquote><p>注意 YAML 格式的縮排必須使用兩個空格，Tab是不允許的。直接複製貼上可能會有問題，請小心檢查縮排</p></blockquote>
-
-<p>套用語彙，可以使用<code>t Helper</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># 如果在View
-</span><span class='line'>t("admin.event")
-</span><span class='line'>t(:event, :scope=&gt;:admin)
-</span><span class='line'>t(:hello, :name=&gt;current_user.name)
-</span><span class='line'>
-</span><span class='line'># 如果不在View中，則需要加上 I18n 類別
-</span><span class='line'>I18n.t("admin.event")</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/locales/zh-TW.yml</span>
+</span><span class='line'><span class="n">zh</span><span class="o">-</span><span class="ss">TW</span><span class="p">:</span>
+</span><span class='line'>    <span class="ss">hello</span><span class="p">:</span> <span class="s2">&quot;親愛的%{name}你好!&quot;</span>
+</span><span class='line'>    <span class="ss">admin</span><span class="p">:</span>
+</span><span class='line'>        <span class="ss">user</span><span class="p">:</span> <span class="err">使用者管理</span>
+</span><span class='line'>        <span class="ss">event</span><span class="p">:</span> <span class="err">活動管理</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>如何讓使用者切換語系</p>
+<blockquote><p>注意 YAML 格式的縮排必須使用兩個空格，Tab是不允許的。直接複製貼上可能會有問題，請小心檢查縮排</p></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>YAML 格式</p>
+
+<ul>
+<li>第一層：語系</li>
+<li>第二層：自訂名稱、或是 rails 保留字，如：controller、activerecord&hellip;</li>
+</ul>
+
+
+<h2>I18n.t</h2>
+
+<p>使用 <code>I18n.t</code> 根據設定的語系，替換對應的詞彙</p>
+
+<p>在 View 可使用 t 這 Helper 方法，第二參數傳入 Scope</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">t</span><span class="p">(</span><span class="s2">&quot;admin.event&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">t</span><span class="p">(</span><span class="ss">:event</span><span class="p">,</span> <span class="ss">scope</span><span class="p">:</span> <span class="ss">:admin</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果不在View中，則需要加上 I18n 類別</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">I18n</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="s2">&quot;admin.event&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>template 傳入參數，第二參數傳入變數</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">t</span><span class="p">(</span><span class="ss">:hello</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="n">current_user</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="c1"># 親愛的James你好!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用 YAML 特性加入陣列</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -2849,45 +3548,187 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># controllers/application_controller.rb
-</span><span class='line'>before_action :set_locale
-</span><span class='line'>
-</span><span class='line'>def set_locale
-</span><span class='line'>  # 可以將 ["en", "zh-TW"] 設定為 VALID_LANG 放到 config/environment.rb 中
-</span><span class='line'>  if params[:locale] && I18n.available_locales.include?( params[:locale].to_sym )
-</span><span class='line'>    session[:locale] = params[:locale]
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  I18n.locale = session[:locale] || I18n.default_locale
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/locales/zh-TW.yml</span>
+</span><span class='line'><span class="n">zh</span><span class="o">-</span><span class="ss">TW</span><span class="p">:</span>
+</span><span class='line'>  <span class="ss">date</span><span class="p">:</span>
+</span><span class='line'>    <span class="ss">day_names</span><span class="p">:</span>
+</span><span class='line'>    <span class="o">-</span> <span class="err">星期日</span>
+</span><span class='line'>    <span class="o">-</span> <span class="err">星期一</span>
+</span><span class='line'>    <span class="o">-</span> <span class="err">星期二</span>
+</span><span class='line'>    <span class="o">-</span> <span class="err">星期三</span>
+</span><span class='line'>    <span class="o">-</span> <span class="err">星期四</span>
+</span><span class='line'>    <span class="o">-</span> <span class="err">星期五</span>
+</span><span class='line'>    <span class="o">-</span> <span class="err">星期六</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>透過 i18n 取得陣列資料</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">I18n</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="s1">&#39;date.day_names&#39;</span><span class="p">,</span> <span class="ss">locale</span><span class="p">:</span> <span class="s1">&#39;zh-TW&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>變化：使用 i18n.t 設定網頁條款</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># views/..
-</span><span class='line'>&lt;%= link_to "中文版", :controller =&gt; controller_name,
-</span><span class='line'>:action =&gt; action_name, :locale =&gt; "zh-TW" %&gt;
-</span><span class='line'>&lt;%= link_to "English", :controller =&gt; controller_name,
-</span><span class='line'>:action =&gt; action_name, :locale =&gt; "en" %&gt;</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">zh</span><span class="o">-</span><span class="ss">TW</span><span class="p">:</span>
+</span><span class='line'>  <span class="ss">example</span><span class="p">:</span>
+</span><span class='line'>    <span class="ss">policy_html</span><span class="p">:</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="err">使用條款</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'><span class="sr">      # ...</span>
+</span><span class='line'><span class="sr">    privacy_html:</span>
+</span><span class='line'><span class="sr">      &lt;h1&gt;隱私條款&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="c1"># ...</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>時區 Timezone</h2>
+<p>在 view 呼叫 i18n.t</p>
 
-<p>設定app 使用的時區，設定完成需重啟服務生效</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># config/application.rb
-</span><span class='line'>config.time_zone = "Taipei"</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= t(&#39;example.policy_html&#39;) %&gt;</span>
+</span><span class='line'><span class="sx">&lt;%=</span> <span class="n">t</span><span class="p">(</span><span class="s1">&#39;example.privacy_html&#39;</span><span class="p">)</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Lazy Lookup (Convension)</h2>
+
+<p>設定語彙檔</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/locales/zh-TW.yml</span>
+</span><span class='line'><span class="n">zh</span><span class="o">-</span><span class="ss">TW</span><span class="p">:</span>
+</span><span class='line'>  <span class="ss">books</span><span class="p">:</span>
+</span><span class='line'>    <span class="ss">index</span><span class="p">:</span>
+</span><span class='line'>      <span class="ss">title</span><span class="p">:</span> <span class="err">標題</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果在 app/views/books/index.html.erb 使用 I18n book.index.title 可以縮寫如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">t</span> <span class="s1">&#39;.title&#39;</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>搭配 Model 使用</h2>
+
+<p>根據 model name 建立對應的語彙檔</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">zh</span><span class="o">-</span><span class="ss">TW</span><span class="p">:</span>
+</span><span class='line'>  <span class="ss">activerecord</span><span class="p">:</span>
+</span><span class='line'>    <span class="ss">models</span><span class="p">:</span>
+</span><span class='line'>      <span class="ss">brand</span><span class="p">:</span> <span class="err">品牌</span>
+</span><span class='line'>      <span class="ss">category</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">category</span> <span class="err">分類</span>
+</span><span class='line'>    <span class="ss">attributes</span><span class="p">:</span>
+</span><span class='line'>      <span class="ss">brand</span><span class="p">:</span>
+</span><span class='line'>        <span class="ss">created_at</span><span class="p">:</span> <span class="o">*</span><span class="n">created_at</span>
+</span><span class='line'>        <span class="nb">name</span><span class="p">:</span> <span class="err">名稱</span>
+</span><span class='line'>    <span class="ss">errors</span><span class="p">:</span>
+</span><span class='line'>      <span class="ss">messages</span><span class="p">:</span>
+</span><span class='line'>        <span class="ss">record_invalid</span><span class="p">:</span> <span class="s2">&quot;校驗失敗: %{errors}&quot;</span>
+</span><span class='line'>        <span class="ss">restrict_dependent_destroy</span><span class="p">:</span>
+</span><span class='line'>          <span class="ss">has_one</span><span class="p">:</span> <span class="err">由於</span> <span class="sx">%{record}</span> <span class="err">需要此記錄，所以無法移除記錄</span>
+</span><span class='line'>          <span class="ss">has_many</span><span class="p">:</span> <span class="err">由於</span> <span class="sx">%{record}</span> <span class="err">需要此記錄，所以無法移除記錄</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第二層為 activerecord</p>
+
+<p>第三層 models 設定 model 語彙名稱</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Brand</span><span class="o">.</span><span class="n">model_name</span><span class="o">.</span><span class="n">human</span> <span class="c1"># zh-TW =&gt; 品牌</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定 attributes</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Brand</span><span class="o">.</span><span class="n">human_attribute_name</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="c1"># zh-TW =&gt; 名稱</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>設定 errors</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">activerecord</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">record_invalid</span><span class="p">(</span><span class="ss">errors</span><span class="p">:</span> <span class="s1">&#39;尚未輸入資料&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>如何讓使用者切換語系</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># controllers/application_controller.rb</span>
+</span><span class='line'><span class="n">before_action</span> <span class="ss">:set_locale</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">set_locale</span>
+</span><span class='line'>  <span class="c1"># 可以將 [&quot;en&quot;, &quot;zh-TW&quot;] 設定為 VALID_LANG 放到 config/environment.rb 中</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:locale</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="no">I18n</span><span class="o">.</span><span class="n">available_locales</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span> <span class="n">params</span><span class="o">[</span><span class="ss">:locale</span><span class="o">].</span><span class="n">to_sym</span> <span class="p">)</span>
+</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:locale</span><span class="o">]</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:locale</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">I18n</span><span class="o">.</span><span class="n">locale</span> <span class="o">=</span> <span class="n">session</span><span class="o">[</span><span class="ss">:locale</span><span class="o">]</span> <span class="o">||</span> <span class="no">I18n</span><span class="o">.</span><span class="n">default_locale</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># views/..</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sx">%= link_to &quot;中文版&quot;, :controller =</span><span class="o">&gt;</span> <span class="n">controller_name</span><span class="p">,</span>
+</span><span class='line'><span class="ss">:action</span> <span class="o">=&gt;</span> <span class="n">action_name</span><span class="p">,</span> <span class="ss">:locale</span> <span class="o">=&gt;</span> <span class="s2">&quot;zh-TW&quot;</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;%= link_to &quot;English&quot;, :controller =&gt;</span> <span class="n">controller_name</span><span class="p">,</span>
+</span><span class='line'><span class="ss">:action</span> <span class="o">=&gt;</span> <span class="n">action_name</span><span class="p">,</span> <span class="ss">:locale</span> <span class="o">=&gt;</span> <span class="s2">&quot;en&quot;</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>References</h2>
 
 <ul>
-<li><a href="https://ihower.tw/rails4/i18n.html">ihower-i18n</a></li>
+<li><a href="http://guides.rubyonrails.org/i18n.html">Rails Internationalization (I18n) API</a></li>
+<li><a href="https://ihower.tw/rails/i18n.html">ihower - 多國語系及時區</a></li>
+<li><a href="https://hackmd.io/p/HJarJWGd#/">Rails I18n 實作技巧</a></li>
 </ul>
 
 ]]></content>
@@ -2895,9 +3736,9 @@
   
   <entry>
     <title type="html"><![CDATA[ActiveRecord Module - Calculations]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/25/activerecord-module-calculations/"/>
+    <link href="https://jamestong10.github.io/blog/2016/08/25/activerecord-module-calculations/"/>
     <updated>2016-08-25T10:44:12+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/25/activerecord-module-calculations</id>
+    <id>https://jamestong10.github.io/blog/2016/08/25/activerecord-module-calculations</id>
     <content type="html"><![CDATA[<blockquote><p>擷取常用的methods</p></blockquote>
 
 <!-- more -->
@@ -3078,9 +3919,9 @@
   
   <entry>
     <title type="html"><![CDATA[Ruby - Nil? | Empty? | Blank?]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank/"/>
+    <link href="https://jamestong10.github.io/blog/2016/08/24/ruby-nil_empty_blank/"/>
     <updated>2016-08-24T14:09:59+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank</id>
+    <id>https://jamestong10.github.io/blog/2016/08/24/ruby-nil_empty_blank</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -3186,15 +4027,15 @@
 
 <p>剛剛測試的結果，已經有整理成一份表格，可以透過表格查看要使用什麼方式來檢查boolean 值~</p>
 
-<p><img src="http://rt-tong.com/images/posts/2016082401.jpg" alt="nil_empty_blank_present" /></p>
+<p><img src="https://jamestong10.github.io/images/posts/2016082401.jpg" alt="nil_empty_blank_present" /></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[ActiveRecord Module - Enum]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/22/activerecord-module-enum/"/>
+    <link href="https://jamestong10.github.io/blog/2016/08/22/activerecord-module-enum/"/>
     <updated>2016-08-22T17:17:21+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/22/activerecord-module-enum</id>
+    <id>https://jamestong10.github.io/blog/2016/08/22/activerecord-module-enum</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -3336,512 +4177,6 @@
 
 <ul>
 <li><a href="http://edgeapi.rubyonrails.org/classes/ActiveRecord/Enum.html">ActiveRecord::Enum</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[邏輯思維 EP.184 - 怎麼樣成為一個高手]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/21/logic-show-184/"/>
-    <updated>2016-08-21T10:54:21+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/21/logic-show-184</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<p><img src="http://rt-tong.com/images/posts/2016082101.jpg" alt="Logic Show" /></p>
-
-<blockquote><p>本集雖說是如何成為一個高手，但實質是說明學習的目的和如何自己建立一套有效的學習方法</p>
-
-<p>「學習」的本質就是脫離舒適區</p>
-
-<p>學習的過程就是把新東西和自己原來的結構縫在一起</p></blockquote>
-
-<h2>先說見解</h2>
-
-<ol>
-<li>評論性見解：各自提出見解，但不解決問題</li>
-<li>工程學見解：拆解為具體的行為，把問題解決掉</li>
-</ol>
-
-
-<h2>刻意練習</h2>
-
-<h3>練習</h3>
-
-<ul>
-<li>基本功（套路）：知識罐頭，把前人已經搞明白的東西，抽象為一個非常簡潔的東西，然後我們拿來就用
-
-<ul>
-<li>套路一：書上找不到，但這行的前輩總結<strong>最值錢的經驗</strong></li>
-<li>套路二：<strong>概念</strong>了解清晰的內涵和外延，其實你把整坨的知識全部拿到手，因此在累積知識的過程，一定要學這些概念，把它打磨清楚</li>
-</ul>
-</li>
-<li><p>真正的練習：把大的知識體系拆碎，成為一個個小模塊（知識罐頭），然後分頭練習，這才是真正的練習。例如：吉他演奏家，就要練爬格子、鋼琴演奏家，就要練哈農指法訓練、運動選手，某個特定球員身上某個特定的肌肉群訓練。簡言之，<strong>學習別人的套路</strong></p></li>
-<li><p>除了套路，最關鍵還是要<strong>反覆地重複訓練</strong>，因為大腦就是要靠重複訓練，來產生神經網路</p></li>
-<li><p>總結：針對性重複地練習，就是練習的本質 :+1:</p></li>
-</ul>
-
-
-<h3>刻意</h3>
-
-<ul>
-<li><p>持續不斷做你不會做的事 （這很重要，所以說三遍!!!）</p></li>
-<li><p>心理學界把人的學習分成三個區：舒適區（都擅長）> 學習區/脫離舒適區 > 恐慌區（都不會）</p></li>
-<li><p>刻意去學習，也才會成爲高手，例如：玩遊戲，圖個爽只是被遊戲玩，反而要脫離舒適，專研地圖或是計算遊戲公式，才能成為高手</p></li>
-<li><p>脫離舒適：不是找完全看不懂的天書，而是找對自己專業有挑戰的書，這樣讀書才真正有效</p></li>
-<li><p>以Tiger Woods 為例：在揮竿時，如果覺得受到干擾或出現意外狀況，可以立刻停止揮竿。永遠不讓自己進入舒適區，平時訓練經常找高難度的情形，任何一個動作都進入失控狀態，他要去控制每個動作</p></li>
-<li><p>對專業高爾夫球選手來說，Tiger 這是特別厲害的能力，畢竟揮竿早就成為肌肉記憶，下意識的動作，看起來非常熟練，但本質上也是失控的，因為大腦已經起不了作用，萬一如果球場出現意外狀況，肯定是打不好的</p></li>
-<li><p>基本訓練：可以透過長久訓練，帶入舒適區，形成肌肉記憶</p></li>
-<li><p>中國教育：以考試為中心，一個確定性的結局，因此成績好的學生，只要將考試的內容背的滾瓜爛熟，誘導自己進入舒適區，但高考狀元在事業發展反而不太順利</p></li>
-<li><p>其實工作能力就是學習能力：因為在舒適區待久了，對新知識的強烈挑戰慾望，沒有學生時期那麼強</p></li>
-<li><p>以Zuckerberg 為例：他的行為就是不斷挑戰非舒適區，每一年都給自己下一個全新的任務，2010 學中文、2011 只吃自己親手殺死的動物、2012 重新學習自己寫程式&hellip;</p></li>
-<li><p>一般人要如何成為高手：讓自己進入一個好的學習環境，被動的被脫離舒適區，進入學習區</p></li>
-<li><p>什麼是好的學習環境：能夠即時提供回饋的環境，就是你每個微小的進步，外界都會給你回饋，告訴你對還是錯。例如：上網寫小說，讀者能夠即時給予回饋、籃球教練，針對為小錯誤的動作給予回饋、貝爾實驗室，有個不成文規定，只要年輕人問問題，不能迴避，必須給予回答</p></li>
-<li><p>研究所的教授或導師，英文稱為adviser，字也能翻成顧問，也就是導師不斷的對我們所做的事情，提供即時的回饋，導師的本質其實是顧問的角色</p></li>
-<li><p>師徒制是未來人類學習的總方向：互相切搓學問，任何一點增長或疑問，都能得到及時回饋</p></li>
-</ul>
-
-
-<h2>學習過程</h2>
-
-<ul>
-<li><p>以此書討論網路與學習過程<a href="http://www.books.com.tw/products/CN10715146">淺薄︰互聯網如何毒化了我們的大腦</a></p></li>
-<li><p>網路的出現，使人類學習構建一種障礙，甚至是一點點地摧毀深度思考的能力</p></li>
-<li><p>網路讓知識來源變得豐富，但對於學習者或閱讀者，帶來另一種負擔，要不斷地選擇做什麼的決策，這都是被聰明人所設計一種套路</p></li>
-<li><p>Google：讓使用者可快速做決策，透過搜尋讓使用者快進快出，也是他們的核心策略，如此廣告才能賺錢</p></li>
-<li><p>網路讓人類進入一種非常沈重的決策負擔，人類是由大腦前額葉做出理性的決策，但前額葉不負責學習，也就是選擇的時候，並沒有在學習</p></li>
-<li><p>真正在學習的大腦：不斷把新的訊息和原本的知識結構縫接，在編制一個密不可分的網絡，所有的高手特點是，看到新的東西，馬上跟自己腦中的記憶結合</p></li>
-<li><p>信息：一堆碎的東西</p></li>
-<li><p>知識：必須是信息形成結構，互相之間形成關聯之後，再進入庫存，這才叫知識</p></li>
-<li><p>每個信息在高手腦子里，是活的且有關聯的，而且和他的實踐操作有關係</p></li>
-<li><p>真正的高手，家裡不藏書，但有做筆記</p></li>
-<li><p>筆記是什麼：把書裡面的信息跟自己記憶結構，正在生長的結構對接出來的產物，就是一個人大腦的外掛</p></li>
-<li><p>儲存想看的網路文章：實際上，儲存起來，就不會再打開，因此要強迫自己去看，並且得寫一個心得，目的是為了跟這個知識形成一次互動，也就是學習</p></li>
-<li><p>例如：看美劇學英文，如果只是看中英字幕，永遠學不會的，應該把單字或句子做成筆記，跟知識有互動</p></li>
-<li><p>人類不僅創造工具，工具也反過來塑造人類，世上出現一個新工具，一定連接產生兩個結果，一是工具帶來便利性，二是把人類分成兩群，一群是享受工具的舒適區，另一群則是帶著工具產生新的可能，探索文明的新邊疆，例如：自動翻譯機，一群人就是不需要苦學英文，享受自動翻譯，另一群人就帶著這個深入了解外國人的主流社會</p></li>
-<li><p>大部分人智商都差不多的，只有極～少部份人是高智商或低智商，但認知就不同，是冪律分佈，只有極少的人能到達認知的高層，背後是通過不斷的練習，不斷獲得認知的回饋，也就不斷提高認知</p></li>
-</ul>
-
-
-<h2>Youtube</h2>
-
-<ul>
-<li><a href="https://www.youtube.com/watch?v=4JhlfRAzVKY">Logic show ep.184</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby Proc - Lamdba | Yield]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/10/ruby-proc-lamdba-yield/"/>
-    <updated>2016-08-10T00:07:13+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/10/ruby-proc-lamdba-yield</id>
-    <content type="html"><![CDATA[<blockquote><p>繼<a href="http://rt-tong.com/blog/2016/08/05/ruby-method/">Ruby Method</a> <code>&amp;block</code> 提到要傳入 <a href="http://ruby-doc.org/core-2.3.1/Proc.html">Proc Class</a> 執行邏輯運算</p>
-
-<p>順便寫一篇記錄Proc Class 的基本應用，不是很好入門，但是多看幾次就能慢慢了解其中意義</p></blockquote>
-
-<!-- more -->
-
-
-<h2>Proc</h2>
-
-<p>Proc 為一種<strong>匿名</strong>區塊(Block) 物件，根據傳入的參數執行邏輯運算</p>
-
-<p>如果傳入數量與宣告不同，則以<code>nil</code> 替代</p>
-
-<h3>宣告 &amp; 執行</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># 宣告1
-</span><span class='line'>proc1 = Proc.new do |x|
-</span><span class='line'>    puts x
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'># 宣告2
-</span><span class='line'>proc2 = proc do |x|
-</span><span class='line'>    puts x
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'># Proc#call
-</span><span class='line'>proc1.call("hello world")  # hello world
-</span><span class='line'>
-</span><span class='line'># Proc#[]
-</span><span class='line'>proc2["hey, how are you?"] # hey, how are you?</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Feature of Closure</h3>
-
-<p>可透過Proc 達到closure 的目的</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def counter
-</span><span class='line'> c=0
-</span><span class='line'> Proc.new do c += 1 end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>c1 = counter
-</span><span class='line'>c2 = counter
-</span><span class='line'>
-</span><span class='line'>c1.call # 1
-</span><span class='line'>c1.call # 2
-</span><span class='line'>c2.call # 1</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Lambda</h2>
-
-<p>Proc 的另一種寫法，稱為lambda。創建出來的也是Proc 物件，通過lambda 建立的Proc 其行為更接近method。</p>
-
-<h3>宣告 &amp; 執行</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lambda1 = lambda do |x|
-</span><span class='line'>  return x
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>lambda1.call("hello world")
-</span><span class='line'>lambda1["hey, ok"]
-</span><span class='line'>
-</span><span class='line'># 另一種宣告方式 -&gt;(參數) { 邏輯處理 }
-</span><span class='line'>lambda2 = -&gt;(x) { return x * 2 }
-</span><span class='line'>lambda2.call("hello world")
-</span><span class='line'>lambda2["ok, fine!"]</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>與Proc 差異</h3>
-
-<ol>
-<li>傳入參數數量需與宣告時一致</li>
-<li><strong>(重要)可以使用return 將值傳回 (Proc 遇到return  就會跳出區域並結束)</strong></li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def power_of(n)
-</span><span class='line'>  lambda do |x|
-</span><span class='line'>    return x ** n
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>cube = power_of(3)
-</span><span class='line'>cube.call(5)  # 125
-</span><span class='line'>
-</span><span class='line'># using Proc
-</span><span class='line'>def power_of(n)
-</span><span class='line'>  Proc.new do |x|
-</span><span class='line'>    return x ** n
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>cube = power_of(3)
-</span><span class='line'>cube.call(5)  # LocalJumpError</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>to_proc 方法</h3>
-
-<p>有些object 可以使用<code>#to_proc</code>，如果傳入的參數有加上 <code>&amp;</code> Symbol，則#to_proc 就會自動調用，進而生成Proc Object</p>
-
-<p>可能需要一點時間熟悉這樣的寫法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>%w(42 52 14).map { |n| n.to_i }
-</span><span class='line'>
-</span><span class='line'># 上下相同
-</span><span class='line'>
-</span><span class='line'>%w(42 52 14).map(&:to_i)</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>yield</h2>
-
-<p>蠻頭痛的，這題不知道要寫在ruby method 還是在這，但思考之後，認為先有了Proc 的觀念，再來討論這個，或許會更了解吧！</p>
-
-<p>這有點類似 Java 的abstract class，將method 要實作的部分放<code>yield</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def my_method_no_arg
-</span><span class='line'>  puts "warm up 1"
-</span><span class='line'>  yield
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>def my_method_with_arg
-</span><span class='line'>  puts "warm up 2"
-</span><span class='line'>  # yield('james')
-</span><span class='line'>  yield(%W(a b))
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>my_method_no_arg do
-</span><span class='line'>  puts "running alone"
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>my_method_with_arg do |friends|
-</span><span class='line'>    # puts friends.class
-</span><span class='line'>    if friends.class == String
-</span><span class='line'>      puts "running with #{friends}"
-</span><span class='line'>    else
-</span><span class='line'>      friends.each do |friend|
-</span><span class='line'>        puts "running with #{friend}"
-</span><span class='line'>      end
-</span><span class='line'>    end
-</span><span class='line'>end
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>總結</h2>
-
-<ul>
-<li><code>yield = &amp;block + block.call()</code></li>
-<li><code>&amp;block = Proc | Lambda</code></li>
-</ul>
-
-
-<h2>References</h2>
-
-<ul>
-<li>RailsFun.tw 新手教學</li>
-<li>Ruby Programming ver.4</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby Module - Namespace | Mixin | Include | Extend]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/08/ruby-module/"/>
-    <updated>2016-08-08T15:26:54+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/08/ruby-module</id>
-    <content type="html"><![CDATA[<blockquote><p>module 算是Ruby 的獨有特色，瞭解後在程式開發或是閱讀原始碼有很大的幫助</p></blockquote>
-
-<!-- more -->
-
-
-<h2>宣告</h2>
-
-<p>示範module 內是可以包含多種內容，但實際在設計時，還是依照功能分類</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Module name 第一個字必需大寫
-</span><span class='line'>module Module_name
-</span><span class='line'>  # adding class
-</span><span class='line'>  class MyClass
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  # adding method
-</span><span class='line'>  def myMethod
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  # namespace
-</span><span class='line'>  module another_moudle_name
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>用途</h2>
-
-<ul>
-<li>NameSpace</li>
-<li>Mixin</li>
-</ul>
-
-
-<h3>NameSpace</h3>
-
-<p>用來區分命名空間，當有相同命名時，可透過module 區分命名空間</p>
-
-<h3>Mixin</h3>
-
-<p>因為Ruby Class有單一繼承的限制。所以就可透過此方法，擴充Class 的功能</p>
-
-<p>Mixin 分成兩類：</p>
-
-<ol>
-<li><p>include：class instance 才能操作</p></li>
-<li><p>extend：不需instance 就可以透過 <code>class_name.method_name</code> 操作</p></li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module Power
-</span><span class='line'>  def calPower(num)
-</span><span class='line'>    num ** num
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>module StringUtil
-</span><span class='line'>  def repeating(num, string)
-</span><span class='line'>    string * num
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>class Example
-</span><span class='line'>  include Power
-</span><span class='line'>  extend StringUtil
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>p Example.new.calPower(2) # 4
-</span><span class='line'>p Example.repeating(2,"a") # "aa"</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>單獨操作Module</h2>
-
-<p>以上介紹都是把module 放在class 內，再透過mixin 方式操作，但如果想要直接操作可以根據以下方式：</p>
-
-<ul>
-<li>module_function</li>
-<li>self.method</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module CompanyA
-</span><span class='line'>  def greeting(name)
-</span><span class='line'>    "Hello #{name} at CompanyA"
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  module_function :greeting
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'># 上下功能相同
-</span><span class='line'>module CompanyB
-</span><span class='line'>  def self.greeting(name)
-</span><span class='line'>    "Hello #{name} at CompanyB"
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>p CompanyA.greeting("JT") # "Hello JT at CompanyA"
-</span><span class='line'>p CompanyB.greeting("JT") # "Hello JT at CompanyB"</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>References</h2>
-
-<ul>
-<li>Ruby Programming ver.4</li>
 </ul>
 
 ]]></content>

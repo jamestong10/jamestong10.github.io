@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Rails Module::Concerning and ActiveSupport::Concern - JT's Blog</title>
+  <title>Rails Delegate - JT's Blog</title>
   <meta name="author" content="James Tong">
 
   
-  <meta name="description" content="Module concerning and ActiveSupport Concern">
+  <meta name="description" content="rails delegate">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="https://jamestong10.github.io/blog/2017/05/18/concerns">
+  <link rel="canonical" href="https://jamestong10.github.io/blog/2017/06/05/rails-delegate">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="JT's Blog" type="application/atom+xml">
@@ -101,7 +101,7 @@
   <header>
     
       
-        <h1 class="entry-title">Rails Module::Concerning and ActiveSupport::Concern</h1>
+        <h1 class="entry-title">Rails Delegate</h1>
       
     
     
@@ -111,7 +111,7 @@
 
 
 
-<time class='entry-date' datetime='2017-05-18T15:45:21+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:45 pm</span></time>
+<time class='entry-date' datetime='2017-06-05T15:34:16+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:34 pm</span></time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -124,11 +124,94 @@
 <div class="entry-content"><!-- more -->
 
 
-<h2>Module#concerning</h2>
+<blockquote><p>屬於 ActiveSupport Delegate method</p>
 
-<p>Rails 4.1 新增的功能，如果module 內容不多，但又非得新增一個module，或許可以考慮用concerning 的方式</p>
+<p>主要運用在 activerecord associations</p></blockquote>
 
-<p>一般使用mixin 使用方式</p>
+<h2>Spec</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">delegate</span><span class="p">(</span><span class="o">*</span><span class="nb">methods</span><span class="p">)</span> <span class="kp">public</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Options</h3>
+
+<ul>
+<li><code>:to</code> 指定目標物件</li>
+<li><code>:prefix</code> 設為true 就是以 :to 的物件名稱當作前綴字，或是自行設定前綴字</li>
+<li><code>:allow_nil</code> 設為 true 不會產生 NoMethodError Exception，預設為 false</li>
+</ul>
+
+
+<h2>Description</h2>
+
+<p>Provides a <a href="https://apidock.com/rails/Module/delegate">delegate</a> class method to easily expose contained objects’ public methods as your own.</p>
+
+<p>The target method must be public, otherwise it will raise NoMethodError.</p>
+
+<h2>Delegation Design Pattern</h2>
+
+<p>Delegation 設計模式是讓物件曝露一些性質，但這些性質其實是取用與當前實例相關連的其它實例的性質而來的</p>
+
+<h2>Explanation of Rails Delegate</h2>
+
+<p>根據以下範例瞭解 Rails Delegate 運作方式。建議可以查看 <a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/module/delegation.rb">delegation.rb</a> 瞭解實作方式</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:posts</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>根據以上的關聯，要如何設計呼叫 <code>@post.name</code> 可直接取得 <code>@post.user.name</code> 又不會出現 NoMethodError 呢？</p>
+
+<p>1.自行寫 <code>#name</code> 裡面在使用 <code>#try</code> 取 user.name</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="n">user</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.以 <code>#delegate</code> 表示</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">allow_nil</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Practice</h2>
+
+<p>一般在寫 Rails 會直覺使用 associations 取得資料</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -139,19 +222,23 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/article.rb</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="kp">include</span> <span class="no">Tagging</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># models</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Invoice</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'> <span class="n">belongs_to</span> <span class="ss">:user</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'><span class="c1"># app/models/concerns/tagging.rb</span>
-</span><span class='line'><span class="k">module</span> <span class="nn">Tagging</span>
-</span><span class='line'> <span class="c1"># ...</span>
-</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="c1"># views</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sx">%= @invoice.user.name %&gt;</span>
+</span><span class='line'><span class="sx">&lt;%=</span> <span class="vi">@invoice</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">address</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;%= @invoice.user.cellphone %&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>使用concerning</p>
+<p>若比較嚴謹來看，這樣是違反 <a href="https://jamestong10.github.io/blog/2017/05/15/object-orientend-design-priciples/">Lask Knowledge Priciple</a></p>
+
+<p>而且 Views 看起來也不漂亮</p>
+
+<p>這時可透過 Rails Delegate 優化</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -166,134 +253,36 @@
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="c1"># 基本：建立一般的 instance method</span>
-</span><span class='line'>  <span class="n">concerning</span> <span class="ss">:Tagging</span> <span class="k">do</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">news</span> <span class="k">do</span>
-</span><span class='line'>      <span class="c1"># ...</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="c1"># 進階1:加入included (include 時執行)</span>
-</span><span class='line'>  <span class="n">concerning</span> <span class="ss">:Scope</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">included</span> <span class="n">di</span>
-</span><span class='line'>      <span class="n">scope</span> <span class="ss">:published</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">state</span><span class="p">:</span> <span class="s1">&#39;published&#39;</span><span class="p">)</span> <span class="p">}</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="c1"># 進階2：加入class method</span>
-</span><span class='line'>  <span class="n">concerning</span> <span class="ss">:Search</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">class_methods</span> <span class="k">do</span>
-</span><span class='line'>      <span class="k">def</span> <span class="nf">published</span> <span class="k">do</span>
-</span><span class='line'>        <span class="c1"># ...</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># models</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Invoice</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+</span><span class='line'> <span class="n">belongs_to</span> <span class="ss">:user</span>
+</span><span class='line'> <span class="n">delegate</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:address</span><span class="p">,</span> <span class="ss">:cellphone</span><span class="p">,</span>
+</span><span class='line'> <span class="ss">to</span><span class="p">:</span> <span class="ss">:user</span><span class="p">,</span>
+</span><span class='line'> <span class="ss">prefix</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+</span><span class='line'> <span class="ss">allow_nil</span><span class="p">:</span> <span class="kp">true</span>
 </span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># views</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sx">%= @invoice.user_name %&gt;</span>
+</span><span class='line'><span class="sx">&lt;%=</span> <span class="vi">@invoice</span><span class="o">.</span><span class="n">user_address</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;%= @invoice.user_cellphone %&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>References</h3>
+<p>這樣看起來是不是清爽多了~</p>
+
+<h2>Others</h2>
+
+<p>參考 <a href="https://jamestong10.github.io/blog/2017/05/10/ruby-forwardable/">Ruby Forwardable</a></p>
+
+<h2>References</h2>
 
 <ul>
-<li><a href="http://api.rubyonrails.org/v4.1/classes/Module/Concerning.html">Module#Concerning</a></li>
-</ul>
-
-
-<h2>ActiveSupport::Concern</h2>
-
-<ul>
-<li>將共用的邏輯寫到module 並用mixin 的方式，如此可以集中管理</li>
-<li>讓module 的相依性降低（低耦合），方便管理</li>
-<li>命名以able结尾</li>
-</ul>
-
-
-<p>一般module 要mixin 到class  要使用included</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">M</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">extend</span> <span class="no">ClassMethods</span>
-</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
-</span><span class='line'>      <span class="n">scope</span> <span class="ss">:disabled</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">disabled</span><span class="p">:</span> <span class="kp">true</span><span class="p">)}</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
-</span><span class='line'>    <span class="c1"># ...</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果使用ActiveSupport::Concern module 就可以改寫</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;active_support/concern&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">module</span> <span class="nn">M</span>
-</span><span class='line'>  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># 在include 的時執行</span>
-</span><span class='line'>  <span class="c1"># 加入 scope 或 attr_accessor</span>
-</span><span class='line'>  <span class="n">included</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">scope</span> <span class="ss">:disabled</span><span class="p">,</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="n">where</span><span class="p">(</span><span class="ss">disabled</span><span class="p">:</span> <span class="kp">true</span><span class="p">)}</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># 定義class methods</span>
-</span><span class='line'>  <span class="n">class_methods</span> <span class="k">do</span>
-</span><span class='line'>    <span class="c1"># ...</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># 除了上面兩個區塊外，都屬於 instance methods</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>References</h3>
-
-<ul>
-<li><a href="https://ruby-china.org/topics/19812">ActiveSupport::Concern 小结</a></li>
-<li><a href="http://api.rubyonrails.org/classes/ActiveSupport/Concern.html">ActiveSupport::Concern</a></li>
-<li><a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/concern.rb">concern.rb</a></li>
-<li><a href="http://signalvnoise.com/posts/3372-put-chubby-models-on-a-diet-with-concerns">put-chubby-models-on-a-diet-with-concerns</a></li>
-<li><a href="http://mgleon08.github.io/blog/2016/03/26/concern/">concern</a></li>
+<li><a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/module/delegation.rb">delegation.rb</a></li>
+<li><a href="https://apidock.com/rails/Module/delegate">Rails doc#delegate</a></li>
+<li><a href="https://simonecarletti.com/blog/2009/12/inside-ruby-on-rails-delegate/">Understanding Ruby and Rails: Delegate</a></li>
+<li><a href="http://sharefun.logdown.com/posts/737036-understanding-rails-delegate">理解Rails delegate</a></li>
+<li><a href="http://waynechu.logdown.com/posts/206252-rails-delegate">Rails Delegate</a></li>
 </ul>
 
 </div>
@@ -318,13 +307,13 @@
 
 
 
-<time class='entry-date' datetime='2017-05-18T15:45:21+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:45 pm</span></time>
+<time class='entry-date' datetime='2017-06-05T15:34:16+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>3:34 pm</span></time>
       
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/activesupport/'>activesupport</a>, <a class='category' href='/blog/categories/rails/'>rails</a>
+    <a class='category' href='/blog/categories/rails/'>rails</a>
   
 </span>
 
@@ -333,7 +322,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://jamestong10.github.io/blog/2017/05/18/concerns/" data-via="" data-counturl="https://jamestong10.github.io/blog/2017/05/18/concerns/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://jamestong10.github.io/blog/2017/06/05/rails-delegate/" data-via="" data-counturl="https://jamestong10.github.io/blog/2017/06/05/rails-delegate/" >Tweet</a>
   
   
   
@@ -344,10 +333,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2017/05/15/object-orientend-design-priciples/" title="Previous Post: object oriented design principles - SOLID">&laquo; object oriented design principles - SOLID</a>
+        <a class="basic-alignment left" href="/blog/2017/06/01/ruby-tap-fetch-dig-try/" title="Previous Post: ruby tap / fetch / dig / try">&laquo; ruby tap / fetch / dig / try</a>
       
       
-        <a class="basic-alignment right" href="/blog/2017/05/23/rspec/" title="Next Post: RSpec">RSpec &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2017/06/05/rails-partial/" title="Next Post: rails partials">rails partials &raquo;</a>
       
     </p>
   </footer>
@@ -377,8 +366,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'https://jamestong10.github.io/blog/2017/05/18/concerns/';
-        var disqus_url = 'https://jamestong10.github.io/blog/2017/05/18/concerns/';
+        var disqus_identifier = 'https://jamestong10.github.io/blog/2017/06/05/rails-delegate/';
+        var disqus_url = 'https://jamestong10.github.io/blog/2017/06/05/rails-delegate/';
         var disqus_script = 'embed.js';
       
     (function () {

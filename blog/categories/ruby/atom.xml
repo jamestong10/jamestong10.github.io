@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Ruby | JT's Blog]]></title>
-  <link href="http://rt-tong.com/blog/categories/ruby/atom.xml" rel="self"/>
-  <link href="http://rt-tong.com/"/>
-  <updated>2017-05-31T21:56:44+08:00</updated>
-  <id>http://rt-tong.com/</id>
+  <link href="https://jamestong10.github.io/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="https://jamestong10.github.io/"/>
+  <updated>2017-06-09T22:10:38+08:00</updated>
+  <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
     
@@ -14,10 +14,171 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Ruby Each / Map / Collect]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/26/ruby-block-map-collect/"/>
+    <title type="html"><![CDATA[Ruby Tap / Fetch / Dig / Try]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/06/01/ruby-tap-fetch-dig-try/"/>
+    <updated>2017-06-01T14:44:42+08:00</updated>
+    <id>https://jamestong10.github.io/blog/2017/06/01/ruby-tap-fetch-dig-try</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Tap</h2>
+
+<p>從 <a href="https://ruby-doc.org/core-2.4.1/Object.html#method-i-tap">source code</a> 可以看出最後會傳回 self</p>
+
+<p>以下分成兩個用途，分別介紹如何運用此特性</p>
+
+<h3>用途一：調測</h3>
+
+<p>在使用 chain 時，要查看某個過程的內容，可以使用 <code>#tap</code> 印出內容，卻又不會影響執行</p>
+
+<pre><code class="ruby">(1..10)                .tap {|x| puts "original: #{x.inspect}"}
+  .to_a                .tap {|x| puts "array: #{x.inspect}"}
+  .select {|x| x%2==0} .tap {|x| puts "evens: #{x.inspect}"}
+  .map { |x| x*x }     .tap {|x| puts "squares: #{x.inspect}"}
+</code></pre>
+
+<h3>用途二：簡化代碼</h3>
+
+<p>可用在建立一個方法，要傳回一個 String/Array/Hash 的結果</p>
+
+<pre><code class="ruby">[].tap {|i| i &lt;&lt; "abc"}
+''.tap {|i| i &lt;&lt; do_some_thing }
+</code></pre>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://ruby-doc.org/core-2.4.1/Object.html#method-i-tap">ruby doc - tap</a></li>
+<li><a href="https://ruby-china.org/topics/5348">Rails 技巧之 tap &amp; try</a></li>
+</ul>
+
+
+<h2>Fetch</h2>
+
+<blockquote><p>取不到值時，會以預設值取代，但沒設定預設值會出現 Error</p></blockquote>
+
+<p>Hash / Array 皆有實作 <code>#fetch</code></p>
+
+<h3>Array#fetch</h3>
+
+<pre><code class="ruby">a = [ 11, 22, 33, 44 ]
+a.fetch(1)               #=&gt; 22
+a.fetch(-1)              #=&gt; 44
+a.fetch(4, 'cat')        #=&gt; "cat"
+a.fetch(4) { |i| i*i }   #=&gt; 16
+a.fetch(5)               #=&gt; IndexError
+</code></pre>
+
+<h3>Hash#fetch</h3>
+
+<pre><code class="ruby">h = { "a" =&gt; 100, "b" =&gt; 200 }
+h.fetch("a")                            #=&gt; 100
+h.fetch("z", "go fish")                 #=&gt; "go fish"
+h.fetch("z") { |el| "go fish, #{el}"}   #=&gt; "go fish, z"
+h.fetch("z")                            #=&gt; KeyError
+</code></pre>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://ruby-doc.org/core-1.9.3/Array.html#method-i-fetch">ruby doc - array#fetch</a></li>
+<li><a href="https://ruby-doc.org/core-2.2.0/Hash.html#method-i-fetch">ruby doc - hash#fetch</a></li>
+</ul>
+
+
+<h2>Dig</h2>
+
+<blockquote><p>適用在多層</p>
+
+<p>跟 #try 一樣，如果其中一層為 nil，會回傳 nil 而不會出現 Error</p></blockquote>
+
+<p>Ruby 2.3.0</p>
+
+<p>Hash / Array 皆有實作 <code>#dig</code></p>
+
+<h3>Array#dig</h3>
+
+<pre><code class="ruby">a = [[1, [2, 3]]]
+
+a.dig(0, 1, 1)                    #=&gt; 3
+a.dig(0, 0, 0)                    #=&gt; nil
+</code></pre>
+
+<h3>Hash#dig</h3>
+
+<p>在 rails 取 params 時，會使用以下方式取值</p>
+
+<pre><code class="ruby">name = params[:company][:owner][:name]
+</code></pre>
+
+<p>要避免遇到 nil，可改寫成</p>
+
+<pre><code class="ruby">name = params[:company][:owner][:name] if params[:company] &amp;&amp; params[:company][:owner] &amp;&amp; params[:company][:owner][:name]
+</code></pre>
+
+<p>使用 #dig 處理</p>
+
+<pre><code class="ruby">name = params.dig(:company, :owner, :name)
+</code></pre>
+
+<p>同樣 case 用 <code>#try</code> 的 chain，看來使用 <code>#dig</code> 比較適合</p>
+
+<pre><code class="ruby">params.try(:[], :company).try(:[], :owner).try(:[], :name)
+</code></pre>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="http://ruby-doc.org/core-2.3.0_preview1/Array.html#method-i-dig">ruby doc - array#dig</a></li>
+<li><a href="http://ruby-doc.org/core-2.3.0_preview1/Hash.html#method-i-dig">ruby doc - hash#dig</a></li>
+</ul>
+
+
+<h2>try</h2>
+
+<p>同場加映，<code>#try</code> 是屬於 Rails Object method</p>
+
+<p>等同 <code>Object#send</code>，但 object 為 nil 時，呼叫 method <strong>會出現</strong> NoMethodError exception</p>
+
+<p>但使用 <code>#try</code>，object 為 nil 時，會回傳 nil ，而<strong>不會出現</strong> NoMethodError exception</p>
+
+<p>因此是一個相當實用的功能</p>
+
+<p>最常見的例子像是我們想判斷某些動作只有管理員可以進行操作，因此我們通常會這樣寫</p>
+
+<pre><code class="ruby">if current_user.is_admin?
+    # do something
+end
+</code></pre>
+
+<p>但總會遇到 current_user 有 nil 的時候，這時就適合用 <code>#try</code> 確認 current_user 是否為 nil，再去呼叫 <code>#is_admin?</code></p>
+
+<pre><code class="ruby">if current_user.try(:is_admin?)
+    # do something
+end
+</code></pre>
+
+<p><code>#try</code> 也可以實現 block，如果 instance object 不為 nil</p>
+
+<pre><code class="ruby">@person.try { |p| "#{p.first_name}" "#{p.last_name}" }
+</code></pre>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://apidock.com/rails/v4.2.7/Object/try">apidock - try</a></li>
+<li><a href="https://ruby-china.org/topics/5348">Rails 技巧之 tap &amp; try</a></li>
+<li><a href="https://ihower.tw/rails/activesupport.html#try">ihower active support - try</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Map / Collect / Each]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/05/26/ruby-block-map-collect/"/>
     <updated>2017-05-26T13:51:46+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/26/ruby-block-map-collect</id>
+    <id>https://jamestong10.github.io/blog/2017/05/26/ruby-block-map-collect</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -43,22 +204,30 @@ hash.map {|key, value| value }
 # =&gt; ["John", 30, "0910111000"]
 </code></pre>
 
-<h2>&amp;: 是block 在簡化的符號</h2>
+<h2>&amp; 是 <a href="https://jamestong10.github.io/blog/2016/08/10/ruby-proc-lamdba-yield/">#to_proc</a> 簡化的符號</h2>
 
-<p>在Rails 中，假設要取得所有User 的姓名，使用map 的寫法如下</p>
+<p>在Rails 中，假設要取得所有User 的姓名，使用 map 的寫法如下</p>
 
 <pre><code class="ruby">names = User.all.map{ |user| user[:name] }.compact
 # compact: Returns a copy of self with all nil elements removed.
 </code></pre>
 
-<p>但如果只針對 Array 中的取某個值或是執行某個 method 就可以使用 <code>&amp;:</code></p>
+<p>承上，簡化 <code>user[:name]</code>，可以使用<code>&amp;</code> 執行 <code>#to_proc</code>，就變成<code>&amp;:name</code></p>
+
+<p>stackoverflow 有更詳細的<a href="https://stackoverflow.com/a/1217114">說明</a></p>
 
 <pre><code class="ruby"># 取值
 names = User.all.map(&amp;:name)
+</code></pre>
 
-# 轉大寫
+<p>使用 String#upcase</p>
+
+<pre><code class="ruby"># 轉大寫
 ["vanessa", "david", "thomas"].map(&amp;:upcase)
 #=&gt; ["VANESSA", "DAVID", "THOMAS"]
+
+# equivalent to
+%w(vanessa david thomas).map { |s| s.upcase }
 </code></pre>
 
 <h2>跟 each 差別在哪呢？</h2>
@@ -85,9 +254,9 @@ names = User.all.map(&amp;:name)
   
   <entry>
     <title type="html"><![CDATA[RSpec]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/23/rspec/"/>
+    <link href="https://jamestong10.github.io/blog/2017/05/23/rspec/"/>
     <updated>2017-05-23T11:32:44+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/23/rspec</id>
+    <id>https://jamestong10.github.io/blog/2017/05/23/rspec</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -418,9 +587,9 @@ config.infer_spec_type_from_file_location!
   
   <entry>
     <title type="html"><![CDATA[Ruby Forwardable (Delegator)]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/10/ruby-forwardable/"/>
+    <link href="https://jamestong10.github.io/blog/2017/05/10/ruby-forwardable/"/>
     <updated>2017-05-10T14:02:58+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/10/ruby-forwardable</id>
+    <id>https://jamestong10.github.io/blog/2017/05/10/ruby-forwardable</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -499,9 +668,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Rails 使用CarrierWave 上傳圖片 + 上傳AWS S3]]></title>
-    <link href="http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3/"/>
+    <link href="https://jamestong10.github.io/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3/"/>
     <updated>2016-09-02T14:09:46+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3</id>
+    <id>https://jamestong10.github.io/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -656,100 +825,6 @@ end
 <li>AWS: figrao</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby - Nil? | Empty? | Blank?]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank/"/>
-    <updated>2016-08-24T14:09:59+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<h2>nil?</h2>
-
-<p>可使用在任何的<code>object</code>，檢查是否為<code>nil</code>，如果是<code>nil</code>會回傳<code>true</code>
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">str</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
-</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="kp">nil</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;a.nil? # false</span>
-</span><span class='line'><span class="sr">b.nil? # true</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<h2>empty?</h2>
-
-<p>可使用在<code>String</code>、<code>Array</code>、<code>Hash</code>，如果為長度為0 會回傳<code>true</code></p>
-
-<p>如果object 是<code>nil</code>，使用empty? 會出現<code>NoMethodError</code>
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
-</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="o">[]</span>
-</span><span class='line'><span class="n">c</span> <span class="o">=</span> <span class="p">{}</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;a.empty? # true</span>
-</span><span class='line'><span class="sr">b.empty? # true</span>
-</span><span class='line'><span class="sr">c.empty? # true</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<h2>blank?</h2>
-
-<p>這實作在Rails ，是empty? 的強化版，不受限在<code>String</code>、<code>Array</code>、<code>Hash</code>
-<code>
-nil.blank?    # true
-false.blank?  # true
-[].blank?     # true
-{}.blank?     # true
-"".blank?     # true
-5.blank?      # false
-0.blank?      # false
-</code></p>
-
-<p><strong>But</strong> 如果空白字串，會認定為<code>true</code>
-<code>
-"  ".blank? # false
-"  ".empty? # true
-</code></p>
-
-<p>注意：如果陣列的值都是空字串或是nil，會回傳true
-<code>
-['',nil].blank? # ture
-</code></p>
-
-<p>可以使用.all? + blank? 的方式來檢查陣列的值
-<code>
-['',nil].all? &amp;:blank # true
-</code></p>
-
-<h2>present?</h2>
-
-<p>這也是實作在Rails 但跟<code>blank?</code> 的判斷完全顛倒
-<code>
-nil.present?    # false
-false.present?  # false
-[].present?     # false
-{}.present?     # false
-"".present?     # false
-5.present?      # true
-0.present?      # true
-</code></p>
-
-<h2>總結</h2>
-
-<p>剛剛測試的結果，已經有整理成一份表格，可以透過表格查看要使用什麼方式來檢查boolean 值~</p>
-
-<p><img src="/images/posts/2016082401.jpg" alt="nil_empty_blank_present" /></p>
 ]]></content>
   </entry>
   

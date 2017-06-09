@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Rspec | JT's Blog]]></title>
-  <link href="http://rt-tong.com/blog/categories/rspec/atom.xml" rel="self"/>
-  <link href="http://rt-tong.com/"/>
-  <updated>2017-05-31T21:56:44+08:00</updated>
-  <id>http://rt-tong.com/</id>
+  <link href="https://jamestong10.github.io/blog/categories/rspec/atom.xml" rel="self"/>
+  <link href="https://jamestong10.github.io/"/>
+  <updated>2017-06-09T22:10:38+08:00</updated>
+  <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[RSpec]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/23/rspec/"/>
+    <link href="https://jamestong10.github.io/blog/2017/05/23/rspec/"/>
     <updated>2017-05-23T11:32:44+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/23/rspec</id>
+    <id>https://jamestong10.github.io/blog/2017/05/23/rspec</id>
     <content type="html"><![CDATA[<!-- more -->
 
 

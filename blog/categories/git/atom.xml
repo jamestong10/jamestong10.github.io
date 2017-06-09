@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Git | JT's Blog]]></title>
-  <link href="http://rt-tong.com/blog/categories/git/atom.xml" rel="self"/>
-  <link href="http://rt-tong.com/"/>
-  <updated>2017-05-31T21:56:44+08:00</updated>
-  <id>http://rt-tong.com/</id>
+  <link href="https://jamestong10.github.io/blog/categories/git/atom.xml" rel="self"/>
+  <link href="https://jamestong10.github.io/"/>
+  <updated>2017-06-09T22:10:38+08:00</updated>
+  <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Git Commands]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/01/git-commands/"/>
+    <link href="https://jamestong10.github.io/blog/2016/08/01/git-commands/"/>
     <updated>2016-08-01T00:43:42+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/01/git-commands</id>
+    <id>https://jamestong10.github.io/blog/2016/08/01/git-commands</id>
     <content type="html"><![CDATA[<blockquote><p>本篇並非Git 教學，只是記錄常用的Git 指令，有學到新的指令會再更新上來
 如果不太熟悉可在指令後加入 &ndash;help 查詢用法</p></blockquote>
 

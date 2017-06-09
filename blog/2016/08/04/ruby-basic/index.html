@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://rt-tong.com/blog/2016/08/04/ruby-basic">
+  <link rel="canonical" href="https://jamestong10.github.io/blog/2016/08/04/ruby-basic">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="JT's Blog" type="application/atom+xml">
@@ -80,7 +80,7 @@
     
       <form action="https://www.google.com/search" method="get">
         <fieldset role="search">
-          <input type="hidden" name="sitesearch" value="rt-tong.com" />
+          <input type="hidden" name="sitesearch" value="jamestong10.github.io" />
     
           <input class="search" type="text" name="q" results="0" placeholder="Search"/>
         </fieldset>
@@ -263,6 +263,29 @@
 
 <p>key, value 的組合，使用<code>{}</code>表示</p>
 
+<p>建立key, value 可以使用以下兩種方式</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">hash</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'><span class="nb">hash</span><span class="o">[</span><span class="ss">:name</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;james&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># equivalent to</span>
+</span><span class='line'><span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span> <span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;james&quot;</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># equivalent to</span>
+</span><span class='line'><span class="c1"># =&gt; == Hash Rocket</span>
+</span><span class='line'><span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;james&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h2>Symbol vs. String</h2>
 
 <ul>
@@ -272,7 +295,7 @@
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -289,23 +312,24 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># String
-</span><span class='line'>3.times { puts "foo".object_id }
-</span><span class='line'># 70094949931660
-</span><span class='line'># 70094949931540
-</span><span class='line'># 70094949931480
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># String</span>
+</span><span class='line'><span class="mi">3</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s2">&quot;foo&quot;</span><span class="o">.</span><span class="n">object_id</span> <span class="p">}</span>
+</span><span class='line'><span class="c1"># 70094949931660</span>
+</span><span class='line'><span class="c1"># 70094949931540</span>
+</span><span class='line'><span class="c1"># 70094949931480</span>
 </span><span class='line'>
-</span><span class='line'># Symbol-1
-</span><span class='line'>3.times { puts :foo.object_id }
-</span><span class='line'># 1149788
-</span><span class='line'># 1149788
-</span><span class='line'># 1149788
+</span><span class='line'><span class="c1"># Symbol-1</span>
+</span><span class='line'><span class="mi">3</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="nb">puts</span> <span class="ss">:foo</span><span class="o">.</span><span class="n">object_id</span> <span class="p">}</span>
+</span><span class='line'><span class="c1"># 1149788</span>
+</span><span class='line'><span class="c1"># 1149788</span>
+</span><span class='line'><span class="c1"># 1149788</span>
 </span><span class='line'>
-</span><span class='line'># Symbol-2
-</span><span class='line'>present1 = { :toy =&gt; "cars"}
-</span><span class='line'>present2 = { :toy =&gt; "dolls"}
-</span><span class='line'>p present1[:toy] # cars
-</span><span class='line'>p present2[:toy] # dolls</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c1"># Symbol-2</span>
+</span><span class='line'><span class="n">present1</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:toy</span> <span class="o">=&gt;</span> <span class="s2">&quot;cars&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="n">present2</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:toy</span> <span class="o">=&gt;</span> <span class="s2">&quot;dolls&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">present1</span><span class="o">[</span><span class="ss">:toy</span><span class="o">]</span> <span class="c1"># cars</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">present2</span><span class="o">[</span><span class="ss">:toy</span><span class="o">]</span> <span class="c1"># dolls</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>深入了解Classes</h2>
@@ -356,7 +380,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rt-tong.com/blog/2016/08/04/ruby-basic/" data-via="" data-counturl="http://rt-tong.com/blog/2016/08/04/ruby-basic/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://jamestong10.github.io/blog/2016/08/04/ruby-basic/" data-via="" data-counturl="https://jamestong10.github.io/blog/2016/08/04/ruby-basic/" >Tweet</a>
   
   
   
@@ -400,8 +424,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://rt-tong.com/blog/2016/08/04/ruby-basic/';
-        var disqus_url = 'http://rt-tong.com/blog/2016/08/04/ruby-basic/';
+        var disqus_identifier = 'https://jamestong10.github.io/blog/2016/08/04/ruby-basic/';
+        var disqus_url = 'https://jamestong10.github.io/blog/2016/08/04/ruby-basic/';
         var disqus_script = 'embed.js';
       
     (function () {

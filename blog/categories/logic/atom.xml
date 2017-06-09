@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Logic | JT's Blog]]></title>
-  <link href="http://rt-tong.com/blog/categories/logic/atom.xml" rel="self"/>
-  <link href="http://rt-tong.com/"/>
-  <updated>2017-05-31T21:56:44+08:00</updated>
-  <id>http://rt-tong.com/</id>
+  <link href="https://jamestong10.github.io/blog/categories/logic/atom.xml" rel="self"/>
+  <link href="https://jamestong10.github.io/"/>
+  <updated>2017-06-09T22:10:38+08:00</updated>
+  <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[邏輯思維 EP.184 - 怎麼樣成為一個高手]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/21/logic-show-184/"/>
+    <link href="https://jamestong10.github.io/blog/2016/08/21/logic-show-184/"/>
     <updated>2016-08-21T10:54:21+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/21/logic-show-184</id>
+    <id>https://jamestong10.github.io/blog/2016/08/21/logic-show-184</id>
     <content type="html"><![CDATA[<!-- more -->
 
 

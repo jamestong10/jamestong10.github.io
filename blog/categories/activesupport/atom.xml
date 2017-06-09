@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Activesupport | JT's Blog]]></title>
-  <link href="http://rt-tong.com/blog/categories/activesupport/atom.xml" rel="self"/>
-  <link href="http://rt-tong.com/"/>
-  <updated>2017-05-31T21:56:44+08:00</updated>
-  <id>http://rt-tong.com/</id>
+  <link href="https://jamestong10.github.io/blog/categories/activesupport/atom.xml" rel="self"/>
+  <link href="https://jamestong10.github.io/"/>
+  <updated>2017-06-09T22:10:38+08:00</updated>
+  <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
     
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Concerns]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/18/concerns/"/>
+    <title type="html"><![CDATA[Rails Module::Concerning and ActiveSupport::Concern]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/05/18/concerns/"/>
     <updated>2017-05-18T15:45:21+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/18/concerns</id>
+    <id>https://jamestong10.github.io/blog/2017/05/18/concerns</id>
     <content type="html"><![CDATA[<!-- more -->
 
 

@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Ruby Proc - Lamdba | Yield - JT's Blog</title>
+  <title>Ruby - Proc / Lamdba / Yield - JT's Blog</title>
   <meta name="author" content="James Tong">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://rt-tong.com/blog/2016/08/10/ruby-proc-lamdba-yield">
+  <link rel="canonical" href="https://jamestong10.github.io/blog/2016/08/10/ruby-proc-lamdba-yield">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="JT's Blog" type="application/atom+xml">
@@ -80,7 +80,7 @@
     
       <form action="https://www.google.com/search" method="get">
         <fieldset role="search">
-          <input type="hidden" name="sitesearch" value="rt-tong.com" />
+          <input type="hidden" name="sitesearch" value="jamestong10.github.io" />
     
           <input class="search" type="text" name="q" results="0" placeholder="Search"/>
         </fieldset>
@@ -101,7 +101,7 @@
   <header>
     
       
-        <h1 class="entry-title">Ruby Proc - Lamdba | Yield</h1>
+        <h1 class="entry-title">Ruby - Proc / Lamdba / Yield</h1>
       
     
     
@@ -200,11 +200,28 @@
 
 <h2>Lambda</h2>
 
-<p>Proc 的另一種寫法，稱為lambda。創建出來的也是Proc 物件，通過lambda 建立的Proc 其行為更接近method。</p>
+<p>Proc 的另一種寫法，稱為 lambda。創建出來的也是Proc 物件，通過 lambda 建立的Proc 其行為更接近method。</p>
+
+<p>可以使用 <code>-&gt;</code> 簡寫 lambda</p>
+
+<blockquote><p>-> == Dash Rocket</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">lamdba</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="n">x</span><span class="o">*</span><span class="mi">2</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># equivalent to</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">-&gt;</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="n">x</span><span class="o">*</span><span class="mi">2</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>宣告 &amp; 執行</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -215,17 +232,18 @@
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lambda1 = lambda do |x|
-</span><span class='line'>  return x
-</span><span class='line'>end
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">lambda1</span> <span class="o">=</span> <span class="nb">lambda</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">x</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>lambda1.call("hello world")
-</span><span class='line'>lambda1["hey, ok"]
+</span><span class='line'><span class="n">lambda1</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;hello world&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">lambda1</span><span class="o">[</span><span class="s2">&quot;hey, ok&quot;</span><span class="o">]</span>
 </span><span class='line'>
-</span><span class='line'># 另一種宣告方式 -&gt;(參數) { 邏輯處理 }
-</span><span class='line'>lambda2 = -&gt;(x) { return x * 2 }
-</span><span class='line'>lambda2.call("hello world")
-</span><span class='line'>lambda2["ok, fine!"]</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c1"># 另一種宣告方式 -&gt;(參數) { 邏輯處理 }</span>
+</span><span class='line'><span class="n">lambda2</span> <span class="o">=</span> <span class="o">-&gt;</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span> <span class="p">}</span>
+</span><span class='line'><span class="n">lambda2</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s2">&quot;hello world&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">lambda2</span><span class="o">[</span><span class="s2">&quot;ok, fine!&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>與Proc 差異</h3>
@@ -236,7 +254,7 @@
 </ol>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -253,41 +271,43 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def power_of(n)
-</span><span class='line'>  lambda do |x|
-</span><span class='line'>    return x ** n
-</span><span class='line'>  end
-</span><span class='line'>end
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">power_of</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">lambda</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="n">n</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>cube = power_of(3)
-</span><span class='line'>cube.call(5)  # 125
+</span><span class='line'><span class="n">cube</span> <span class="o">=</span> <span class="n">power_of</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="n">cube</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># 125</span>
 </span><span class='line'>
-</span><span class='line'># using Proc
-</span><span class='line'>def power_of(n)
-</span><span class='line'>  Proc.new do |x|
-</span><span class='line'>    return x ** n
-</span><span class='line'>  end
-</span><span class='line'>end
-</span><span class='line'>cube = power_of(3)
-</span><span class='line'>cube.call(5)  # LocalJumpError</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c1"># using Proc</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">power_of</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="n">n</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">cube</span> <span class="o">=</span> <span class="n">power_of</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="n">cube</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># LocalJumpError</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h3>to_proc 方法</h3>
 
-<p>有些object 可以使用<code>#to_proc</code>，如果傳入的參數有加上 <code>&amp;</code> Symbol，則#to_proc 就會自動調用，進而生成Proc Object</p>
+<p>有些object 可以使用<code>#to_proc</code>，如果傳入的參數有加上 <code>&amp;</code> Symbol，則<code>#to_proc</code>就會自動調用，進而生成Proc Object</p>
 
-<p>可能需要一點時間熟悉這樣的寫法</p>
+<p>可參考如何應用在 <a href="http://rt-tong.com/blog/2017/05/26/ruby-block-map-collect/">collection</a></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>%w(42 52 14).map { |n| n.to_i }
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sx">%w(42 52 14)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span> <span class="n">n</span><span class="o">.</span><span class="n">to_i</span> <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'># 上下相同
+</span><span class='line'><span class="c1"># 上下相同</span>
 </span><span class='line'>
-</span><span class='line'>%w(42 52 14).map(&:to_i)</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="sx">%w(42 52 14)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:to_i</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>yield</h2>
@@ -296,7 +316,7 @@
 
 <p>這有點類似 Java 的abstract class，將method 要實作的部分放<code>yield</code></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -321,31 +341,31 @@
 <span class='line-number'>23</span>
 <span class='line-number'>24</span>
 <span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def my_method_no_arg
-</span><span class='line'>  puts "warm up 1"
-</span><span class='line'>  yield
-</span><span class='line'>end
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">my_method_no_arg</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;warm up 1&quot;</span>
+</span><span class='line'>  <span class="k">yield</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>def my_method_with_arg
-</span><span class='line'>  puts "warm up 2"
-</span><span class='line'>  # yield('james')
-</span><span class='line'>  yield(%W(a b))
-</span><span class='line'>end
+</span><span class='line'><span class="k">def</span> <span class="nf">my_method_with_arg</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;warm up 2&quot;</span>
+</span><span class='line'>  <span class="c1"># yield(&#39;james&#39;)</span>
+</span><span class='line'>  <span class="k">yield</span><span class="p">(</span><span class="sx">%W(a b)</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>my_method_no_arg do
-</span><span class='line'>  puts "running alone"
-</span><span class='line'>end
+</span><span class='line'><span class="n">my_method_no_arg</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;running alone&quot;</span>
+</span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'>my_method_with_arg do |friends|
-</span><span class='line'>    # puts friends.class
-</span><span class='line'>    if friends.class == String
-</span><span class='line'>      puts "running with #{friends}"
-</span><span class='line'>    else
-</span><span class='line'>      friends.each do |friend|
-</span><span class='line'>        puts "running with #{friend}"
-</span><span class='line'>      end
-</span><span class='line'>    end
-</span><span class='line'>end
+</span><span class='line'><span class="n">my_method_with_arg</span> <span class="k">do</span> <span class="o">|</span><span class="n">friends</span><span class="o">|</span>
+</span><span class='line'>    <span class="c1"># puts friends.class</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">friends</span><span class="o">.</span><span class="n">class</span> <span class="o">==</span> <span class="nb">String</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;running with </span><span class="si">#{</span><span class="n">friends</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">friends</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">friend</span><span class="o">|</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s2">&quot;running with </span><span class="si">#{</span><span class="n">friend</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -390,12 +410,18 @@
       
       
 
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
 
     </p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rt-tong.com/blog/2016/08/10/ruby-proc-lamdba-yield/" data-via="" data-counturl="http://rt-tong.com/blog/2016/08/10/ruby-proc-lamdba-yield/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://jamestong10.github.io/blog/2016/08/10/ruby-proc-lamdba-yield/" data-via="" data-counturl="https://jamestong10.github.io/blog/2016/08/10/ruby-proc-lamdba-yield/" >Tweet</a>
   
   
   
@@ -439,8 +465,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://rt-tong.com/blog/2016/08/10/ruby-proc-lamdba-yield/';
-        var disqus_url = 'http://rt-tong.com/blog/2016/08/10/ruby-proc-lamdba-yield/';
+        var disqus_identifier = 'https://jamestong10.github.io/blog/2016/08/10/ruby-proc-lamdba-yield/';
+        var disqus_url = 'https://jamestong10.github.io/blog/2016/08/10/ruby-proc-lamdba-yield/';
         var disqus_script = 'embed.js';
       
     (function () {

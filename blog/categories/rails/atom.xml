@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Rails | JT's Blog]]></title>
-  <link href="http://rt-tong.com/blog/categories/rails/atom.xml" rel="self"/>
-  <link href="http://rt-tong.com/"/>
-  <updated>2017-05-31T21:56:44+08:00</updated>
-  <id>http://rt-tong.com/</id>
+  <link href="https://jamestong10.github.io/blog/categories/rails/atom.xml" rel="self"/>
+  <link href="https://jamestong10.github.io/"/>
+  <updated>2017-06-09T22:10:38+08:00</updated>
+  <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
     
@@ -14,10 +14,484 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Rails Partials]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/06/05/rails-partial/"/>
+    <updated>2017-06-05T16:41:07+08:00</updated>
+    <id>https://jamestong10.github.io/blog/2017/06/05/rails-partial</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>用來簡化 View 複雜的程式邏輯</p>
+
+<p>把細節的部份拆出去，更容易理解 View 的全局</p>
+
+<p>檔名需要<strong>以底線開頭</strong>，但呼叫時不需加上底線</p></blockquote>
+
+<p>Action View Partials 用來 render sub templates</p>
+
+<h2>Syntax</h2>
+
+<pre><code class="ruby">&lt;%= render partial: sub_template_name, *options %&gt;
+</code></pre>
+
+<ul>
+<li><code>render</code> is a shorthand for <code>render partial:</code></li>
+<li>單使用 <code>render</code>, Rails 就不會處理後續的 options</li>
+<li>如果要使用 options 就要改成 <code>render partial:</code></li>
+</ul>
+
+
+<h2>Default Case</h2>
+
+<p>使用 <code>render</code> 產生 partial</p>
+
+<p>雖然有規定 <code>render</code> 不會處理 options，但還有一些特殊案例</p>
+
+<pre><code class="ruby">&lt;%= render partial: "account" %&gt;
+
+# equivalent to
+&lt;%= render "account" %&gt;
+</code></pre>
+
+<p>sub template name equivalent to variable name</p>
+
+<pre><code class="ruby">&lt;%= render partial: "accounts/account", locals: { account: @account} %&gt;
+
+# equivalent to
+&lt;%= render @account %&gt;
+</code></pre>
+
+<p>只有單一個 locals</p>
+
+<pre><code class="ruby">&lt;%= render partial: "account", locals: { account: @buyer } %&gt;
+
+# equivalent to
+&lt;%= render "account", account: @buyer %&gt;
+</code></pre>
+
+<p>都同名可簡化 collection</p>
+
+<pre><code class="ruby">&lt;%= render partial: "posts/post", collection: @posts %&gt;
+
+# equivalent to
+&lt;%= render @posts %&gt;
+</code></pre>
+
+<h2>Options</h2>
+
+<h3>locals</h3>
+
+<p>傳遞資料</p>
+
+<pre><code class="ruby">&lt;%= render partial: "user", locals: { user: @user, order: @order } %&gt;
+</code></pre>
+
+<h3>collection</h3>
+
+<p>使用 for-each render 逐一產生 partial</p>
+
+<pre><code class="ruby"># index.html.erb
+&lt;%= render partial: "product", collection: @products %&gt;
+
+# _product.html.erb
+Product Name: &lt;%= product.name %&gt;
+
+# short-hand
+&lt;%= @products %&gt;
+
+# if collection is empty, render will return nil,
+# should simple to provide alternative message.
+&lt;%= render(@products) || "Empty Products" %&gt;
+</code></pre>
+
+<h3>layout</h3>
+
+<p>指定 render layout</p>
+
+<pre><code class="ruby">&lt;%= render partial: "user", locals: { user: @user, order: @order }, layout: 'editor' %&gt;
+</code></pre>
+
+<h2>進階 Layout - layout + yield</h2>
+
+<h3>動機</h3>
+
+<p>把共用的 view 寫在 layout ，然後客製（變動）的內容寫在partial</p>
+
+<h3>開發</h3>
+
+<p>1.寫一個 layout 專用的 partial view，並把需要客製的部份加上 <code>yield</code></p>
+
+<pre><code class="ruby">&lt;%# app/views/users/_editor.html.haml %&gt;
+#editor
+  %h1 always the same headline
+  %h3 always the same description
+  = yield
+</code></pre>
+
+<p>2.寫客製的 partial view
+<code>ruby
+&lt;%# app/views/users/_user.html.haml %&gt;
+= "Deadline: #{user.deadline}"
+= "Name: #{user.name}"
+</code></p>
+
+<p>3.render 設定 partial and layout，就可以把 partial 的內容套在 layout 的 yield 區塊內</p>
+
+<pre><code>&lt;%# app/views/users/index.html.haml %&gt;
+&lt;%= render partial: "user", layout: "editor", locals: { user: @user } %&gt;
+</code></pre>
+
+<p>如果不用 <code>yield</code>，可以使用 block 表現
+<code>ruby
+&lt;%= render layout: "editor", locals: { user: @user } do %&gt;
+  &lt;%= do_something %&gt;
+&lt;% end %&gt;
+</code></p>
+
+<p>實際應用：把預覽圖片跟上傳圖片的功能提取出來，並且可個別設定內部要呈現的內容，例如：產品說明、大頭照說明等</p>
+
+<h2>Helper + Partial</h2>
+
+<p>這次要把partial 放進 helper 內</p>
+
+<p>1.一樣建立 partial，把要執行客製的部分使用 <code>capture(&amp;block)</code> 表示
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">%</span><span class="c1"># app/views/users/_editor.html.haml %&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">editor</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  %h1 always the same headline</span>
+</span><span class='line'><span class="sr">  %h3 always the same description</span>
+</span><span class='line'><span class="sr">  = capture(&amp;amp;block)</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>2.在helper 寫method 呼叫 <code>render partial:</code></p>
+
+<pre><code class="ruby"># application_helper.rb
+def modal_for(heading, &amp;block)
+  render(
+    partial: 'shared/modal',
+    locals: { heading: heading, block: block }
+  )
+end
+</code></pre>
+
+<p>3.在view 使用helper
+<code>ruby
+&lt;%= modal_for('My Title') do |t| %&gt;
+  # print dynamic things here
+&lt;% end %&gt;
+</code></p>
+
+<p>實際應用：把預覽圖片跟上傳圖片的功能提取出來，並且可個別設定內部要呈現的內容，例如：產品說明、大頭照說明等</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://guides.rubyonrails.org/layouts_and_rendering.html#using-partials">Rails Guide - using partials</a></li>
+<li><a href="http://api.rubyonrails.org/classes/ActionView/PartialRenderer.html">Rails Classes - Action View Partials</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails Delegate]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/06/05/rails-delegate/"/>
+    <updated>2017-06-05T15:34:16+08:00</updated>
+    <id>https://jamestong10.github.io/blog/2017/06/05/rails-delegate</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>屬於 ActiveSupport Delegate method</p>
+
+<p>主要運用在 activerecord associations</p></blockquote>
+
+<h2>Spec</h2>
+
+<pre><code class="ruby">delegate(*methods) public
+</code></pre>
+
+<h3>Options</h3>
+
+<ul>
+<li><code>:to</code> 指定目標物件</li>
+<li><code>:prefix</code> 設為true 就是以 :to 的物件名稱當作前綴字，或是自行設定前綴字</li>
+<li><code>:allow_nil</code> 設為 true 不會產生 NoMethodError Exception，預設為 false</li>
+</ul>
+
+
+<h2>Description</h2>
+
+<p>Provides a <a href="https://apidock.com/rails/Module/delegate">delegate</a> class method to easily expose contained objects’ public methods as your own.</p>
+
+<p>The target method must be public, otherwise it will raise NoMethodError.</p>
+
+<h2>Delegation Design Pattern</h2>
+
+<p>Delegation 設計模式是讓物件曝露一些性質，但這些性質其實是取用與當前實例相關連的其它實例的性質而來的</p>
+
+<h2>Explanation of Rails Delegate</h2>
+
+<p>根據以下範例瞭解 Rails Delegate 運作方式。建議可以查看 <a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/module/delegation.rb">delegation.rb</a> 瞭解實作方式</p>
+
+<pre><code class="ruby">class Post &lt; ApplicationRecord
+  belongs_to :user
+end
+
+class User &lt; ApplicationRecord
+  has_many :posts
+end
+</code></pre>
+
+<p>根據以上的關聯，要如何設計呼叫 <code>@post.name</code> 可直接取得 <code>@post.user.name</code> 又不會出現 NoMethodError 呢？</p>
+
+<p>1.自行寫 <code>#name</code> 裡面在使用 <code>#try</code> 取 user.name</p>
+
+<pre><code class="ruby">class Post &lt; ApplicationRecord
+  belongs_to :user
+
+  def name
+    user.try(:name)
+  end
+end
+</code></pre>
+
+<p>2.以 <code>#delegate</code> 表示</p>
+
+<pre><code class="ruby">class Post &lt; ApplicationRecord
+  belongs_to :user
+  delegate :name, to: :user, allow_nil: true
+end
+</code></pre>
+
+<h2>Practice</h2>
+
+<p>一般在寫 Rails 會直覺使用 associations 取得資料</p>
+
+<pre><code class="ruby"># models
+class Invoice &lt; ApplicationRecord
+ belongs_to :user
+end
+
+# views
+&lt;%= @invoice.user.name %&gt;
+&lt;%= @invoice.user.address %&gt;
+&lt;%= @invoice.user.cellphone %&gt;
+</code></pre>
+
+<p>若比較嚴謹來看，這樣是違反 <a href="https://jamestong10.github.io/blog/2017/05/15/object-orientend-design-priciples/">Lask Knowledge Priciple</a></p>
+
+<p>而且 Views 看起來也不漂亮</p>
+
+<p>這時可透過 Rails Delegate 優化</p>
+
+<pre><code class="ruby"># models
+class Invoice &lt; ApplicationRecord
+ belongs_to :user
+ delegate :name, :address, :cellphone,
+ to: :user,
+ prefix: true,
+ allow_nil: true
+end
+
+# views
+&lt;%= @invoice.user_name %&gt;
+&lt;%= @invoice.user_address %&gt;
+&lt;%= @invoice.user_cellphone %&gt;
+</code></pre>
+
+<p>這樣看起來是不是清爽多了~</p>
+
+<h2>Others</h2>
+
+<p>參考 <a href="https://jamestong10.github.io/blog/2017/05/10/ruby-forwardable/">Ruby Forwardable</a></p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/module/delegation.rb">delegation.rb</a></li>
+<li><a href="https://apidock.com/rails/Module/delegate">Rails doc#delegate</a></li>
+<li><a href="https://simonecarletti.com/blog/2009/12/inside-ruby-on-rails-delegate/">Understanding Ruby and Rails: Delegate</a></li>
+<li><a href="http://sharefun.logdown.com/posts/737036-understanding-rails-delegate">理解Rails delegate</a></li>
+<li><a href="http://waynechu.logdown.com/posts/206252-rails-delegate">Rails Delegate</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Tap / Fetch / Dig / Try]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/06/01/ruby-tap-fetch-dig-try/"/>
+    <updated>2017-06-01T14:44:42+08:00</updated>
+    <id>https://jamestong10.github.io/blog/2017/06/01/ruby-tap-fetch-dig-try</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>Tap</h2>
+
+<p>從 <a href="https://ruby-doc.org/core-2.4.1/Object.html#method-i-tap">source code</a> 可以看出最後會傳回 self</p>
+
+<p>以下分成兩個用途，分別介紹如何運用此特性</p>
+
+<h3>用途一：調測</h3>
+
+<p>在使用 chain 時，要查看某個過程的內容，可以使用 <code>#tap</code> 印出內容，卻又不會影響執行</p>
+
+<pre><code class="ruby">(1..10)                .tap {|x| puts "original: #{x.inspect}"}
+  .to_a                .tap {|x| puts "array: #{x.inspect}"}
+  .select {|x| x%2==0} .tap {|x| puts "evens: #{x.inspect}"}
+  .map { |x| x*x }     .tap {|x| puts "squares: #{x.inspect}"}
+</code></pre>
+
+<h3>用途二：簡化代碼</h3>
+
+<p>可用在建立一個方法，要傳回一個 String/Array/Hash 的結果</p>
+
+<pre><code class="ruby">[].tap {|i| i &lt;&lt; "abc"}
+''.tap {|i| i &lt;&lt; do_some_thing }
+</code></pre>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://ruby-doc.org/core-2.4.1/Object.html#method-i-tap">ruby doc - tap</a></li>
+<li><a href="https://ruby-china.org/topics/5348">Rails 技巧之 tap &amp; try</a></li>
+</ul>
+
+
+<h2>Fetch</h2>
+
+<blockquote><p>取不到值時，會以預設值取代，但沒設定預設值會出現 Error</p></blockquote>
+
+<p>Hash / Array 皆有實作 <code>#fetch</code></p>
+
+<h3>Array#fetch</h3>
+
+<pre><code class="ruby">a = [ 11, 22, 33, 44 ]
+a.fetch(1)               #=&gt; 22
+a.fetch(-1)              #=&gt; 44
+a.fetch(4, 'cat')        #=&gt; "cat"
+a.fetch(4) { |i| i*i }   #=&gt; 16
+a.fetch(5)               #=&gt; IndexError
+</code></pre>
+
+<h3>Hash#fetch</h3>
+
+<pre><code class="ruby">h = { "a" =&gt; 100, "b" =&gt; 200 }
+h.fetch("a")                            #=&gt; 100
+h.fetch("z", "go fish")                 #=&gt; "go fish"
+h.fetch("z") { |el| "go fish, #{el}"}   #=&gt; "go fish, z"
+h.fetch("z")                            #=&gt; KeyError
+</code></pre>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://ruby-doc.org/core-1.9.3/Array.html#method-i-fetch">ruby doc - array#fetch</a></li>
+<li><a href="https://ruby-doc.org/core-2.2.0/Hash.html#method-i-fetch">ruby doc - hash#fetch</a></li>
+</ul>
+
+
+<h2>Dig</h2>
+
+<blockquote><p>適用在多層</p>
+
+<p>跟 #try 一樣，如果其中一層為 nil，會回傳 nil 而不會出現 Error</p></blockquote>
+
+<p>Ruby 2.3.0</p>
+
+<p>Hash / Array 皆有實作 <code>#dig</code></p>
+
+<h3>Array#dig</h3>
+
+<pre><code class="ruby">a = [[1, [2, 3]]]
+
+a.dig(0, 1, 1)                    #=&gt; 3
+a.dig(0, 0, 0)                    #=&gt; nil
+</code></pre>
+
+<h3>Hash#dig</h3>
+
+<p>在 rails 取 params 時，會使用以下方式取值</p>
+
+<pre><code class="ruby">name = params[:company][:owner][:name]
+</code></pre>
+
+<p>要避免遇到 nil，可改寫成</p>
+
+<pre><code class="ruby">name = params[:company][:owner][:name] if params[:company] &amp;&amp; params[:company][:owner] &amp;&amp; params[:company][:owner][:name]
+</code></pre>
+
+<p>使用 #dig 處理</p>
+
+<pre><code class="ruby">name = params.dig(:company, :owner, :name)
+</code></pre>
+
+<p>同樣 case 用 <code>#try</code> 的 chain，看來使用 <code>#dig</code> 比較適合</p>
+
+<pre><code class="ruby">params.try(:[], :company).try(:[], :owner).try(:[], :name)
+</code></pre>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="http://ruby-doc.org/core-2.3.0_preview1/Array.html#method-i-dig">ruby doc - array#dig</a></li>
+<li><a href="http://ruby-doc.org/core-2.3.0_preview1/Hash.html#method-i-dig">ruby doc - hash#dig</a></li>
+</ul>
+
+
+<h2>try</h2>
+
+<p>同場加映，<code>#try</code> 是屬於 Rails Object method</p>
+
+<p>等同 <code>Object#send</code>，但 object 為 nil 時，呼叫 method <strong>會出現</strong> NoMethodError exception</p>
+
+<p>但使用 <code>#try</code>，object 為 nil 時，會回傳 nil ，而<strong>不會出現</strong> NoMethodError exception</p>
+
+<p>因此是一個相當實用的功能</p>
+
+<p>最常見的例子像是我們想判斷某些動作只有管理員可以進行操作，因此我們通常會這樣寫</p>
+
+<pre><code class="ruby">if current_user.is_admin?
+    # do something
+end
+</code></pre>
+
+<p>但總會遇到 current_user 有 nil 的時候，這時就適合用 <code>#try</code> 確認 current_user 是否為 nil，再去呼叫 <code>#is_admin?</code></p>
+
+<pre><code class="ruby">if current_user.try(:is_admin?)
+    # do something
+end
+</code></pre>
+
+<p><code>#try</code> 也可以實現 block，如果 instance object 不為 nil</p>
+
+<pre><code class="ruby">@person.try { |p| "#{p.first_name}" "#{p.last_name}" }
+</code></pre>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://apidock.com/rails/v4.2.7/Object/try">apidock - try</a></li>
+<li><a href="https://ruby-china.org/topics/5348">Rails 技巧之 tap &amp; try</a></li>
+<li><a href="https://ihower.tw/rails/activesupport.html#try">ihower active support - try</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[RSpec]]></title>
-    <link href="http://rt-tong.com/blog/2017/05/23/rspec/"/>
+    <link href="https://jamestong10.github.io/blog/2017/05/23/rspec/"/>
     <updated>2017-05-23T11:32:44+08:00</updated>
-    <id>http://rt-tong.com/blog/2017/05/23/rspec</id>
+    <id>https://jamestong10.github.io/blog/2017/05/23/rspec</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
@@ -347,486 +821,120 @@ config.infer_spec_type_from_file_location!
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Rails 使用CarrierWave 上傳圖片 + 上傳AWS S3]]></title>
-    <link href="http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3/"/>
-    <updated>2016-09-02T14:09:46+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3</id>
+    <title type="html"><![CDATA[Rails Module::Concerning and ActiveSupport::Concern]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/05/18/concerns/"/>
+    <updated>2017-05-18T15:45:21+08:00</updated>
+    <id>https://jamestong10.github.io/blog/2017/05/18/concerns</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
-<h2>功能介紹</h2>
+<h2>Module#concerning</h2>
 
-<h3>修圖軟體</h3>
+<p>Rails 4.1 新增的功能，如果module 內容不多，但又非得新增一個module，或許可以考慮用concerning 的方式</p>
 
-<ul>
-<li><a href="http://imagemagick.org/script/index.php">ImageMagick</a></li>
-<li><a href="http://www.graphicsmagick.org/">GraphicsMagick</a></li>
-</ul>
+<p>一般使用mixin 使用方式</p>
 
+<pre><code class="ruby"># app/models/article.rb
+class Article &lt; ActiveRecord::Base
+  include Tagging
+end
 
-<h3>Gems</h3>
-
-<ul>
-<li><a href="https://github.com/minimagick/minimagick">MiniMagick</a> 透過Ruby 使用ImageMagick、GraphicsMagick 的gem</li>
-<li><a href="https://github.com/rmagick/rmagick">RMagick</a> 透過Ruby 使用ImageMagick</li>
-<li><a href="https://github.com/carrierwaveuploader/carrierwave">CarrierWave</a> 上傳檔案的gem</li>
-</ul>
-
-
-<h2>ImageMagick</h2>
-
-<p>需要安裝，否則後面的圖片操作都會失敗</p>
-
-<pre><code>$ brew isntall imagemagick
-</code></pre>
-
-<p>檢查是否安裝成功</p>
-
-<pre><code>$ convert -version
-Version: ImageMagick 6.8.9-7 Q16 x86_64 2014-09-11 http://www.imagemagick.org
-Copyright: Copyright (C) 1999-2014 ImageMagick Studio LLC
-Features: DPC Modules
-Delegates: bzlib fftw freetype jng jpeg lcms ltdl lzma png tiff xml zlib
-</code></pre>
-
-<h2>Install Gems</h2>
-
-<pre><code># Gemfile
-# 二擇一
-gem 'mini_magick'
-# gem 'rmagick'
-
-gem 'carrierwave'
-
-$ bundle install
-</code></pre>
-
-<h2>Uploader</h2>
-
-<p>建立uploader，命名爲image （自行決定, e.g.,file, photo &hellip; etc.）</p>
-
-<pre><code>$ rails g uploader image
-</code></pre>
-
-<p>設定Uploader</p>
-
-<pre><code># app/uploaders/image_uploader.rb
-
-class ImageUploader &lt; CarrierWave::Uploader::Base
-
-  include CarrierWave::MiniMagick # 指定使用minimagick
-
-  storage :file
-
-  def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-  end
-
-  # 指定圖片size (同時產生其他size :thumb, :medium)
-  process :resize_to_fit =&gt; [800, 600]
-
-  version :thumb do
-    process :resize_to_fill =&gt; [200,120]
-  end
-
-  version :medium do
-    process :resize_to_fill =&gt; [400,300]
-  end
-
+# app/models/concerns/tagging.rb
+module Tagging
+ # ...
 end
 </code></pre>
 
-<h2>Model</h2>
+<p>使用concerning</p>
 
-<p>建立Model，命名為photo （自行決定, e.g.,file, photo, dog, cat !!?? etc.）</p>
-
-<pre><code>$ rails g model photo image:string
-$ rake db:migrate
-</code></pre>
-
-<p>設定 model 的uploader</p>
-
-<pre><code># app/models/photo.rb
-class Photo &lt; ActiveRecord::Base
-  mount_uploader :image, ImageUploader
-end
-</code></pre>
-
-<h2>gitignore</h2>
-
-<p>排除測試上傳的圖片</p>
-
-<pre><code># .gitignore
-public/uploads
-</code></pre>
-
-<h1>上傳AWS S3</h1>
-
-<h2>Install Gems</h2>
-
-<pre><code># Gemfile
-gem 'fog', group: :production
-</code></pre>
-
-<h2>Uploader 設定Production 圖片透過fog 連接並儲存至AWS S3</h2>
-
-<pre><code>if Rails.env.production?
-  storage :fog
-else
-  storage :file
-end
-</code></pre>
-
-<h2>CarrierWave 加入fog credentials 的設定</h2>
-
-<pre><code># config/initializers/carrier_wave.rb
-CarrierWave.configure do |config|
-  if Rails.env.production?
-    config.storage = :fog
-    config.fog_credentials = {
-      provider:              'AWS',
-      aws_access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
-      aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-      region:                ENV['AWS_REGION']
-    }
-    config.fog_directory  =  ENV['AWS_S3_BUCKET_PRODUCTION']
-  else
-    config.storage :file
+<pre><code class="ruby">class Article &lt; ActiveRecord::Base
+  # 基本：建立一般的 instance method
+  concerning :Tagging do
+    def news do
+      # ...
+    end
+  end
+  # 進階1:加入included (include 時執行)
+  concerning :Scope do
+    included di
+      scope :published, -&gt; { where(state: 'published') }
+    end
+  end
+  # 進階2：加入class method
+  concerning :Search do
+    class_methods do
+      def published do
+        # ...
+      end
+    end
   end
 end
 </code></pre>
 
-<h2>AWS Variables</h2>
-
-<p>列出不同VPS 如何管理AWS 的變數</p>
+<h3>References</h3>
 
 <ul>
-<li>Heroku : Settings > Cofig Variables</li>
-<li>AWS: figrao</li>
+<li><a href="http://api.rubyonrails.org/v4.1/classes/Module/Concerning.html">Module#Concerning</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails - I18n | Timezone]]></title>
-    <link href="http://rt-tong.com/blog/2016/09/01/rails-i18n-timezone/"/>
-    <updated>2016-09-01T11:35:19+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/09/01/rails-i18n-timezone</id>
-    <content type="html"><![CDATA[<blockquote><p>國際化的設計，根據不同使用者採用不同的語言、數字格式、日期格式，簡稱i18n</p></blockquote>
 
-<!-- more -->
+<h2>ActiveSupport::Concern</h2>
+
+<ul>
+<li>將共用的邏輯寫到module 並用mixin 的方式，如此可以集中管理</li>
+<li>讓module 的相依性降低（低耦合），方便管理</li>
+<li>命名以able结尾</li>
+</ul>
 
 
-<h2>i18n</h2>
+<p>一般module 要mixin 到class  要使用included</p>
 
-<p>Rails 預設是使用英文(en)，如要使用i18n 多語系，則需安裝 gem</p>
-
-<pre><code>gem 'rails-i18n'
-</code></pre>
-
-<p>設定載入路徑、預設語系</p>
-
-<pre><code>#config/application.rb
-
-# 設定載入路徑 (二擇一)
-config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
-config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.{rb,yml}').to_s]
-
-# 設定預設語系 zh or en (二擇一)
-config.i18n.default_locale = :"zh-TW"
-config.i18n.default_locale = :en
-
-# use default locale when translation missing (二擇一)
-config.i18n.fallbacks = true
-config.i18n.fallbacks = :"zh-TW"
-</code></pre>
-
-<h2>自訂語彙</h2>
-
-<p>詞彙檔放在 config/locales ，使用YAML 格式</p>
-
-<pre><code># config/locales/zh-TW.yml
-"zh-TW":
-    hello: "親愛的%{name}你好!"
-    admin:
-        event: 活動管理
-</code></pre>
-
-<blockquote><p>注意 YAML 格式的縮排必須使用兩個空格，Tab是不允許的。直接複製貼上可能會有問題，請小心檢查縮排</p></blockquote>
-
-<p>套用語彙，可以使用<code>t Helper</code></p>
-
-<pre><code># 如果在View
-t("admin.event")
-t(:event, :scope=&gt;:admin)
-t(:hello, :name=&gt;current_user.name)
-
-# 如果不在View中，則需要加上 I18n 類別
-I18n.t("admin.event")
-</code></pre>
-
-<p>如何讓使用者切換語系</p>
-
-<pre><code># controllers/application_controller.rb
-before_action :set_locale
-
-def set_locale
-  # 可以將 ["en", "zh-TW"] 設定為 VALID_LANG 放到 config/environment.rb 中
-  if params[:locale] &amp;&amp; I18n.available_locales.include?( params[:locale].to_sym )
-    session[:locale] = params[:locale]
+<pre><code class="ruby">module M
+  def self.included(base)
+    base.extend ClassMethods
+    base.class_eval do
+      scope :disabled, -&gt; { where(disabled: true)}
+    end
   end
 
-  I18n.locale = session[:locale] || I18n.default_locale
+  module ClassMethods
+    # ...
+  end
 end
 </code></pre>
 
-<pre><code># views/..
-&lt;%= link_to "中文版", :controller =&gt; controller_name,
-:action =&gt; action_name, :locale =&gt; "zh-TW" %&gt;
-&lt;%= link_to "English", :controller =&gt; controller_name,
-:action =&gt; action_name, :locale =&gt; "en" %&gt;
+<p>如果使用ActiveSupport::Concern module 就可以改寫</p>
+
+<pre><code class="ruby">require 'active_support/concern'
+
+module M
+  extend ActiveSupport::Concern
+
+  # 在include 的時執行
+  # 加入 scope 或 attr_accessor
+  included do
+    scope :disabled, -&gt; { where(disabled: true)}
+  end
+
+  # 定義class methods
+  class_methods do
+    # ...
+  end
+
+  # 除了上面兩個區塊外，都屬於 instance methods
+end
 </code></pre>
 
-<h2>時區 Timezone</h2>
-
-<p>設定app 使用的時區，設定完成需重啟服務生效</p>
-
-<pre><code># config/application.rb
-config.time_zone = "Taipei"
-</code></pre>
-
-<h2>References</h2>
+<h3>References</h3>
 
 <ul>
-<li><a href="https://ihower.tw/rails4/i18n.html">ihower-i18n</a></li>
+<li><a href="https://ruby-china.org/topics/19812">ActiveSupport::Concern 小结</a></li>
+<li><a href="http://api.rubyonrails.org/classes/ActiveSupport/Concern.html">ActiveSupport::Concern</a></li>
+<li><a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/concern.rb">concern.rb</a></li>
+<li><a href="http://signalvnoise.com/posts/3372-put-chubby-models-on-a-diet-with-concerns">put-chubby-models-on-a-diet-with-concerns</a></li>
+<li><a href="http://mgleon08.github.io/blog/2016/03/26/concern/">concern</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ActiveRecord Module - Calculations]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/25/activerecord-module-calculations/"/>
-    <updated>2016-08-25T10:44:12+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/25/activerecord-module-calculations</id>
-    <content type="html"><![CDATA[<blockquote><p>擷取常用的methods</p></blockquote>
-
-<!-- more -->
-
-
-<h2>Pluck</h2>
-
-<p>使用<a href="http://apidock.com/rails/ActiveRecord/Calculations/pluck">pluck</a> 查詢想要的欄位資料，值已陣列回傳，值的類別同欄位型別(如果可以)</p>
-
-<p>也可以傳入sql 指令，例如：Distinct</p>
-
-<pre><code>Person.all.map(&amp;:name)
-
-# equal to
-
-Person.pluck(:name)
-# SELECT people.name FROM people
-# =&gt; ["A", "B", "C"]
-
-Person.pluck(:id, :name)
-# SELECT people.id, people.name FROM people
-# =&gt; [[1, 'David'], [2, 'Jeremy'], [3, 'Jose']]
-
-Person.pluck('DISTINCT role')
-# SELECT DISTINCT role FROM people
-# =&gt; ['admin', 'member', 'guest']
-
-Person.where(age: 21).limit(5).pluck(:id)
-# SELECT people.id FROM people WHERE people.age = 21 LIMIT 5
-# =&gt; [2, 3]
-
-Person.pluck('DATEDIFF(updated_at, created_at)')
-# SELECT DATEDIFF(updated_at, created_at) FROM people
-# =&gt; ['0', '27761', '173']
-</code></pre>
-
-<blockquote><p>與select 的差別在於，select 會取出model object，而pluck 只取出module value</p></blockquote>
-
-<p>使用Benchmark 測試一下兩者的執行時間</p>
-
-<pre><code>puts Benchmark.measure { User.select(:id).to_a }
-# User Load (0.6ms)  SELECT "users"."id" FROM "users"
-# 0.010000   0.000000   0.010000 (  0.014949)
-
-puts Benchmark.measure { User.pluck(:id) }
-# (0.8ms)  SELECT "users"."id" FROM "users"
-# 0.000000   0.000000   0.000000 (  0.004965)
-</code></pre>
-
-<p>相較之下，pluck 的執行速度會比select 快</p>
-
-<p>是因為select 還要把結果轉model object，但是pluck 單純把結果轉array</p>
-
-<p>結論：如果只要單純取欄位的資料，請選擇<code>pluck</code></p>
-
-<h2>Count</h2>
-
-<p><a href="http://apidock.com/rails/v4.2.1/ActiveRecord/Calculations/count">Count</a> the records</p>
-
-<pre><code>Person.count
-# =&gt; the total count of all people
-
-Person.count(:age)
-# =&gt; returns the total count of all people whose age is present in database
-
-Person.count(:all)
-# =&gt; performs a COUNT(*) (:all is an alias for '*')
-
-Person.distinct.count(:age)
-# =&gt; counts the number of different age values
-</code></pre>
-
-<p>使用group 會回傳Hash 值，並以key = column value, value = count amount 的方式表示</p>
-
-<pre><code>Person.group(:city).count
-# =&gt; { 'Rome' =&gt; 5, 'Paris' =&gt; 3 }
-</code></pre>
-
-<p>如果group 多個欄位，那key 就是欄位的組合</p>
-
-<pre><code>Article.group(:status, :category).count
-# =&gt;  {["draft", "business"]=&gt;10, ["draft", "technology"]=&gt;4,
-       ["published", "business"]=&gt;0, ["published", "technology"]=&gt;2}
-</code></pre>
-
-<p>使用select 則是回傳select 後的筆數</p>
-
-<blockquote><p>並非所有正確的select 都會產生正確的count。會根據database 而有所不同。</p></blockquote>
-
-<pre><code>Person.select(:age).count
-# =&gt; counts the number of different age values
-</code></pre>
-
-<h2>Maximum/Minimum</h2>
-
-<p><a href="http://apidock.com/rails/v4.2.1/ActiveRecord/Calculations/maximum">Maximum</a> 找出查詢欄位的最大值，查詢結果會根據欄位型別產生對應的物件類別，無資料則回傳<code>nil</code></p>
-
-<pre><code>Person.maximum(:age) # =&gt; 93
-</code></pre>
-
-<p>同上，但是<a href="http://apidock.com/rails/v4.2.1/ActiveRecord/Calculations/minimum">Minimum</a>查詢最小值</p>
-
-<pre><code>Person.minimum(:age) # =&gt; 7
-</code></pre>
-
-<h2>Sum/Average</h2>
-
-<p><a href="http://apidock.com/rails/ActiveRecord/Calculations/sum">Sum</a> 計算查詢欄位的總和，無資料則回傳0</p>
-
-<pre><code>Person.sum(:age) # =&gt; 4562
-</code></pre>
-
-<p><a href="http://apidock.com/rails/ActiveRecord/Calculations/average">Average</a> 計算欄位的平均值，無資料則回傳<code>nil</code></p>
-
-<pre><code>Person.average(:age) # =&gt; 35.8
-</code></pre>
-
-<h2>References</h2>
-
-<ul>
-<li><a href="http://apidock.com/rails/ActiveRecord/Calculations/">ActiveRecord-Calculations</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby - Nil? | Empty? | Blank?]]></title>
-    <link href="http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank/"/>
-    <updated>2016-08-24T14:09:59+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/08/24/ruby-nil_empty_blank</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<h2>nil?</h2>
-
-<p>可使用在任何的<code>object</code>，檢查是否為<code>nil</code>，如果是<code>nil</code>會回傳<code>true</code>
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">str</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
-</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="kp">nil</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;a.nil? # false</span>
-</span><span class='line'><span class="sr">b.nil? # true</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<h2>empty?</h2>
-
-<p>可使用在<code>String</code>、<code>Array</code>、<code>Hash</code>，如果為長度為0 會回傳<code>true</code></p>
-
-<p>如果object 是<code>nil</code>，使用empty? 會出現<code>NoMethodError</code>
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
-</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="o">[]</span>
-</span><span class='line'><span class="n">c</span> <span class="o">=</span> <span class="p">{}</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;a.empty? # true</span>
-</span><span class='line'><span class="sr">b.empty? # true</span>
-</span><span class='line'><span class="sr">c.empty? # true</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<h2>blank?</h2>
-
-<p>這實作在Rails ，是empty? 的強化版，不受限在<code>String</code>、<code>Array</code>、<code>Hash</code>
-<code>
-nil.blank?    # true
-false.blank?  # true
-[].blank?     # true
-{}.blank?     # true
-"".blank?     # true
-5.blank?      # false
-0.blank?      # false
-</code></p>
-
-<p><strong>But</strong> 如果空白字串，會認定為<code>true</code>
-<code>
-"  ".blank? # false
-"  ".empty? # true
-</code></p>
-
-<p>注意：如果陣列的值都是空字串或是nil，會回傳true
-<code>
-['',nil].blank? # ture
-</code></p>
-
-<p>可以使用.all? + blank? 的方式來檢查陣列的值
-<code>
-['',nil].all? &amp;:blank # true
-</code></p>
-
-<h2>present?</h2>
-
-<p>這也是實作在Rails 但跟<code>blank?</code> 的判斷完全顛倒
-<code>
-nil.present?    # false
-false.present?  # false
-[].present?     # false
-{}.present?     # false
-"".present?     # false
-5.present?      # true
-0.present?      # true
-</code></p>
-
-<h2>總結</h2>
-
-<p>剛剛測試的結果，已經有整理成一份表格，可以透過表格查看要使用什麼方式來檢查boolean 值~</p>
-
-<p><img src="/images/posts/2016082401.jpg" alt="nil_empty_blank_present" /></p>
 ]]></content>
   </entry>
   

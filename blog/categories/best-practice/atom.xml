@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Best_practice | JT's Blog]]></title>
+  <link href="https://jamestong10.github.io/blog/categories/best-practice/atom.xml" rel="self"/>
+  <link href="https://jamestong10.github.io/"/>
+  <updated>2017-06-09T22:10:38+08:00</updated>
+  <id>https://jamestong10.github.io/</id>
+  <author>
+    <name><![CDATA[James Tong]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails Partials]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/06/05/rails-partial/"/>
+    <updated>2017-06-05T16:41:07+08:00</updated>
+    <id>https://jamestong10.github.io/blog/2017/06/05/rails-partial</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<blockquote><p>用來簡化 View 複雜的程式邏輯</p>
+
+<p>把細節的部份拆出去，更容易理解 View 的全局</p>
+
+<p>檔名需要<strong>以底線開頭</strong>，但呼叫時不需加上底線</p></blockquote>
+
+<p>Action View Partials 用來 render sub templates</p>
+
+<h2>Syntax</h2>
+
+<pre><code class="ruby">&lt;%= render partial: sub_template_name, *options %&gt;
+</code></pre>
+
+<ul>
+<li><code>render</code> is a shorthand for <code>render partial:</code></li>
+<li>單使用 <code>render</code>, Rails 就不會處理後續的 options</li>
+<li>如果要使用 options 就要改成 <code>render partial:</code></li>
+</ul>
+
+
+<h2>Default Case</h2>
+
+<p>使用 <code>render</code> 產生 partial</p>
+
+<p>雖然有規定 <code>render</code> 不會處理 options，但還有一些特殊案例</p>
+
+<pre><code class="ruby">&lt;%= render partial: "account" %&gt;
+
+# equivalent to
+&lt;%= render "account" %&gt;
+</code></pre>
+
+<p>sub template name equivalent to variable name</p>
+
+<pre><code class="ruby">&lt;%= render partial: "accounts/account", locals: { account: @account} %&gt;
+
+# equivalent to
+&lt;%= render @account %&gt;
+</code></pre>
+
+<p>只有單一個 locals</p>
+
+<pre><code class="ruby">&lt;%= render partial: "account", locals: { account: @buyer } %&gt;
+
+# equivalent to
+&lt;%= render "account", account: @buyer %&gt;
+</code></pre>
+
+<p>都同名可簡化 collection</p>
+
+<pre><code class="ruby">&lt;%= render partial: "posts/post", collection: @posts %&gt;
+
+# equivalent to
+&lt;%= render @posts %&gt;
+</code></pre>
+
+<h2>Options</h2>
+
+<h3>locals</h3>
+
+<p>傳遞資料</p>
+
+<pre><code class="ruby">&lt;%= render partial: "user", locals: { user: @user, order: @order } %&gt;
+</code></pre>
+
+<h3>collection</h3>
+
+<p>使用 for-each render 逐一產生 partial</p>
+
+<pre><code class="ruby"># index.html.erb
+&lt;%= render partial: "product", collection: @products %&gt;
+
+# _product.html.erb
+Product Name: &lt;%= product.name %&gt;
+
+# short-hand
+&lt;%= @products %&gt;
+
+# if collection is empty, render will return nil,
+# should simple to provide alternative message.
+&lt;%= render(@products) || "Empty Products" %&gt;
+</code></pre>
+
+<h3>layout</h3>
+
+<p>指定 render layout</p>
+
+<pre><code class="ruby">&lt;%= render partial: "user", locals: { user: @user, order: @order }, layout: 'editor' %&gt;
+</code></pre>
+
+<h2>進階 Layout - layout + yield</h2>
+
+<h3>動機</h3>
+
+<p>把共用的 view 寫在 layout ，然後客製（變動）的內容寫在partial</p>
+
+<h3>開發</h3>
+
+<p>1.寫一個 layout 專用的 partial view，並把需要客製的部份加上 <code>yield</code></p>
+
+<pre><code class="ruby">&lt;%# app/views/users/_editor.html.haml %&gt;
+#editor
+  %h1 always the same headline
+  %h3 always the same description
+  = yield
+</code></pre>
+
+<p>2.寫客製的 partial view
+<code>ruby
+&lt;%# app/views/users/_user.html.haml %&gt;
+= "Deadline: #{user.deadline}"
+= "Name: #{user.name}"
+</code></p>
+
+<p>3.render 設定 partial and layout，就可以把 partial 的內容套在 layout 的 yield 區塊內</p>
+
+<pre><code>&lt;%# app/views/users/index.html.haml %&gt;
+&lt;%= render partial: "user", layout: "editor", locals: { user: @user } %&gt;
+</code></pre>
+
+<p>如果不用 <code>yield</code>，可以使用 block 表現
+<code>ruby
+&lt;%= render layout: "editor", locals: { user: @user } do %&gt;
+  &lt;%= do_something %&gt;
+&lt;% end %&gt;
+</code></p>
+
+<p>實際應用：把預覽圖片跟上傳圖片的功能提取出來，並且可個別設定內部要呈現的內容，例如：產品說明、大頭照說明等</p>
+
+<h2>Helper + Partial</h2>
+
+<p>這次要把partial 放進 helper 內</p>
+
+<p>1.一樣建立 partial，把要執行客製的部分使用 <code>capture(&amp;block)</code> 表示
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">%</span><span class="c1"># app/views/users/_editor.html.haml %&gt;&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">editor</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  %h1 always the same headline</span>
+</span><span class='line'><span class="sr">  %h3 always the same description</span>
+</span><span class='line'><span class="sr">  = capture(&amp;amp;block)</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>2.在helper 寫method 呼叫 <code>render partial:</code></p>
+
+<pre><code class="ruby"># application_helper.rb
+def modal_for(heading, &amp;block)
+  render(
+    partial: 'shared/modal',
+    locals: { heading: heading, block: block }
+  )
+end
+</code></pre>
+
+<p>3.在view 使用helper
+<code>ruby
+&lt;%= modal_for('My Title') do |t| %&gt;
+  # print dynamic things here
+&lt;% end %&gt;
+</code></p>
+
+<p>實際應用：把預覽圖片跟上傳圖片的功能提取出來，並且可個別設定內部要呈現的內容，例如：產品說明、大頭照說明等</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://guides.rubyonrails.org/layouts_and_rendering.html#using-partials">Rails Guide - using partials</a></li>
+<li><a href="http://api.rubyonrails.org/classes/ActionView/PartialRenderer.html">Rails Classes - Action View Partials</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Virtualbox | JT's Blog]]></title>
-  <link href="http://rt-tong.com/blog/categories/virtualbox/atom.xml" rel="self"/>
-  <link href="http://rt-tong.com/"/>
-  <updated>2017-05-31T21:56:44+08:00</updated>
-  <id>http://rt-tong.com/</id>
+  <link href="https://jamestong10.github.io/blog/categories/virtualbox/atom.xml" rel="self"/>
+  <link href="https://jamestong10.github.io/"/>
+  <updated>2017-06-09T22:10:38+08:00</updated>
+  <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[使用Vagrant 操作Virtaul Boxes]]></title>
-    <link href="http://rt-tong.com/blog/2016/09/11/use-vagrant-to-operating-virtual-box/"/>
+    <link href="https://jamestong10.github.io/blog/2016/09/11/use-vagrant-to-operating-virtual-box/"/>
     <updated>2016-09-11T00:45:21+08:00</updated>
-    <id>http://rt-tong.com/blog/2016/09/11/use-vagrant-to-operating-virtual-box</id>
+    <id>https://jamestong10.github.io/blog/2016/09/11/use-vagrant-to-operating-virtual-box</id>
     <content type="html"><![CDATA[<!-- more -->
 
 
