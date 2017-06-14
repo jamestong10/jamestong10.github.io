@@ -336,6 +336,21 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h3>注意</h3>
+
+<p>在rails 中，如果有使用到 ActiveRecord，需要加上 <code>:environment</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">desc</span> <span class="s2">&quot;Count available User&quot;</span>
+</span><span class='line'><span class="n">task</span> <span class="ss">:count_available_user</span> <span class="ss">:environment</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="no">User</span><span class="o">.</span><span class="n">available_count</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <h2>Rake 應用</h2>
 
 <ul>
