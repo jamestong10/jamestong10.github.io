@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-15T01:22:13+08:00</updated>
+  <updated>2017-06-16T00:52:03+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -550,18 +550,22 @@ $ rspec spec -fh -o rspec_result.html
 
 <p>這個技巧在產生 database 內容以測試 query 和 scope 時十分好用</p>
 
-<h2>Double / Mock Objects</h2>
+<h2>Double / Mocks</h2>
 
 <blockquote><p>建立假物件</p></blockquote>
 
 <p>RSpec 裡面叫做 double（替身），實際為 mock objects，用來建立替身（假物件）</p>
+
+<h3>Mocks</h3>
+
+<p>「模擬」 與一個 「協作者」 的互動，設立一個 「會收到指定訊息」 的期望，去驗證互動是否真的有發生</p>
 
 <p><img src="/images/posts/2017052306.jpg" alt="mock" />
 (source: <a href="https://dev.to/milipski/test-doubles---fakes-mocks-and-stubs">test-doubles&mdash;fakes-mocks-and-stubs</a>)</p>
 
 <h3>範例：</h3>
 
-<p>實作 ClassRoom class</p>
+<p>實作 class ClassRoom</p>
 
 <pre><code class="ruby">class ClassRoom
   def initialize(students)
@@ -569,6 +573,8 @@ $ rspec spec -fh -o rspec_result.html
   end
 
   def list_student_names
+    update_student_count_of_classroom
+    send_mail_notify_teacher
     @students.map(&amp;:name).join(',')
   end
 
@@ -595,9 +601,13 @@ end
 
 <p>For replacing a method with code that returns a specified result.</p>
 
-<blockquote><p>回傳假資料</p></blockquote>
+<p>method 有可能去呼叫「外部物件」，Stubs 都不管，只管最後的回傳值或狀態</p>
 
 <p>如果要驗證 「回傳值」 或驗證 「狀態改變時」 ，經常會使用 Stub 手法</p>
+
+<p>rspec 3 之後改用 <code>#allow</code> 取代 <code>#stub</code></p>
+
+<blockquote><p>method 回傳假資料</p></blockquote>
 
 <p><img src="/images/posts/2017052305.jpg" alt="stub" />
 (source: <a href="https://dev.to/milipski/test-doubles---fakes-mocks-and-stubs">test-doubles&mdash;fakes-mocks-and-stubs</a>)</p>
@@ -605,6 +615,8 @@ end
 <h3>範例：</h3>
 
 <p>接著 double 的範例，加入 stub 回傳假資料</p>
+
+<p>Stubs 不管 <code>#list_student_names</code> 中間執行哪些動作，只管最後回傳結果</p>
 
 <pre><code class="ruby">describe ClassRoom do
   it 'the list_student_names method should work correctly' do
@@ -615,6 +627,11 @@ end
     student1.stub(:name).and_return('John Smith')
     student2.stub(:name).and_return('Jill Smith')
 
+    # 使用 allow 取代 stub 回傳假資料
+    allow(student1).to receive(:name).and_return('John Smith')
+    allow(student2).to receive(:name).and_return('Jill Smith')
+
+
     class_room = ClassRoom.new [student1,student2]
     expect(class_room.students_count).to eq(2)
     expect(class_room.list_student_names).to eq('John Smith,Jill Smith')
@@ -622,9 +639,9 @@ end
 end
 </code></pre>
 
-<h2>Mock</h2>
+<h2>Mocks vs. Stubs</h2>
 
-<p>「模擬」 與一個 「協作者」 的互動，設立一個 「會收到指定訊息」 的期望，去驗證互動是否真的有發生</p>
+<blockquote><p>Behavioral testing vs State testing</p></blockquote>
 
 <h2>Controller Specs</h2>
 
@@ -818,11 +835,12 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <ul>
 <li><a href="http://www.relishapp.com/rspec/rspec-rails/v/3-5/docs">RSpec Rails 3.5</a></li>
 <li><a href="http://betterspecs.org/zh_tw/">Better Specs</a></li>
+<li><a href="https://about.futurelearn.com/blog/stubs-mocks-spies-rspec/">Stubs, Mocks and Spies in RSpec</a></li>
+<li><a href="https://stackoverflow.com/a/17810004">whats-the-difference-between-a-mock-stub</a></li>
+<li><a href="https://stackoverflow.com/questions/7340808/whats-the-difference-between-mock-stub-and-factory-girl">What&rsquo;s the difference between mock, stub, and factory girl?</a></li>
 <li><a href="http://motion-express.com/trainings/rspec-rails-1">特快車-RSpec-Rails</a></li>
 <li><a href="http://mgleon08.github.io/blog/2016/01/29/rspec-plus-factory-girl/">用 Rspec + Factory Girl + CircleCi 寫測試</a></li>
 <li><a href="https://github.com/festime/stubs-mocks-spies-in-rspec">了解 Stubs, Mocks, and Spies</a></li>
-<li><a href="https://about.futurelearn.com/blog/stubs-mocks-spies-rspec/">Stubs, Mocks and Spies in RSpec</a></li>
-<li><a href="https://xdite.gitbooks.io/rspec-101/content/">RSpec on Rails 101</a></li>
 <li><a href="http://blog.xdite.net/posts/2016/06/11/rspec-advanced-concept-part-1">RSpec - 進階測試系列概念</a></li>
 </ul>
 
