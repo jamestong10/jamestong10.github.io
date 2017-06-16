@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-16T00:52:03+08:00</updated>
+  <updated>2017-06-16T10:30:26+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -12,6 +12,135 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[RSpec Double / Stubs / Mocks]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/06/16/rspec-double-stubs-mocks/"/>
+    <updated>2017-06-16T10:06:25+08:00</updated>
+    <id>https://jamestong10.github.io/blog/2017/06/16/rspec-double-stubs-mocks</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>原本放在 <a href="/blog/2017/05/23/rspec/">RSpec</a>，但是越寫越多，就把它獨立成一篇</p>
+
+<h2>Double / Mocks</h2>
+
+<blockquote><p>建立假物件</p></blockquote>
+
+<p>RSpec 裡面叫做 double（替身），實際為 mock objects，用來建立替身（假物件）</p>
+
+<h3>Mocks</h3>
+
+<p>「模擬」 與一個 「協作者」 的互動，設立一個 「會收到指定訊息」 的期望，去驗證互動是否真的有發生</p>
+
+<p><img src="/images/posts/2017061602.jpg" alt="mock" />
+(source: <a href="https://dev.to/milipski/test-doubles---fakes-mocks-and-stubs">test-doubles&mdash;fakes-mocks-and-stubs</a>)</p>
+
+<h3>範例：</h3>
+
+<p>實作 class ClassRoom</p>
+
+<pre><code class="ruby">class ClassRoom
+  def initialize(students)
+    @students = students
+  end
+
+  def list_student_names
+    update_student_count_of_classroom
+    send_mail_notify_teacher
+    @students.map(&amp;:name).join(',')
+  end
+
+  def students_count
+    @students.count
+  end
+end
+</code></pre>
+
+<p>使用 double 建立假物件</p>
+
+<pre><code class="ruby">describe ClassRoom do
+  it 'the list_student_names method should work correctly' do
+    student1 = double('student')
+    student2 = double('student')
+
+    class_room = ClassRoom.new [student1,student2]
+    expect(class_room.students_count).to eq(2)
+  end
+end
+</code></pre>
+
+<h2>Stubs</h2>
+
+<p>For replacing a method with code that returns a specified result.</p>
+
+<p>method 有可能去呼叫「外部物件」，Stubs 都不管，只管最後的回傳值或狀態</p>
+
+<p>如果要驗證 「回傳值」 或驗證 「狀態改變時」 ，經常會使用 Stub 手法</p>
+
+<p>rspec 3 之後改用 <code>#allow</code> 取代 <code>#stub</code></p>
+
+<blockquote><p>method 回傳假資料</p></blockquote>
+
+<p><img src="/images/posts/2017061601.jpg" alt="stub" />
+(source: <a href="https://dev.to/milipski/test-doubles---fakes-mocks-and-stubs">test-doubles&mdash;fakes-mocks-and-stubs</a>)</p>
+
+<h3>範例：</h3>
+
+<p>接著 double 的範例，加入 stub 回傳假資料</p>
+
+<p>Stubs 不管 <code>#list_student_names</code> 中間執行哪些動作，只管最後回傳結果</p>
+
+<pre><code class="ruby">describe ClassRoom do
+  it 'the list_student_names method should work correctly' do
+    student1 = double('student')
+    student2 = double('student')
+
+    # 使用 stub 回傳假資料
+    student1.stub(:name).and_return('John Smith')
+    student2.stub(:name).and_return('Jill Smith')
+
+    # 使用 allow 取代 stub 回傳假資料
+    allow(student1).to receive(:name).and_return('John Smith')
+    allow(student2).to receive(:name).and_return('Jill Smith')
+
+
+    class_room = ClassRoom.new [student1,student2]
+    expect(class_room.students_count).to eq(2)
+    expect(class_room.list_student_names).to eq('John Smith,Jill Smith')
+  end
+end
+</code></pre>
+
+<h2>Mocks vs. Stubs</h2>
+
+<blockquote><p>Behavioral testing vs State testing</p></blockquote>
+
+<h2>補充：Types of test double</h2>
+
+<p>The term “test double” is used to refer to a range of testing techniques, with the common theme that a substitute object is provided to the subject under test, taking the place of the objects it will communicate with in actual use.</p>
+
+<ul>
+<li>Dummy – a pure placeholder object with no behaviour (it doesn’t respond to any messages). This is used when a method requires an argument but doesn’t interact with it in a specific test.
+Fake – a replacement object with real behaviour, but taking shortcuts that are helpful for testing purposes (a good example is using an in-memory database for faster testing of database-dependent code).</li>
+<li>Stub – an object providing canned responses to specified messages.</li>
+<li>Mock – an object that is given a specification of the messages that it must receive (or not receive) during the test if the test is to pass.</li>
+<li>Spy – an object that records all messages it receives (assuming it is allowed to respond to them), allowing the messages it should have received to be asserted at the end of a test.</li>
+</ul>
+
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://about.futurelearn.com/blog/stubs-mocks-spies-rspec/">Stubs, Mocks and Spies in RSpec</a></li>
+<li><a href="https://stackoverflow.com/a/17810004">whats-the-difference-between-a-mock-stub</a></li>
+<li><a href="https://stackoverflow.com/questions/7340808/whats-the-difference-between-mock-stub-and-factory-girl">What&rsquo;s the difference between mock, stub, and factory girl?</a></li>
+<li><a href="https://github.com/festime/stubs-mocks-spies-in-rspec">了解 Stubs, Mocks, and Spies</a></li>
+<li><a href="http://blog.xdite.net/posts/2016/06/11/rspec-advanced-concept-part-1">RSpec - 進階測試系列概念</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails Partials]]></title>
@@ -44,8 +173,6 @@
 <h2>Default Case</h2>
 
 <p>使用 <code>render</code> 產生 partial</p>
-
-<p>雖然有規定 <code>render</code> 不會處理 options，但還有一些特殊案例</p>
 
 <pre><code class="ruby">&lt;%= render partial: "account" %&gt;
 
@@ -106,7 +233,7 @@ Product Name: &lt;%= product.name %&gt;
 
 <h3>layout</h3>
 
-<p>指定 render layout</p>
+<p>指定 render layout，使用時，需要加上 <code>partial:</code> 才能執行</p>
 
 <pre><code class="ruby">&lt;%= render partial: "user", locals: { user: @user, order: @order }, layout: 'editor' %&gt;
 </code></pre>
@@ -286,7 +413,7 @@ end
 &lt;%= @invoice.user.cellphone %&gt;
 </code></pre>
 
-<p>若比較嚴謹來看，這樣是違反 <a href="https://jamestong10.github.io/blog/2017/05/15/object-orientend-design-priciples/">Lask Knowledge Priciple</a></p>
+<p>若比較嚴謹來看，這樣是違反 <a href="/blog/2017/05/15/object-orientend-design-priciples/">Lask Knowledge Priciple</a></p>
 
 <p>而且 Views 看起來也不漂亮</p>
 
@@ -311,7 +438,7 @@ end
 
 <h2>Others</h2>
 
-<p>參考 <a href="https://jamestong10.github.io/blog/2017/05/10/ruby-forwardable/">Ruby Forwardable</a></p>
+<p>參考 <a href="/blog/2017/05/10/ruby-forwardable/">Ruby Forwardable</a></p>
 
 <h2>References</h2>
 
@@ -599,99 +726,6 @@ $ rspec spec -fh -o rspec_result.html
 
 <p>這個技巧在產生 database 內容以測試 query 和 scope 時十分好用</p>
 
-<h2>Double / Mocks</h2>
-
-<blockquote><p>建立假物件</p></blockquote>
-
-<p>RSpec 裡面叫做 double（替身），實際為 mock objects，用來建立替身（假物件）</p>
-
-<h3>Mocks</h3>
-
-<p>「模擬」 與一個 「協作者」 的互動，設立一個 「會收到指定訊息」 的期望，去驗證互動是否真的有發生</p>
-
-<p><img src="/images/posts/2017052306.jpg" alt="mock" />
-(source: <a href="https://dev.to/milipski/test-doubles---fakes-mocks-and-stubs">test-doubles&mdash;fakes-mocks-and-stubs</a>)</p>
-
-<h3>範例：</h3>
-
-<p>實作 class ClassRoom</p>
-
-<pre><code class="ruby">class ClassRoom
-  def initialize(students)
-    @students = students
-  end
-
-  def list_student_names
-    update_student_count_of_classroom
-    send_mail_notify_teacher
-    @students.map(&amp;:name).join(',')
-  end
-
-  def students_count
-    @students.count
-  end
-end
-</code></pre>
-
-<p>使用 double 建立假物件</p>
-
-<pre><code class="ruby">describe ClassRoom do
-  it 'the list_student_names method should work correctly' do
-    student1 = double('student')
-    student2 = double('student')
-
-    class_room = ClassRoom.new [student1,student2]
-    expect(class_room.students_count).to eq(2)
-  end
-end
-</code></pre>
-
-<h2>Stubs</h2>
-
-<p>For replacing a method with code that returns a specified result.</p>
-
-<p>method 有可能去呼叫「外部物件」，Stubs 都不管，只管最後的回傳值或狀態</p>
-
-<p>如果要驗證 「回傳值」 或驗證 「狀態改變時」 ，經常會使用 Stub 手法</p>
-
-<p>rspec 3 之後改用 <code>#allow</code> 取代 <code>#stub</code></p>
-
-<blockquote><p>method 回傳假資料</p></blockquote>
-
-<p><img src="/images/posts/2017052305.jpg" alt="stub" />
-(source: <a href="https://dev.to/milipski/test-doubles---fakes-mocks-and-stubs">test-doubles&mdash;fakes-mocks-and-stubs</a>)</p>
-
-<h3>範例：</h3>
-
-<p>接著 double 的範例，加入 stub 回傳假資料</p>
-
-<p>Stubs 不管 <code>#list_student_names</code> 中間執行哪些動作，只管最後回傳結果</p>
-
-<pre><code class="ruby">describe ClassRoom do
-  it 'the list_student_names method should work correctly' do
-    student1 = double('student')
-    student2 = double('student')
-
-    # 使用 stub 回傳假資料
-    student1.stub(:name).and_return('John Smith')
-    student2.stub(:name).and_return('Jill Smith')
-
-    # 使用 allow 取代 stub 回傳假資料
-    allow(student1).to receive(:name).and_return('John Smith')
-    allow(student2).to receive(:name).and_return('Jill Smith')
-
-
-    class_room = ClassRoom.new [student1,student2]
-    expect(class_room.students_count).to eq(2)
-    expect(class_room.list_student_names).to eq('John Smith,Jill Smith')
-  end
-end
-</code></pre>
-
-<h2>Mocks vs. Stubs</h2>
-
-<blockquote><p>Behavioral testing vs State testing</p></blockquote>
-
 <h2>Controller Specs</h2>
 
 <p>Examples
@@ -854,161 +888,39 @@ end
 end
 </code></pre>
 
-<h2>:type => ??</h2>
+<h2>:type => ?</h2>
 
 <p>設定 type 為 controller / model / routing 是 rspec metadata，可以讓 rspec 知道目前的 type</p>
 
-<p>當然也可以在 rails_helper 加入設定，這樣就不需要再每個 spec 檔都加入 type ，只要把檔案放在對應的資料夾，就可以代表該檔案的type</p>
+<pre><code class="ruby">desc "posts", :type =&gt; :controller do
+  # ...
+end
+</code></pre>
 
-<p>e.g. spec/models -> 認定為 model</p>
+<p>當然也可在 rails_helper 設定 type 參考檔案目錄</p>
 
-<pre><code># rails_helper
+<pre><code class="ruby"># spec/rails_helper
 config.infer_spec_type_from_file_location!
 </code></pre>
 
-<h2>補充：Types of test double</h2>
+<p>只要把檔案放在對應的資料夾，即代表該檔案的 type</p>
 
-<p>The term “test double” is used to refer to a range of testing techniques, with the common theme that a substitute object is provided to the subject under test, taking the place of the objects it will communicate with in actual use.</p>
+<pre><code class="ruby"># spec/controllers/
+desc "posts" do
+  # ...
+end
+</code></pre>
 
-<ul>
-<li>Dummy – a pure placeholder object with no behaviour (it doesn’t respond to any messages). This is used when a method requires an argument but doesn’t interact with it in a specific test.
-Fake – a replacement object with real behaviour, but taking shortcuts that are helpful for testing purposes (a good example is using an in-memory database for faster testing of database-dependent code).</li>
-<li>Stub – an object providing canned responses to specified messages.</li>
-<li>Mock – an object that is given a specification of the messages that it must receive (or not receive) during the test if the test is to pass.</li>
-<li>Spy – an object that records all messages it receives (assuming it is allowed to respond to them), allowing the messages it should have received to be asserted at the end of a test.</li>
-</ul>
+<h2>進階</h2>
 
+<p><a href="/blog/2017/06/16/rspec-double-stubs-mocks/">RSpec Double / Stubs / Mocks</a></p>
 
 <h2>References</h2>
 
 <ul>
 <li><a href="http://www.relishapp.com/rspec/rspec-rails/v/3-5/docs">RSpec Rails 3.5</a></li>
-<li><a href="http://betterspecs.org/zh_tw/">Better Specs</a></li>
-<li><a href="https://about.futurelearn.com/blog/stubs-mocks-spies-rspec/">Stubs, Mocks and Spies in RSpec</a></li>
-<li><a href="https://stackoverflow.com/a/17810004">whats-the-difference-between-a-mock-stub</a></li>
-<li><a href="https://stackoverflow.com/questions/7340808/whats-the-difference-between-mock-stub-and-factory-girl">What&rsquo;s the difference between mock, stub, and factory girl?</a></li>
-<li><a href="http://motion-express.com/trainings/rspec-rails-1">特快車-RSpec-Rails</a></li>
+<li><a href="http://betterspecs.org/zh_tw/">Better Specs</a>- <a href="http://motion-express.com/trainings/rspec-rails-1">特快車-RSpec-Rails</a></li>
 <li><a href="http://mgleon08.github.io/blog/2016/01/29/rspec-plus-factory-girl/">用 Rspec + Factory Girl + CircleCi 寫測試</a></li>
-<li><a href="https://github.com/festime/stubs-mocks-spies-in-rspec">了解 Stubs, Mocks, and Spies</a></li>
-<li><a href="http://blog.xdite.net/posts/2016/06/11/rspec-advanced-concept-part-1">RSpec - 進階測試系列概念</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails Module::Concerning and ActiveSupport::Concern]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/05/18/concerns/"/>
-    <updated>2017-05-18T15:45:21+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/05/18/concerns</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<h2>Module#concerning</h2>
-
-<p>Rails 4.1 新增的功能，如果module 內容不多，但又非得新增一個module，或許可以考慮用concerning 的方式</p>
-
-<p>一般使用mixin 使用方式</p>
-
-<pre><code class="ruby"># app/models/article.rb
-class Article &lt; ActiveRecord::Base
-  include Tagging
-end
-
-# app/models/concerns/tagging.rb
-module Tagging
- # ...
-end
-</code></pre>
-
-<p>使用concerning</p>
-
-<pre><code class="ruby">class Article &lt; ActiveRecord::Base
-  # 基本：建立一般的 instance method
-  concerning :Tagging do
-    def news do
-      # ...
-    end
-  end
-  # 進階1:加入included (include 時執行)
-  concerning :Scope do
-    included di
-      scope :published, -&gt; { where(state: 'published') }
-    end
-  end
-  # 進階2：加入class method
-  concerning :Search do
-    class_methods do
-      def published do
-        # ...
-      end
-    end
-  end
-end
-</code></pre>
-
-<h3>References</h3>
-
-<ul>
-<li><a href="http://api.rubyonrails.org/v4.1/classes/Module/Concerning.html">Module#Concerning</a></li>
-</ul>
-
-
-<h2>ActiveSupport::Concern</h2>
-
-<ul>
-<li>將共用的邏輯寫到module 並用mixin 的方式，如此可以集中管理</li>
-<li>讓module 的相依性降低（低耦合），方便管理</li>
-<li>命名以able结尾</li>
-</ul>
-
-
-<p>一般module 要mixin 到class  要使用included</p>
-
-<pre><code class="ruby">module M
-  def self.included(base)
-    base.extend ClassMethods
-    base.class_eval do
-      scope :disabled, -&gt; { where(disabled: true)}
-    end
-  end
-
-  module ClassMethods
-    # ...
-  end
-end
-</code></pre>
-
-<p>如果使用ActiveSupport::Concern module 就可以改寫</p>
-
-<pre><code class="ruby">require 'active_support/concern'
-
-module M
-  extend ActiveSupport::Concern
-
-  # 在include 的時執行
-  # 加入 scope 或 attr_accessor
-  included do
-    scope :disabled, -&gt; { where(disabled: true)}
-  end
-
-  # 定義class methods
-  class_methods do
-    # ...
-  end
-
-  # 除了上面兩個區塊外，都屬於 instance methods
-end
-</code></pre>
-
-<h3>References</h3>
-
-<ul>
-<li><a href="https://ruby-china.org/topics/19812">ActiveSupport::Concern 小结</a></li>
-<li><a href="http://api.rubyonrails.org/classes/ActiveSupport/Concern.html">ActiveSupport::Concern</a></li>
-<li><a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/concern.rb">concern.rb</a></li>
-<li><a href="http://signalvnoise.com/posts/3372-put-chubby-models-on-a-diet-with-concerns">put-chubby-models-on-a-diet-with-concerns</a></li>
-<li><a href="http://mgleon08.github.io/blog/2016/03/26/concern/">concern</a></li>
 </ul>
 
 ]]></content>

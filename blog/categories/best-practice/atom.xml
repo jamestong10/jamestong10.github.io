@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Best_practice | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/best-practice/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-16T00:52:03+08:00</updated>
+  <updated>2017-06-16T10:30:26+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -44,8 +44,6 @@
 <h2>Default Case</h2>
 
 <p>使用 <code>render</code> 產生 partial</p>
-
-<p>雖然有規定 <code>render</code> 不會處理 options，但還有一些特殊案例</p>
 
 <pre><code class="ruby">&lt;%= render partial: "account" %&gt;
 
@@ -106,7 +104,7 @@ Product Name: &lt;%= product.name %&gt;
 
 <h3>layout</h3>
 
-<p>指定 render layout</p>
+<p>指定 render layout，使用時，需要加上 <code>partial:</code> 才能執行</p>
 
 <pre><code class="ruby">&lt;%= render partial: "user", locals: { user: @user, order: @order }, layout: 'editor' %&gt;
 </code></pre>

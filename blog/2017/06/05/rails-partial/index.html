@@ -150,8 +150,6 @@
 
 <p>使用 <code>render</code> 產生 partial</p>
 
-<p>雖然有規定 <code>render</code> 不會處理 options，但還有一些特殊案例</p>
-
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -246,7 +244,7 @@
 
 <h3>layout</h3>
 
-<p>指定 render layout</p>
+<p>指定 render layout，使用時，需要加上 <code>partial:</code> 才能執行</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">render</span> <span class="ss">partial</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="ss">locals</span><span class="p">:</span> <span class="p">{</span> <span class="ss">user</span><span class="p">:</span> <span class="vi">@user</span><span class="p">,</span> <span class="ss">order</span><span class="p">:</span> <span class="vi">@order</span> <span class="p">},</span> <span class="ss">layout</span><span class="p">:</span> <span class="s1">&#39;editor&#39;</span> <span class="o">%&gt;</span>

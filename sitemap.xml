@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>https://jamestong10.github.io/blog/2017/06/16/rspec-double-stubs-mocks/</loc>
+<lastmod>2017-06-16T10:06:25+08:00</lastmod>
+</url>
+<url>
 <loc>https://jamestong10.github.io/blog/2017/06/13/rake-ruby-make/</loc>
 <lastmod>2017-06-13T21:33:11+08:00</lastmod>
 </url>
