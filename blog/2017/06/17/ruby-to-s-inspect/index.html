@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>About - JT's Blog</title>
+  <title>Ruby Object Inspect / To_s - JT's Blog</title>
   <meta name="author" content="James Tong">
 
   
-  <meta name="description" content="About Jul 28th, 2016 12:35 pm | James Tong (JT.) Java EE Developer (6y+) Ruby on Rails Developer Resume Github
-Email：&#116;&#117;&#110;&#x67;&#x72 &hellip;">
+  <meta name="description" content="ruby object inspect to_s">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ Email：&#116;&#117;&#110;&#x67;&#x72 &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="https://jamestong10.github.io/about">
+  <link rel="canonical" href="https://jamestong10.github.io/blog/2017/06/17/ruby-to-s-inspect">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="JT's Blog" type="application/atom+xml">
@@ -97,72 +96,143 @@ Email：&#116;&#117;&#110;&#x67;&#x72 &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">About</h1>
     
-        <p class="meta">
-            
-
-
-
-
-<time class='entry-date' datetime='2016-07-28T12:35:00+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:35 pm</span></time> |
-              
-        </p>
+      
+        <h1 class="entry-title">Ruby Object Inspect / To_s</h1>
+      
     
-  </header>
-  
-  <h2>James Tong (JT.)</h2>
-
-<h3>Java EE Developer (6y+)</h3>
-
-<h3>Ruby on Rails Developer</h3>
-
-<h3>Resume</h3>
-
-<ul>
-<li><a href="https://github.com/jamestong10">Github</a></li>
-<li>Email：<a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x74;&#117;&#110;&#x67;&#114;&#x75;&#105;&#116;&#101;&#x6e;&#103;&#64;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#99;&#111;&#109;">&#116;&#117;&#110;&#x67;&#x72;&#x75;&#105;&#116;&#x65;&#110;&#x67;&#x40;&#103;&#109;&#x61;&#105;&#108;&#46;&#99;&#x6f;&#109;</a></li>
-<li>Skills：
-
-<ul>
-<li>Java, Spring, Hibernate</li>
-<li>Javascript, jQuery</li>
-<li>Ruby, Rails</li>
-<li>T-SQL, PL/SQL</li>
-</ul>
-</li>
-</ul>
-
-
-<h3>Portfolio</h3>
-
-<ul>
-<li><a href="https://github.com/jamestong10/reddit">Rails 12in12 - Reddit</a></li>
-<li><a href="https://github.com/jamestong10/ajax01">使用ajax 上傳與paperclip 處理照片</a></li>
-<li><a href="">電子購物平台、後台管理(AdminLTE)</a></li>
-</ul>
-
-
-  
-    <footer>
+    
       <p class="meta">
         
+
+
+
+
+<time class='entry-date' datetime='2017-06-17T17:08:26+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:08 pm</span></time>
         
-
-
-
-
-<time class='entry-date' datetime='2016-07-28T12:35:00+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>12:35 pm</span></time>
+         | <a href="#disqus_thread">Comments</a>
         
         
       </p>
+    
+  </header>
+
+
+<div class="entry-content"><!-- more -->
+
+
+<p>記錄 Object <code>#to_s</code> 與 <code>#inspect</code> 的比較</p>
+
+<h2>Ruby Doc</h2>
+
+<p><a href="https://ruby-doc.org/core-2.4.1/Object.html#method-i-inspect">inspect</a>: 預設回傳物件類別名稱、object_id和所有變數值</p>
+
+<p><a href="https://ruby-doc.org/core-2.4.1/Object.html#method-i-to_s">to_s</a>: 預設回傳物件類別名稱、object_id</p>
+
+<h2>實驗</h2>
+
+<p>建立 class Item</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Item</span>
+</span><span class='line'> <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@name</span><span class="o">=</span><span class="nb">name</span>
+</span><span class='line'> <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">item</span> <span class="o">=</span> <span class="no">Item</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用 <code>#to_s</code> 與 <code>#inspect</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="n">item</span><span class="o">.</span><span class="n">inspect</span> <span class="c1"># &lt;Item:0x007fc74b01bf20 @name=100&gt;</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">item</span><span class="o">.</span><span class="n">to_s</span>    <span class="c1"># &lt;Item:0x007fc74b01bf20&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果用 <code>p</code>, <code>print</code>, <code>puts</code> 印出 object 結果是什麼呢？</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">p</span>     <span class="n">item</span> <span class="c1"># &lt;Item:0x007fc74b01bf20 @name=100&gt;</span>
+</span><span class='line'><span class="nb">print</span> <span class="n">item</span> <span class="c1"># &lt;Item:0x007fc74b01bf20&gt;</span>
+</span><span class='line'><span class="nb">puts</span>  <span class="n">item</span> <span class="c1"># &lt;Item:0x007fc74b01bf20&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>p</code> 印出 Object#inspect 並回傳值</p>
+
+<p><code>print</code>, <code>puts</code> 印出 Object#to_s</p>
+
+<h2>nil</h2>
+
+<p>注意 nil 是另外一種結果</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">nil</span><span class="o">.</span><span class="n">to_s</span>    <span class="c1"># =&gt; &quot;&quot;</span>
+</span><span class='line'><span class="kp">nil</span><span class="o">.</span><span class="n">inspect</span> <span class="c1"># =&gt; &quot;nil&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>使用</h2>
+
+<ul>
+<li>瞭解整個物件的內容，包含 instance variables 就使用 <code>#inspect</code> （debug 用？）</li>
+<li>單純只要產生字串，就使用 #to_s</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
       
-        <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://jamestong10.github.io/about/index.html" data-via="" data-counturl="https://jamestong10.github.io/about/index.html" >Tweet</a>
+
+
+
+  <span class="byline author vcard">Authored by <span class="fn">
+  
+    James Tong
+  
+  </span></span>
+
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-06-17T17:08:26+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2017</span></span> <span class='time'>5:08 pm</span></time>
+      
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://jamestong10.github.io/blog/2017/06/17/ruby-to-s-inspect/" data-via="" data-counturl="https://jamestong10.github.io/blog/2017/06/17/ruby-to-s-inspect/" >Tweet</a>
   
   
   
@@ -170,9 +240,14 @@ Email：&#116;&#117;&#110;&#x67;&#x72 &hellip;">
   
 </div>
 
+    
+    <p class="meta">
       
-    </footer>
-  
+        <a class="basic-alignment left" href="/blog/2017/06/16/rspec-double-stubs-mocks/" title="Previous Post: RSpec double / stubs / mocks">&laquo; RSpec double / stubs / mocks</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
   <section>
@@ -183,13 +258,6 @@ Email：&#116;&#117;&#110;&#x67;&#x72 &hellip;">
 
 
 </div>
-
-<aside class="sidebar">
-  
-    
-  
-</aside>
-
 
     </div>
   </div>
@@ -206,8 +274,8 @@ Email：&#116;&#117;&#110;&#x67;&#x72 &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'https://jamestong10.github.io/about/index.html';
-        var disqus_url = 'https://jamestong10.github.io/about/index.html';
+        var disqus_identifier = 'https://jamestong10.github.io/blog/2017/06/17/ruby-to-s-inspect/';
+        var disqus_url = 'https://jamestong10.github.io/blog/2017/06/17/ruby-to-s-inspect/';
         var disqus_script = 'embed.js';
       
     (function () {

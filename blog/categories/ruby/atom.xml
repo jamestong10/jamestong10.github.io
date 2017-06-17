@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-16T10:30:26+08:00</updated>
+  <updated>2017-06-17T17:37:47+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -12,6 +12,70 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Object Inspect / To_s]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/06/17/ruby-to-s-inspect/"/>
+    <updated>2017-06-17T17:08:26+08:00</updated>
+    <id>https://jamestong10.github.io/blog/2017/06/17/ruby-to-s-inspect</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<p>記錄 Object <code>#to_s</code> 與 <code>#inspect</code> 的比較</p>
+
+<h2>Ruby Doc</h2>
+
+<p><a href="https://ruby-doc.org/core-2.4.1/Object.html#method-i-inspect">inspect</a>: 預設回傳物件類別名稱、object_id和所有變數值</p>
+
+<p><a href="https://ruby-doc.org/core-2.4.1/Object.html#method-i-to_s">to_s</a>: 預設回傳物件類別名稱、object_id</p>
+
+<h2>實驗</h2>
+
+<p>建立 class Item</p>
+
+<pre><code class="ruby">class Item
+ def initialize(name)
+  @name=name
+ end
+end
+
+item = Item.new(100)
+</code></pre>
+
+<p>使用 <code>#to_s</code> 與 <code>#inspect</code></p>
+
+<pre><code class="ruby">puts item.inspect # &lt;Item:0x007fc74b01bf20 @name=100&gt;
+puts item.to_s    # &lt;Item:0x007fc74b01bf20&gt;
+</code></pre>
+
+<p>如果用 <code>p</code>, <code>print</code>, <code>puts</code> 印出 object 結果是什麼呢？</p>
+
+<pre><code class="ruby">p     item # &lt;Item:0x007fc74b01bf20 @name=100&gt;
+print item # &lt;Item:0x007fc74b01bf20&gt;
+puts  item # &lt;Item:0x007fc74b01bf20&gt;
+</code></pre>
+
+<p><code>p</code> 印出 Object#inspect 並回傳值</p>
+
+<p><code>print</code>, <code>puts</code> 印出 Object#to_s</p>
+
+<h2>nil</h2>
+
+<p>注意 nil 是另外一種結果</p>
+
+<pre><code class="ruby">nil.to_s    # =&gt; ""
+nil.inspect # =&gt; "nil"
+</code></pre>
+
+<h2>使用</h2>
+
+<ul>
+<li>瞭解整個物件的內容，包含 instance variables 就使用 <code>#inspect</code> （debug 用？）</li>
+<li>單純只要產生字串，就使用 #to_s</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[RSpec Double / Stubs / Mocks]]></title>
@@ -137,6 +201,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="https://stackoverflow.com/questions/7340808/whats-the-difference-between-mock-stub-and-factory-girl">What&rsquo;s the difference between mock, stub, and factory girl?</a></li>
 <li><a href="https://github.com/festime/stubs-mocks-spies-in-rspec">了解 Stubs, Mocks, and Spies</a></li>
 <li><a href="http://blog.xdite.net/posts/2016/06/11/rspec-advanced-concept-part-1">RSpec - 進階測試系列概念</a></li>
+<li><a href="https://semaphoreci.com/community/tutorials/mocking-with-rspec-doubles-and-expectations">Mocking with RSpec: Doubles and Expectations</a></li>
 </ul>
 
 ]]></content>
@@ -332,6 +397,7 @@ $ rails db:migrate
 <ul>
 <li><a href="https://github.com/ruby/rake">RAKE – Ruby Make</a></li>
 <li><a href="http://kaochenlong.com/2016/04/30/rake/">Ruby 語法放大鏡</a></li>
+<li><a href="https://stackoverflow.com/a/825832">how to pass command line arguments to a rake task</a></li>
 </ul>
 
 ]]></content>
@@ -571,318 +637,6 @@ names = User.all.map(&amp;:name)
 <li><a href="http://stackoverflow.com/questions/1217088/what-does-mapname-mean-in-ruby">what-does-mapname-mean-in-ruby</a></li>
 <li><a href="http://stackoverflow.com/questions/5254732/difference-between-map-and-collect-in-ruby">difference-between-map-and-collect-in-ruby</a></li>
 <li><a href="https://stackoverflow.com/questions/12084507/what-does-the-map-method-do-in-ruby">what-does-the-map-method-do-in-ruby</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[RSpec]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/05/23/rspec/"/>
-    <updated>2017-05-23T11:32:44+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/05/23/rspec</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<h2>介紹</h2>
-
-<ul>
-<li>用來測試 Ruby / Rails 的測試工具</li>
-<li>程式開發過程，可以確保程式的正確性，也可以讓開發人員有效的重構</li>
-<li>當成一種程式文件</li>
-</ul>
-
-
-<h2>慣例</h2>
-
-<ol>
-<li>一個 <em>.rb 要搭配同名的 </em>_spec.rb</li>
-<li><code>#method</code> 表示 instance method, <code>.method</code> 表示class method</li>
-<li>在 Rails 寫 RSpec 建議順序 Model > Controller > View</li>
-</ol>
-
-
-<h2>安裝</h2>
-
-<pre><code class="ruby"># Gemfile
-group :development, :test do
-  gem 'rspec-rails'
-end
-
-$ rails generate rspec:install
-</code></pre>
-
-<p>設定取消自動產生 rspec</p>
-
-<pre><code># config/application.rb
-
-class Application &lt; Rails::Application
-  config.generators do |g|
-    g.controller_specs false
-    g.model_specs false
-    g.view_specs false
-    g.helper_specs false
-    g.routing_specs false
-    g.request_specs false
-  end
-end
-</code></pre>
-
-<h2>測試指令</h2>
-
-<ul>
-<li><code>rspec</code> 全部測試</li>
-<li><code>rspec spec/controllers</code> 整個資料夾測試</li>
-<li><code>rspec filename_spec.rb</code> 單一檔案測試</li>
-<li><code>rspec filename_spec.rb:linenumber</code> 執行某行之後的測試</li>
-</ul>
-
-
-<h2>輸出</h2>
-
-<p>預設不產出文件</p>
-
-<ul>
-<li>產生document 並輸出 specdoc  文件
-<code>
-$ rspec spec --format documentation --out rspec_result.txt
-$ rspec spec -fd -o rspec_result.txt
-</code></li>
-<li>輸出 html 文件
-<code>
-$ rspec spec --format html --out rspec_result.html
-$ rspec spec -fh -o rspec_result.html
-</code></li>
-</ul>
-
-
-<h2>Describe / Context / it</h2>
-
-<p>RSpec 的主要區塊，所有的測試都寫在 describe 裡面，裡面則包含多個 context、it 測試</p>
-
-<p>descirbe 超過 40 個字，就需要使用 context、it 分段，讓你的測試更明確、有條理，保持可讀性</p>
-
-<h2>Before &amp; After</h2>
-
-<p>同unit test 的setup 與teardown</p>
-
-<ul>
-<li>before(:each) 每段it之前執行</li>
-<li>before(:all)  整段describe前只執行一次</li>
-<li>after(:each)  每段it之後執行</li>
-<li>after(:all)   整段describe後只執行一次</li>
-</ul>
-
-
-<h2>let &amp; let!</h2>
-
-<ul>
-<li>let 用到的時候再會被執行</li>
-<li>let! 每個測試前都會執行</li>
-</ul>
-
-
-<p>建議用 let 代替 before 來建立 instance variable</p>
-
-<p>因為 let 有 lazy load 特性，只在測項第一次用到該 variable 時被執行，並且會 cache 直到該測項結束</p>
-
-<p>這個技巧在產生 database 內容以測試 query 和 scope 時十分好用</p>
-
-<h2>Controller Specs</h2>
-
-<p>Examples
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="o">&amp;</span><span class="n">lsquo</span><span class="p">;</span><span class="n">rails_helper</span><span class="o">&amp;</span><span class="n">rsquo</span><span class="p">;</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;describe TeamsController, :type =&gt; :controller do</span>
-</span><span class='line'><span class="sr">  describe &amp;ldquo;GET index&amp;rdquo; do</span>
-</span><span class='line'><span class="sr">    it &amp;ldquo;assigns @teams&amp;rdquo; do</span>
-</span><span class='line'><span class="sr">      team = Team.create</span>
-</span><span class='line'><span class="sr">      get :index</span>
-</span><span class='line'><span class="sr">      expect(assigns(:teams)).to eq([team])</span>
-</span><span class='line'><span class="sr">    end&lt;/</span><span class="nb">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">it</span> <span class="s2">&quot;renders the index template&quot;</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">get</span> <span class="ss">:index</span>
-</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="o">&lt;</span><span class="sr">/code&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<p>Matchers</p>
-
-<ul>
-<li><p>render_template
-<code>
-expect(response).to render_template(:new)
-</code></p></li>
-<li><p>redirect_to
-<code>
-expect(response).to redirect_to(location)
-</code></p></li>
-<li><p>have_http_status
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="ss">:created</span><span class="p">)</span><span class="o">&lt;</span><span class="sr">/p&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-</span><span class='line'><span class="o">&lt;</span><span class="sr">/ul&gt;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;h1&gt;success 就有四種寫法 XD&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
-</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
-</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="ss">:ok</span><span class="p">)</span>
-</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="ss">:success</span><span class="p">)</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;h1&gt;page not found&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">expect</span><span class="p">(</span><span class="n">response</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_http_status</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></p>
-
-<ul>
-<li>be_a_new
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="n">assigns</span><span class="p">(</span><span class="ss">:widget</span><span class="p">)</span> <span class="err">表示</span> <span class="n">action</span> <span class="err">要回傳的</span> <span class="vi">@widget</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;h1&gt;be_a_new 只是否等同 Widget.new&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="nb">p</span><span class="o">&gt;</span><span class="n">expect</span><span class="p">(</span><span class="n">assigns</span><span class="p">(</span><span class="ss">:widget</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">be_a_new</span><span class="p">(</span><span class="no">Widget</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></p></li>
-</ul>
-
-
-<h2>Model Specs</h2>
-
-<p>Examples</p>
-
-<p>使用 reload 重新載入資料</p>
-
-<pre><code class="ruby">require "rails_helper"
-
-describe Post, :type =&gt; :model do
-  context "with 2 or more comments" do
-    it "orders them in reverse chronologically" do
-      post = Post.create!
-      comment1 = post.comments.create!(:body =&gt; "first comment")
-      comment2 = post.comments.create!(:body =&gt; "second comment")
-      expect(post.reload.comments).to eq([comment2, comment1])
-    end
-  end
-end
-</code></pre>
-
-<p>取消 transactions</p>
-
-<pre><code class="ruby">require "rails_helper"
-
-RSpec.configure do |c|
-  c.use_transactional_examples = false
-  c.order = "defined"
-end
-
-describe Widget, :type =&gt; :model do
-  it "has none to begin with" do
-    expect(Widget.count).to eq 0
-  end
-
-  it "has one after adding one" do
-    Widget.create
-    expect(Widget.count).to eq 1
-  end
-
-  # 關閉 transactions，剛剛建立的 Widget 就不會消失
-  it "has one after one was created in a previous example" do
-    expect(Widget.count).to eq 1
-  end
-
-  after(:all) { Widget.destroy_all }
-end
-</code></pre>
-
-<h2>Routing Specs</h2>
-
-<pre><code class="ruby">describe "posts", :type =&gt; :routing do
-
-  expect(:get =&gt; "/events").to route_to("events#index")
-  expect(:get =&gt; "/widgets/1/edit").not_to be_routable
-
-  expect(:get =&gt; "/posts/1").to route_to(
-        :controller =&gt; "posts",
-        :action =&gt; "show",
-        :id =&gt; "1"
-        )
-end
-</code></pre>
-
-<h2>:type => ?</h2>
-
-<p>設定 type 為 controller / model / routing 是 rspec metadata，可以讓 rspec 知道目前的 type</p>
-
-<pre><code class="ruby">desc "posts", :type =&gt; :controller do
-  # ...
-end
-</code></pre>
-
-<p>當然也可在 rails_helper 設定 type 參考檔案目錄</p>
-
-<pre><code class="ruby"># spec/rails_helper
-config.infer_spec_type_from_file_location!
-</code></pre>
-
-<p>只要把檔案放在對應的資料夾，即代表該檔案的 type</p>
-
-<pre><code class="ruby"># spec/controllers/
-desc "posts" do
-  # ...
-end
-</code></pre>
-
-<h2>進階</h2>
-
-<p><a href="/blog/2017/06/16/rspec-double-stubs-mocks/">RSpec Double / Stubs / Mocks</a></p>
-
-<h2>References</h2>
-
-<ul>
-<li><a href="http://www.relishapp.com/rspec/rspec-rails/v/3-5/docs">RSpec Rails 3.5</a></li>
-<li><a href="http://betterspecs.org/zh_tw/">Better Specs</a>- <a href="http://motion-express.com/trainings/rspec-rails-1">特快車-RSpec-Rails</a></li>
-<li><a href="http://mgleon08.github.io/blog/2016/01/29/rspec-plus-factory-girl/">用 Rspec + Factory Girl + CircleCi 寫測試</a></li>
 </ul>
 
 ]]></content>
