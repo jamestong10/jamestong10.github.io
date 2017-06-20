@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="https://jamestong10.github.io/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-17T17:37:47+08:00</updated>
+  <updated>2017-06-21T01:02:26+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -12,6 +12,213 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Start and Stop EC2 Instances at Regular Intervals Using Lambda]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/06/20/start-and-stop-ec2-instances-at-regular-intervals-using-lambda/"/>
+    <updated>2017-06-20T22:33:56+08:00</updated>
+    <id>https://jamestong10.github.io/blog/2017/06/20/start-and-stop-ec2-instances-at-regular-intervals-using-lambda</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>動機</h2>
+
+<p>在 AWS 運行 EC2 是以時計費的，但 staging 環境，下班後就沒在使用，能否關機 (省錢)</p>
+
+<p>Survey AWS 有提供兩種方案</p>
+
+<ol>
+<li>使用 AWS lambda 定時開啟、關閉 EC2 instances</li>
+<li>EC2 Spot instances <a href="https://aws.amazon.com/tw/ec2/spot/">(EC2 競價型執行個體)</a></li>
+</ol>
+
+
+<p>原本就想玩 lambda，私心先挑方案一，之後再實驗方案二</p>
+
+<h2>Lambda New Function</h2>
+
+<blockquote><p>start, stop 設定流程是一樣的，下面只介紹 stop</p>
+
+<p>start 再重複一次流程，把 stop 地方改成 start</p></blockquote>
+
+<h3>Blueprint</h3>
+
+<p>先到 AWS Lambda console，選擇 blank function</p>
+
+<p><img src="https://jamestong10.github.io/images/posts/2017062001.jpg" alt="lambda console" /></p>
+
+<h3>Triggers</h3>
+
+<p>選用 CloudWatch Events，trigger rule 之後再設定</p>
+
+<p><img src="https://jamestong10.github.io/images/posts/2017062002.jpg" alt="triggers" /></p>
+
+<h3>Lambda function</h3>
+
+<p>輸入 function name、Runtime 選擇 <strong>Python2.7</strong></p>
+
+<p><img src="https://jamestong10.github.io/images/posts/2017062003.jpg" alt="function" /></p>
+
+<p>function code 調整如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">boto3</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Enter the region your instances are in, e.g. &#39;us-east-1&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">region</span> <span class="o">=</span> <span class="s">&#39;XX-XXXXX-X&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Enter your instances here: ex. [&#39;X-XXXXXXXX&#39;, &#39;X-XXXXXXXX&#39;]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">instances</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;X-XXXXXXXX&#39;</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">lambda_handler</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">ec2</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s">&#39;ec2&#39;</span><span class="p">,</span> <span class="n">region_name</span><span class="o">=</span><span class="n">region</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">ec2</span><span class="o">.</span><span class="n">stop_instances</span><span class="p">(</span><span class="n">InstanceIds</span><span class="o">=</span><span class="n">instances</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">print</span> <span class="s">&#39;stopped your instances: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">instances</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Role</h3>
+
+<blockquote><p>只要設定一次 start, stop 共用</p></blockquote>
+
+<p>在 role 的下拉選單，選擇 Create a custom role</p>
+
+<p><img src="https://jamestong10.github.io/images/posts/2017062004.jpg" alt="role" /></p>
+
+<p>Policy Document 調整如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="s">&quot;Version&quot;</span><span class="p">:</span> <span class="s">&quot;2012-10-17&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s">&quot;Statement&quot;</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="s">&quot;Effect&quot;</span><span class="p">:</span> <span class="s">&quot;Allow&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>        <span class="s">&quot;logs:CreateLogGroup&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s">&quot;logs:CreateLogStream&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s">&quot;logs:PutLogEvents&quot;</span>
+</span><span class='line'>      <span class="p">],</span>
+</span><span class='line'>      <span class="s">&quot;Resource&quot;</span><span class="p">:</span> <span class="s">&quot;arn:aws:logs:*:*:*&quot;</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="s">&quot;Effect&quot;</span><span class="p">:</span> <span class="s">&quot;Allow&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>        <span class="s">&quot;ec2:Start*&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s">&quot;ec2:Stop*&quot;</span>
+</span><span class='line'>      <span class="p">],</span>
+</span><span class='line'>      <span class="s">&quot;Resource&quot;</span><span class="p">:</span> <span class="s">&quot;*&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Test</h3>
+
+<p>設定完畢，要測試設定是否成功</p>
+
+<p>前往 Lambda console -> Functions</p>
+
+<p>點選 Test 按鈕，會跳出輸入參數視窗，因為此 function 不需要接收參數，可以不用理會直接執行測試</p>
+
+<blockquote><p>請小心，測試時真的執行（哭），如果要測試，就選擇目前狀態做測試，例如：running instance 就測 start instance</p></blockquote>
+
+<h2>CloudWatch</h2>
+
+<p>前往 CloudWatch console -> Events -> Create rule</p>
+
+<p>左邊區塊設定 Event Pattern or Schedule<a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html">(Cron Expression)</a></p>
+
+<p>選擇 Schedule，使用 Cron expression 設定執行週期</p>
+
+<p><strong> * EC2 以時計費(eg.跑一分鐘也收一小時的錢），建議整點開、關 </strong></p>
+
+<p><strong> * 不要怕 cron expression，貼心的 AWS 會根據 expression 產生結果給你 review </strong></p>
+
+<p>右邊設定 target，選擇 Lambda Function，指定要執行哪個 function</p>
+
+<p><img src="https://jamestong10.github.io/images/posts/2017062005.jpg" alt="CloudWatch events rule" /></p>
+
+<p>最後在給定 rule name 就完成了！！</p>
+
+<h2>試算</h2>
+
+<p><strong> 目前狀況 </strong></p>
+
+<ul>
+<li>EC2 Instance：t2.micro</li>
+<li>EBS：2 GB EBS(SSD)</li>
+</ul>
+
+
+<p>每月花費： $ 0.016 * 24 * 30 + $ 0.12 * 2 = $ 11.76</p>
+
+<p><strong> 導入 CloudWatch Events + Lambda </strong></p>
+
+<ul>
+<li>CloudWatch Events：每月前一百萬次免費</li>
+<li>Lambda：每月前一百萬次免費</li>
+<li>EC2 Instance：t2.micro</li>
+<li>EBS:：2 GB EBS(SSD)</li>
+</ul>
+
+
+<p>每月花費： $ 0.016 * 12 * 30 + $ 0.12 * 2 = $ 6</p>
+
+<p>因為運行減半（12 小時），所以費用減半，算有達到目的，但不知還有沒有其他費用產生，會在持續追蹤</p>
+
+<p>另外 spot instances 也是不錯的選擇，再找機會測試</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://aws.amazon.com/tw/premiumsupport/knowledge-center/start-stop-lambda-cloudwatch/">start stop lambda cloudwatch</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ruby Object Inspect / To_s]]></title>
@@ -3922,346 +4129,6 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <ul>
 <li>Heroku : Settings > Cofig Variables</li>
 <li>AWS: figrao</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails I18n 多語系]]></title>
-    <link href="https://jamestong10.github.io/blog/2016/09/01/rails-i18n-timezone/"/>
-    <updated>2016-09-01T11:35:19+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2016/09/01/rails-i18n-timezone</id>
-    <content type="html"><![CDATA[<blockquote><p>國際化的設計，根據不同使用者採用不同的語言、數字格式、日期格式，簡稱i18n</p></blockquote>
-
-<!-- more -->
-
-
-<h2>i18n 多語系</h2>
-
-<p>Rails 預設是使用英文(en)，如要使用i18n 多語系，則需安裝 <code>rails-i18n</code> gem</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;rails-i18n&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定載入路徑、預設語系</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#config/application.rb</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 設定載入路徑</span>
-</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">i18n</span><span class="o">.</span><span class="n">load_path</span> <span class="o">+=</span> <span class="no">Dir</span><span class="o">[</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;locales&#39;</span><span class="p">,</span> <span class="s1">&#39;**&#39;</span><span class="p">,</span> <span class="s1">&#39;*.{rb,yml}&#39;</span><span class="p">)</span><span class="o">]</span>
-</span><span class='line'><span class="c1"># or</span>
-</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">i18n</span><span class="o">.</span><span class="n">load_path</span> <span class="o">+=</span> <span class="no">Dir</span><span class="o">[</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;locales&#39;</span><span class="p">,</span> <span class="s1">&#39;*.{rb,yml}&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># 設定預設語系 zh or en</span>
-</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">i18n</span><span class="o">.</span><span class="n">default_locale</span> <span class="o">=</span> <span class="ss">:&quot;zh-TW&quot;</span>
-</span><span class='line'><span class="c1"># or</span>
-</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">i18n</span><span class="o">.</span><span class="n">default_locale</span> <span class="o">=</span> <span class="ss">:en</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># use default locale when translation missing</span>
-</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">i18n</span><span class="o">.</span><span class="n">fallbacks</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'><span class="c1"># or</span>
-</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">i18n</span><span class="o">.</span><span class="n">fallbacks</span> <span class="o">=</span> <span class="ss">:&quot;zh-TW&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>public i18n api</h2>
-
-<p>translate：Lookup text translations</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">I18</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="s1">&#39;store.title&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="c1"># or</span>
-</span><span class='line'><span class="n">t</span><span class="p">(</span><span class="s1">&#39;store.title&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>localize：Localize Date and Time objects to local formats</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">I18</span><span class="o">.</span><span class="n">l</span><span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
-</span><span class='line'><span class="c1">#or</span>
-</span><span class='line'><span class="n">l</span><span class="p">(</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>自訂語彙</h2>
-
-<ul>
-<li>詞彙檔放在 config/locales</li>
-<li>使用 YAML 格式</li>
-<li>命名方式：***.語系.yml。例如：zh-TW.yml、devise.zh-TW.yml</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/locales/zh-TW.yml</span>
-</span><span class='line'><span class="n">zh</span><span class="o">-</span><span class="ss">TW</span><span class="p">:</span>
-</span><span class='line'>    <span class="ss">hello</span><span class="p">:</span> <span class="s2">&quot;親愛的%{name}你好!&quot;</span>
-</span><span class='line'>    <span class="ss">admin</span><span class="p">:</span>
-</span><span class='line'>        <span class="ss">user</span><span class="p">:</span> <span class="err">使用者管理</span>
-</span><span class='line'>        <span class="ss">event</span><span class="p">:</span> <span class="err">活動管理</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>注意 YAML 格式的縮排必須使用兩個空格，Tab是不允許的。直接複製貼上可能會有問題，請小心檢查縮排</p></blockquote>
-
-<p>YAML 格式</p>
-
-<ul>
-<li>第一層：語系</li>
-<li>第二層：自訂名稱、或是 rails 保留字，如：controller、activerecord&hellip;</li>
-</ul>
-
-
-<h2>I18n.t</h2>
-
-<p>使用 <code>I18n.t</code> 根據設定的語系，替換對應的詞彙</p>
-
-<p>在 View 可使用 t 這 Helper 方法，第二參數傳入 Scope</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">t</span><span class="p">(</span><span class="s2">&quot;admin.event&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">t</span><span class="p">(</span><span class="ss">:event</span><span class="p">,</span> <span class="ss">scope</span><span class="p">:</span> <span class="ss">:admin</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果不在View中，則需要加上 I18n 類別</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">I18n</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="s2">&quot;admin.event&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>template 傳入參數，第二參數傳入變數</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">t</span><span class="p">(</span><span class="ss">:hello</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="n">current_user</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="c1"># 親愛的James你好!</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用 YAML 特性加入陣列</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/locales/zh-TW.yml</span>
-</span><span class='line'><span class="n">zh</span><span class="o">-</span><span class="ss">TW</span><span class="p">:</span>
-</span><span class='line'>  <span class="ss">date</span><span class="p">:</span>
-</span><span class='line'>    <span class="ss">day_names</span><span class="p">:</span>
-</span><span class='line'>    <span class="o">-</span> <span class="err">星期日</span>
-</span><span class='line'>    <span class="o">-</span> <span class="err">星期一</span>
-</span><span class='line'>    <span class="o">-</span> <span class="err">星期二</span>
-</span><span class='line'>    <span class="o">-</span> <span class="err">星期三</span>
-</span><span class='line'>    <span class="o">-</span> <span class="err">星期四</span>
-</span><span class='line'>    <span class="o">-</span> <span class="err">星期五</span>
-</span><span class='line'>    <span class="o">-</span> <span class="err">星期六</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>透過 i18n 取得陣列資料</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">I18n</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="s1">&#39;date.day_names&#39;</span><span class="p">,</span> <span class="ss">locale</span><span class="p">:</span> <span class="s1">&#39;zh-TW&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>變化：使用 i18n.t 設定網頁條款</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">zh</span><span class="o">-</span><span class="ss">TW</span><span class="p">:</span>
-</span><span class='line'>  <span class="ss">example</span><span class="p">:</span>
-</span><span class='line'>    <span class="ss">policy_html</span><span class="p">:</span>
-</span><span class='line'>      <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="err">使用條款</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
-</span><span class='line'><span class="sr">      # ...</span>
-</span><span class='line'><span class="sr">    privacy_html:</span>
-</span><span class='line'><span class="sr">      &lt;h1&gt;隱私條款&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
-</span><span class='line'>      <span class="c1"># ...</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在 view 呼叫 i18n.t</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="sx">%= t(&#39;example.policy_html&#39;) %&gt;</span>
-</span><span class='line'><span class="sx">&lt;%=</span> <span class="n">t</span><span class="p">(</span><span class="s1">&#39;example.privacy_html&#39;</span><span class="p">)</span> <span class="o">%&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Lazy Lookup (Convension)</h2>
-
-<p>設定語彙檔</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/locales/zh-TW.yml</span>
-</span><span class='line'><span class="n">zh</span><span class="o">-</span><span class="ss">TW</span><span class="p">:</span>
-</span><span class='line'>  <span class="ss">books</span><span class="p">:</span>
-</span><span class='line'>    <span class="ss">index</span><span class="p">:</span>
-</span><span class='line'>      <span class="ss">title</span><span class="p">:</span> <span class="err">標題</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果在 app/views/books/index.html.erb 使用 I18n book.index.title 可以縮寫如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">t</span> <span class="s1">&#39;.title&#39;</span> <span class="o">%&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>搭配 Model 使用</h2>
-
-<p>根據 model name 建立對應的語彙檔</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">zh</span><span class="o">-</span><span class="ss">TW</span><span class="p">:</span>
-</span><span class='line'>  <span class="ss">activerecord</span><span class="p">:</span>
-</span><span class='line'>    <span class="ss">models</span><span class="p">:</span>
-</span><span class='line'>      <span class="ss">brand</span><span class="p">:</span> <span class="err">品牌</span>
-</span><span class='line'>      <span class="ss">category</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">category</span> <span class="err">分類</span>
-</span><span class='line'>    <span class="ss">attributes</span><span class="p">:</span>
-</span><span class='line'>      <span class="ss">brand</span><span class="p">:</span>
-</span><span class='line'>        <span class="ss">created_at</span><span class="p">:</span> <span class="o">*</span><span class="n">created_at</span>
-</span><span class='line'>        <span class="nb">name</span><span class="p">:</span> <span class="err">名稱</span>
-</span><span class='line'>    <span class="ss">errors</span><span class="p">:</span>
-</span><span class='line'>      <span class="ss">messages</span><span class="p">:</span>
-</span><span class='line'>        <span class="ss">record_invalid</span><span class="p">:</span> <span class="s2">&quot;校驗失敗: %{errors}&quot;</span>
-</span><span class='line'>        <span class="ss">restrict_dependent_destroy</span><span class="p">:</span>
-</span><span class='line'>          <span class="ss">has_one</span><span class="p">:</span> <span class="err">由於</span> <span class="sx">%{record}</span> <span class="err">需要此記錄，所以無法移除記錄</span>
-</span><span class='line'>          <span class="ss">has_many</span><span class="p">:</span> <span class="err">由於</span> <span class="sx">%{record}</span> <span class="err">需要此記錄，所以無法移除記錄</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>第二層為 activerecord</p>
-
-<p>第三層 models 設定 model 語彙名稱</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Brand</span><span class="o">.</span><span class="n">model_name</span><span class="o">.</span><span class="n">human</span> <span class="c1"># zh-TW =&gt; 品牌</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定 attributes</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Brand</span><span class="o">.</span><span class="n">human_attribute_name</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="c1"># zh-TW =&gt; 名稱</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定 errors</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">activerecord</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">record_invalid</span><span class="p">(</span><span class="ss">errors</span><span class="p">:</span> <span class="s1">&#39;尚未輸入資料&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>如何讓使用者切換語系</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># controllers/application_controller.rb</span>
-</span><span class='line'><span class="n">before_action</span> <span class="ss">:set_locale</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">set_locale</span>
-</span><span class='line'>  <span class="c1"># 可以將 [&quot;en&quot;, &quot;zh-TW&quot;] 設定為 VALID_LANG 放到 config/environment.rb 中</span>
-</span><span class='line'>  <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:locale</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="no">I18n</span><span class="o">.</span><span class="n">available_locales</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span> <span class="n">params</span><span class="o">[</span><span class="ss">:locale</span><span class="o">].</span><span class="n">to_sym</span> <span class="p">)</span>
-</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:locale</span><span class="o">]</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:locale</span><span class="o">]</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="no">I18n</span><span class="o">.</span><span class="n">locale</span> <span class="o">=</span> <span class="n">session</span><span class="o">[</span><span class="ss">:locale</span><span class="o">]</span> <span class="o">||</span> <span class="no">I18n</span><span class="o">.</span><span class="n">default_locale</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># views/..</span>
-</span><span class='line'><span class="o">&lt;</span><span class="sx">%= link_to &quot;中文版&quot;, :controller =</span><span class="o">&gt;</span> <span class="n">controller_name</span><span class="p">,</span>
-</span><span class='line'><span class="ss">:action</span> <span class="o">=&gt;</span> <span class="n">action_name</span><span class="p">,</span> <span class="ss">:locale</span> <span class="o">=&gt;</span> <span class="s2">&quot;zh-TW&quot;</span> <span class="sx">%&gt;</span>
-</span><span class='line'><span class="sx">&lt;%= link_to &quot;English&quot;, :controller =&gt;</span> <span class="n">controller_name</span><span class="p">,</span>
-</span><span class='line'><span class="ss">:action</span> <span class="o">=&gt;</span> <span class="n">action_name</span><span class="p">,</span> <span class="ss">:locale</span> <span class="o">=&gt;</span> <span class="s2">&quot;en&quot;</span> <span class="o">%&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>References</h2>
-
-<ul>
-<li><a href="http://guides.rubyonrails.org/i18n.html">Rails Internationalization (I18n) API</a></li>
-<li><a href="https://ihower.tw/rails/i18n.html">ihower - 多國語系及時區</a></li>
-<li><a href="https://hackmd.io/p/HJarJWGd#/">Rails I18n 實作技巧</a></li>
 </ul>
 
 ]]></content>
