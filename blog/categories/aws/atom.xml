@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Aws | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/aws/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-21T01:02:26+08:00</updated>
+  <updated>2017-06-23T22:06:32+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -134,13 +134,15 @@ def lambda_handler(event, context):
 
 <p><strong> * EC2 以時計費(eg.跑一分鐘也收一小時的錢），建議整點開、關 </strong></p>
 
-<p><strong> * 不要怕 cron expression，貼心的 AWS 會根據 expression 產生結果給你 review </strong></p>
+<p>__ * 使用 UTC 時間，時間要「減8hr」</p>
+
+<p><strong> * 不要怕 cron expressions，貼心的 AWS 會根據 expression 產生結果給你 review </strong></p>
 
 <p>右邊設定 target，選擇 Lambda Function，指定要執行哪個 function</p>
 
 <p><img src="/images/posts/2017062005.jpg" alt="CloudWatch events rule" /></p>
 
-<p>最後在給定 rule name 就完成了！！</p>
+<p>最後在設 rule name 就完成了！！</p>
 
 <h2>試算</h2>
 
