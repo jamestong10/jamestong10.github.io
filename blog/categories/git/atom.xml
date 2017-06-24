@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Git | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/git/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-23T22:06:32+08:00</updated>
+  <updated>2017-06-24T23:32:16+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -32,14 +32,14 @@ git config --list
 </code>
 設定全域的使用者與Email (個人使用)
 <code>
-git config --global user.name [author_name]
-git config --global user.email [contact_email_address]
+git config --global user.name &lt;author_name&gt;
+git config --global user.email &lt;contact_email_address&gt;
 </code>
 設定區域的使用者與Email (參與計劃或公司專案)
 <code>
 cd local_repo
-git config --local user.name [author_name]
-git config --local user.email [contact_email_address]
+git config --local user.name &lt;author_name&gt;
+git config --local user.email &lt;contact_email_address&gt;
 </code></p>
 
 <p>設定別名
@@ -73,12 +73,12 @@ $ git diff
 
 <p>加入暫存區
 <code>
-$ git add [--] [file_path | file_name]
+$ git add &lt;--&gt; &lt;file_path | file_name&gt;
 </code></p>
 
 <p>提交並加上註解
 <code>
-$ git commit -m [comments]
+$ git commit -m &lt;comments&gt;
 </code></p>
 
 <p>開啟editor 修改近期已經commit 的註解 (建議少用，除非必要)
@@ -110,7 +110,7 @@ $ git stash list
 
 <p>刪除暫存紀錄：apply 只是取回紀錄，但沒有執行刪除的動作
 <code>
-$ git stash drop [stash_name]
+$ git stash drop &lt;stash_name&gt;
 </code></p>
 
 <p>快速修正前一次 commit 的錯誤，只要修 typo 之後打這行，就會替換掉前一次的 commit-level-operations
@@ -127,7 +127,7 @@ $ git log
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git reset [&ndash;soft | &ndash;hard] [-q] [&lt;commit&gt;]&lt;/p&gt;
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git reset &lt;--soft | --hard&gt; &lt;-q&gt; &lt;commit&gt;&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;p&gt;$ git reset &ndash;soft HEAD^ # HEAD^ 表示前一個版本</span></code></pre></td></tr></table></div></figure></p>
 
@@ -143,25 +143,25 @@ $ git branch
 </code>
 建立新的分支
 <code>
-$ git branch [branch_name]
+$ git branch &lt;branch_name&gt;
 </code>
 切換分支
 <code>
-$ git checkout [branch_name]
+$ git checkout &lt;branch_name&gt;
 </code>
 建立新的分支並切換到此分支 (等於 git branch + git checkout)
 <code>
-$ git checkout -b [branch_name]
+$ git checkout -b &lt;branch_name&gt;
 </code>
 修改分支名稱與刪除分支
 <code>
-$ git branch -m [old_branch_name] [new_branch_name]
-$ git branch -d [branch_name]
+$ git branch -m &lt;old_branch_name&gt; &lt;new_branch_name&gt;
+$ git branch -d &lt;branch_name&gt;
 </code></p>
 
 <h2>Git Merge &amp; Git Rebase</h2>
 
-<h3>觀念：只要branch 調整完畢，應先將master merge 至branch，測試無誤後，在merge 回master</h3>
+<h3>觀念：只要 branch 調整完畢，應先將 master merge 至 branch，測試無誤後，在 merge 回 master</h3>
 
 <blockquote><p>merge 分支的功能加master，同時會產生新的HEAD</p></blockquote>
 
@@ -181,7 +181,7 @@ $ git branch -d [branch_name]
 
 <blockquote><p>rebase 是基於某一分支的內容合併，又稱為分支衍合，一樣是合併的動作，但是會銜接著mater 最新的狀態
 <code>
-$ git checkout [branch]
+$ git checkout &lt;branch]
 $ git rebase master
 </code>
 Merge v.s. Rebase</p></blockquote>
@@ -208,31 +208,31 @@ $ git remote
 </code>
 本機加入遠端repository
 <code>
-$ git remote add [remote_name] [url]
+$ git remote add &lt;remote_name&gt; &lt;url&gt;
 </code>
 修改遠端repository url
 <code>
-$ git remote set-url [new_remote_name] [url]
+$ git remote set-url &lt;new_remote_name&gt; &lt;url&gt;
 </code>
 拷貝一個已經存在的repository
 <code>
-$ git clone [repository_url]
+$ git clone &lt;repository_url&gt;
 </code>
 變更遠端簡稱
 <code>
-$ git remote rename [old_remote_name] [new_remote_name]
+$ git remote rename &lt;old_remote_name&gt; &lt;new_remote_name&gt;
 </code>
 查看remote 資訊
 <code>
-$ git remote show [remote_name]
+$ git remote show &lt;remote_name&gt;
 </code>
 移除遠端repository
 <code>
-$ git remote remove [remote_name]
+$ git remote remove &lt;remote_name&gt;
 </code>
 上傳至遠端repository
 <code>
-$ git push [remote_name] [branch_name]
+$ git push &lt;remote_name&gt; &lt;branch_name&gt;
 </code>
 合併遠端repository 至本機
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -240,7 +240,7 @@ $ git push [remote_name] [branch_name]
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git pull [remote_name] [branch_name]&lt;/p&gt;
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git pull &lt;remote_name&gt; &lt;branch_name&gt;&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;上下相同&lt;/h1&gt;
 </span><span class='line'>

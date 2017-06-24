@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="https://jamestong10.github.io/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-23T22:06:32+08:00</updated>
+  <updated>2017-06-24T23:32:16+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -173,6 +173,13 @@
 
 <p>選擇 Schedule，使用 Cron expression 設定執行週期</p>
 
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c"># 週一到週五 早上九點start instances</span>
+</span><span class='line'><span class="mi">0</span> <span class="mi">1</span> <span class="err">?</span> <span class="o">*</span> <span class="n">MON</span><span class="o">-</span><span class="n">FRI</span> <span class="o">*</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
 <p><strong> * EC2 以時計費(eg.跑一分鐘也收一小時的錢），建議整點開、關 </strong></p>
 
 <p>__ * 使用 UTC 時間，時間要「減8hr」</p>
@@ -207,9 +214,9 @@
 </ul>
 
 
-<p>每月花費： $ 0.016 * 12 * 30 + $ 0.12 * 2 = $ 6</p>
+<p>每月花費： $ 0.016 * 12 * 20 + $ 0.12 * 2 = $ 4.08</p>
 
-<p>因為運行減半（12 小時），所以費用減半，算有達到目的，但不知還有沒有其他費用產生，會在持續追蹤</p>
+<p>費用少了三分之一，有達到目的，但不知還有沒有其他費用產生，會在持續追蹤</p>
 
 <p>另外 spot instances 也是不錯的選擇，再找機會測試</p>
 

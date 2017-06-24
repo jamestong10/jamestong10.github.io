@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Lambda | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/lambda/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-23T22:06:32+08:00</updated>
+  <updated>2017-06-24T23:32:16+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -132,6 +132,10 @@ def lambda_handler(event, context):
 
 <p>選擇 Schedule，使用 Cron expression 設定執行週期</p>
 
+<pre><code># 週一到週五 早上九點start instances
+0 1 ? * MON-FRI *
+</code></pre>
+
 <p><strong> * EC2 以時計費(eg.跑一分鐘也收一小時的錢），建議整點開、關 </strong></p>
 
 <p>__ * 使用 UTC 時間，時間要「減8hr」</p>
@@ -166,9 +170,9 @@ def lambda_handler(event, context):
 </ul>
 
 
-<p>每月花費： $ 0.016 * 12 * 30 + $ 0.12 * 2 = $ 6</p>
+<p>每月花費： $ 0.016 * 12 * 20 + $ 0.12 * 2 = $ 4.08</p>
 
-<p>因為運行減半（12 小時），所以費用減半，算有達到目的，但不知還有沒有其他費用產生，會在持續追蹤</p>
+<p>費用少了三分之一，有達到目的，但不知還有沒有其他費用產生，會在持續追蹤</p>
 
 <p>另外 spot instances 也是不錯的選擇，再找機會測試</p>
 
