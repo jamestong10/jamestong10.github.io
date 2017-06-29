@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="https://jamestong10.github.io/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-24T23:32:16+08:00</updated>
+  <updated>2017-06-29T21:32:42+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -182,9 +182,9 @@
 
 <p><strong> * EC2 以時計費(eg.跑一分鐘也收一小時的錢），建議整點開、關 </strong></p>
 
-<p>__ * 使用 UTC 時間，時間要「減8hr」</p>
+<p><strong> * 使用 UTC 時間，時間要「減8hr」</strong></p>
 
-<p><strong> * 不要怕 cron expressions，貼心的 AWS 會根據 expression 產生結果給你 review </strong></p>
+<p><strong> * 不要怕 cron expressions，AWS 會根據 expression 貼心的產生結果給你 review </strong></p>
 
 <p>右邊設定 target，選擇 Lambda Function，指定要執行哪個 function</p>
 
@@ -1116,13 +1116,15 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 
 <p>2.以 <code>#delegate</code> 表示</p>
 
+<p>注意：要加<code>prefix</code>，才會有作用</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
 </span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
-</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">allow_nil</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">:prefix</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">allow_nil</span><span class="p">:</span> <span class="kp">true</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 

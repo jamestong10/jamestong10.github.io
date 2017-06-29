@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-24T23:32:16+08:00</updated>
+  <updated>2017-06-29T21:32:42+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -393,9 +393,11 @@ end
 
 <p>2.以 <code>#delegate</code> 表示</p>
 
+<p>注意：要加<code>prefix</code>，才會有作用</p>
+
 <pre><code class="ruby">class Post &lt; ApplicationRecord
   belongs_to :user
-  delegate :name, to: :user, allow_nil: true
+  delegate :name, to: :user, :prefix =&gt; true, allow_nil: true
 end
 </code></pre>
 

@@ -198,13 +198,15 @@
 
 <p>2.以 <code>#delegate</code> 表示</p>
 
+<p>注意：要加<code>prefix</code>，才會有作用</p>
+
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
 </span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:user</span>
-</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">allow_nil</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">:prefix</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">allow_nil</span><span class="p">:</span> <span class="kp">true</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
