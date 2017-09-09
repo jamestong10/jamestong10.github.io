@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Devops | JT's Blog]]></title>
+  <link href="https://jamestong10.github.io/blog/categories/devops/atom.xml" rel="self"/>
+  <link href="https://jamestong10.github.io/"/>
+  <updated>2017-09-09T11:58:15+08:00</updated>
+  <id>https://jamestong10.github.io/</id>
+  <author>
+    <name><![CDATA[James Tong]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Continuous Integration With Circle CI and Integrate Slack]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/07/11/continuous-integration-with-circleci/"/>
+    <updated>2017-07-11T10:52:28+08:00</updated>
+    <id>https://jamestong10.github.io/blog/2017/07/11/continuous-integration-with-circleci</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>持續整合 / 持續交付&amp;持續部署</h2>
+
+<p>持續整合 (Continuous Integration)，簡稱 CI。</p>
+
+<p>持續交付&amp;持續部署 (Continuous Delivery &amp; Continuous Deployment)，簡稱 CD。</p>
+
+<p>CI &amp; CD 簡單來說就是盡量減少手動人力，將一些日常工作交給自動化工具。例如：環境建置、單元測試、日誌紀錄、產品部署。</p>
+
+<h2>流程規劃</h2>
+
+<p><img src="/images/posts/2017071104.jpg" alt="work flow" /></p>
+
+<h2>Circle CI Configuration</h2>
+
+<p>Circle CI 使用的描述檔 <code>circle.yml</code>，描述如何安裝套件、執行測試、建置、部署等工作</p>
+
+<p>提供三種設定方式</p>
+
+<ol>
+<li>由 CircleCI 根據不同語言自動產生設定</li>
+<li>透過 Web UI 設定</li>
+<li>自行撰寫 <code>circle.yml</code> 可以參考 <a href="https://circleci.com/docs/configuration/">CircleCI Configuration</a></li>
+</ol>
+
+
+<pre><code># circle.yml
+
+machine:
+  timezone:
+    Asia/Taipei
+  ruby:
+    version: 2.4.1
+  services:
+    - redis
+
+dependencies:
+  pre:
+    - rvm use 2.2.5
+    - gem install bundler
+    - gem install rubocop
+  post:
+    - gem update rake
+
+database:
+  override:
+    - cp config/database.yml.example config/database.yml
+    - rake db:create db:migrate --trace
+
+test:
+  override:
+    - bundle exec rspec --color
+
+deployment:
+  staging:
+    branch: develop
+    commands:
+      - bundle exec cap staging deploy
+</code></pre>
+
+<p><code>test</code> 描述要執行的測試</p>
+
+<p><code>depolyment</code> 描述要執行的部署</p>
+
+<p>使用 sidekiq，machine 要加入 redis</p>
+
+<h2>Circle CI</h2>
+
+<h3>選擇 Project</h3>
+
+<p><img src="/images/posts/2017071101.jpg" alt="select gh project" /></p>
+
+<p>點選 <code>Build project</code> 會自動執行第一次建構</p>
+
+<h3>設定 AWS CodeDeploy</h3>
+
+<ul>
+<li>[AWS] 建立 User</li>
+<li>[AWS] Attach Pollcy (AmazonEC2FullAccess)</li>
+<li>[CircleCI] Project Settings > AWS CodeDeploy 貼上 AWS Key ID / Secret Access Key</li>
+</ul>
+
+
+<h3>Slack Integration</h3>
+
+<p>參考 <a href="https://circleci.com/blog/slack-integration/">slack integration</a> 教學</p>
+
+<p>將 Webhook URL 貼到 Project Settings > NOTIFICATIONS > Chat Notifications > Slack</p>
+
+<h2>運行</h2>
+
+<p>GH 建立 PR 就會自動執行 RSpec 測試，測試通過即可點選 Merge</p>
+
+<p><img src="/images/posts/2017071102.jpg" alt="running status" /></p>
+
+<p>Slack 通知執行結果</p>
+
+<p><img src="/images/posts/2017071103.jpg" alt="slack notification" /></p>
+
+<h2>Reference</h2>
+
+<ul>
+<li><a href="https://circleci.com/">Circle CI</a></li>
+<li><a href="http://blog.amowu.com/2015/04/devops-continuous-integration-delivery-docker-circleci-aws-beanstalk.html">DevOps：持續整合＆持續交付</a></li>
+<li><a href="http://blog.91app.com/continuous-integration-delivery/">持續性整合與發佈 (Continuous Integration / Continuous Delivery) 之相關應用</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

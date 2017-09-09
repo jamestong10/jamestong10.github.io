@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-29T21:32:42+08:00</updated>
+  <updated>2017-09-09T11:58:15+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -193,7 +193,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </ul>
 
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="https://about.futurelearn.com/blog/stubs-mocks-spies-rspec/">Stubs, Mocks and Spies in RSpec</a></li>
@@ -392,7 +392,7 @@ end
 $ rails db:migrate
 </code></pre>
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="https://github.com/ruby/rake">RAKE – Ruby Make</a></li>
@@ -435,7 +435,7 @@ $ rails db:migrate
 ''.tap {|i| i &lt;&lt; do_some_thing }
 </code></pre>
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="https://ruby-doc.org/core-2.4.1/Object.html#method-i-tap">ruby doc - tap</a></li>
@@ -468,7 +468,7 @@ h.fetch("z") { |el| "go fish, #{el}"}   #=&gt; "go fish, z"
 h.fetch("z")                            #=&gt; KeyError
 </code></pre>
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="https://ruby-doc.org/core-1.9.3/Array.html#method-i-fetch">ruby doc - array#fetch</a></li>
@@ -516,7 +516,7 @@ a.dig(0, 0, 0)                    #=&gt; nil
 <pre><code class="ruby">params.try(:[], :company).try(:[], :owner).try(:[], :name)
 </code></pre>
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="http://ruby-doc.org/core-2.3.0_preview1/Array.html#method-i-dig">ruby doc - array#dig</a></li>
@@ -553,7 +553,7 @@ end
 <pre><code class="ruby">@person.try { |p| "#{p.first_name}" "#{p.last_name}" }
 </code></pre>
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="https://apidock.com/rails/v4.2.7/Object/try">apidock - try</a></li>
@@ -630,7 +630,7 @@ names = User.all.map(&amp;:name)
 
 <p><strong>主要差別在 each 是回傳self (Array、Hash)，而map 和 collect 回傳 new array</strong></p>
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="http://motion-express.com/blog/20141010-ruby-block-map-collect">常見 block 說明和應用：do, map, collect</a></li>

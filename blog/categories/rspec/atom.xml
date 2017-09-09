@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rspec | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/rspec/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-29T21:32:42+08:00</updated>
+  <updated>2017-09-09T11:58:15+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -129,7 +129,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </ul>
 
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="https://about.futurelearn.com/blog/stubs-mocks-spies-rspec/">Stubs, Mocks and Spies in RSpec</a></li>
@@ -444,7 +444,7 @@ end
 
 <p><a href="/blog/2017/06/16/rspec-double-stubs-mocks/">RSpec Double / Stubs / Mocks</a></p>
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="http://www.relishapp.com/rspec/rspec-rails/v/3-5/docs">RSpec Rails 3.5</a></li>

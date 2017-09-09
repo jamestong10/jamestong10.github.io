@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/java/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-29T21:32:42+08:00</updated>
+  <updated>2017-09-09T11:58:15+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -118,7 +118,7 @@ public enum StateMachines {
 </ol>
 
 
-<h2>References:</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Enum.html">Enum Java Docs</a></li>

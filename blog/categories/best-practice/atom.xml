@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Best_practice | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/best-practice/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-29T21:32:42+08:00</updated>
+  <updated>2017-09-09T11:58:15+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -189,7 +189,7 @@ end
 
 <p>實際應用：把預覽圖片跟上傳圖片的功能提取出來，並且可個別設定內部要呈現的內容，例如：產品說明、大頭照說明等</p>
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="http://guides.rubyonrails.org/layouts_and_rendering.html#using-partials">Rails Guide - using partials</a></li>

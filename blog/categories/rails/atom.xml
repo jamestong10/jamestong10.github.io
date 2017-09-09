@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-29T21:32:42+08:00</updated>
+  <updated>2017-09-09T11:58:15+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -129,7 +129,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </ul>
 
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="https://about.futurelearn.com/blog/stubs-mocks-spies-rspec/">Stubs, Mocks and Spies in RSpec</a></li>
@@ -319,7 +319,7 @@ end
 
 <p>實際應用：把預覽圖片跟上傳圖片的功能提取出來，並且可個別設定內部要呈現的內容，例如：產品說明、大頭照說明等</p>
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="http://guides.rubyonrails.org/layouts_and_rendering.html#using-partials">Rails Guide - using partials</a></li>
@@ -443,7 +443,7 @@ end
 
 <p>參考 <a href="/blog/2017/05/10/ruby-forwardable/">Ruby Forwardable</a></p>
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/module/delegation.rb">delegation.rb</a></li>
@@ -488,7 +488,7 @@ end
 ''.tap {|i| i &lt;&lt; do_some_thing }
 </code></pre>
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="https://ruby-doc.org/core-2.4.1/Object.html#method-i-tap">ruby doc - tap</a></li>
@@ -521,7 +521,7 @@ h.fetch("z") { |el| "go fish, #{el}"}   #=&gt; "go fish, z"
 h.fetch("z")                            #=&gt; KeyError
 </code></pre>
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="https://ruby-doc.org/core-1.9.3/Array.html#method-i-fetch">ruby doc - array#fetch</a></li>
@@ -569,7 +569,7 @@ a.dig(0, 0, 0)                    #=&gt; nil
 <pre><code class="ruby">params.try(:[], :company).try(:[], :owner).try(:[], :name)
 </code></pre>
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="http://ruby-doc.org/core-2.3.0_preview1/Array.html#method-i-dig">ruby doc - array#dig</a></li>
@@ -606,7 +606,7 @@ end
 <pre><code class="ruby">@person.try { |p| "#{p.first_name}" "#{p.last_name}" }
 </code></pre>
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="https://apidock.com/rails/v4.2.7/Object/try">apidock - try</a></li>
@@ -918,7 +918,7 @@ end
 
 <p><a href="/blog/2017/06/16/rspec-double-stubs-mocks/">RSpec Double / Stubs / Mocks</a></p>
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="http://www.relishapp.com/rspec/rspec-rails/v/3-5/docs">RSpec Rails 3.5</a></li>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cookies | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/cookies/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-29T21:32:42+08:00</updated>
+  <updated>2017-09-09T11:58:15+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -208,7 +208,7 @@ localStorage.setItem("company_id", "<%= @company.id %>");
 
 <p>```</p>
 
-<h1>References</h1>
+<h1>Reference</h1>
 
 <ul>
 <li><a href="http://rails.ruby.tw/action_controller_overview.html#session">RailsGuides session</a></li>

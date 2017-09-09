@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Lambda | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/lambda/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-29T21:32:42+08:00</updated>
+  <updated>2017-09-09T11:58:15+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -176,7 +176,7 @@ def lambda_handler(event, context):
 
 <p>另外 spot instances 也是不錯的選擇，再找機會測試</p>
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="https://aws.amazon.com/tw/premiumsupport/knowledge-center/start-stop-lambda-cloudwatch/">start stop lambda cloudwatch</a></li>

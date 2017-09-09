@@ -4,7 +4,7 @@
   <title><![CDATA[JT's Blog]]></title>
   <link href="https://jamestong10.github.io/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-29T21:32:42+08:00</updated>
+  <updated>2017-09-09T11:58:15+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -12,6 +12,155 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Continuous Integration With Circle CI and Integrate Slack]]></title>
+    <link href="https://jamestong10.github.io/blog/2017/07/11/continuous-integration-with-circleci/"/>
+    <updated>2017-07-11T10:52:28+08:00</updated>
+    <id>https://jamestong10.github.io/blog/2017/07/11/continuous-integration-with-circleci</id>
+    <content type="html"><![CDATA[<!-- more -->
+
+
+<h2>持續整合 / 持續交付&amp;持續部署</h2>
+
+<p>持續整合 (Continuous Integration)，簡稱 CI。</p>
+
+<p>持續交付&amp;持續部署 (Continuous Delivery &amp; Continuous Deployment)，簡稱 CD。</p>
+
+<p>CI &amp; CD 簡單來說就是盡量減少手動人力，將一些日常工作交給自動化工具。例如：環境建置、單元測試、日誌紀錄、產品部署。</p>
+
+<h2>流程規劃</h2>
+
+<p><img src="https://jamestong10.github.io/images/posts/2017071104.jpg" alt="work flow" /></p>
+
+<h2>Circle CI Configuration</h2>
+
+<p>Circle CI 使用的描述檔 <code>circle.yml</code>，描述如何安裝套件、執行測試、建置、部署等工作</p>
+
+<p>提供三種設定方式</p>
+
+<ol>
+<li>由 CircleCI 根據不同語言自動產生設定</li>
+<li>透過 Web UI 設定</li>
+<li>自行撰寫 <code>circle.yml</code> 可以參考 <a href="https://circleci.com/docs/configuration/">CircleCI Configuration</a></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># circle.yml
+</span><span class='line'>
+</span><span class='line'>machine:
+</span><span class='line'>  timezone:
+</span><span class='line'>    Asia/Taipei
+</span><span class='line'>  ruby:
+</span><span class='line'>    version: 2.4.1
+</span><span class='line'>  services:
+</span><span class='line'>    - redis
+</span><span class='line'>
+</span><span class='line'>dependencies:
+</span><span class='line'>  pre:
+</span><span class='line'>    - rvm use 2.2.5
+</span><span class='line'>    - gem install bundler
+</span><span class='line'>    - gem install rubocop
+</span><span class='line'>  post:
+</span><span class='line'>    - gem update rake
+</span><span class='line'>
+</span><span class='line'>database:
+</span><span class='line'>  override:
+</span><span class='line'>    - cp config/database.yml.example config/database.yml
+</span><span class='line'>    - rake db:create db:migrate --trace
+</span><span class='line'>
+</span><span class='line'>test:
+</span><span class='line'>  override:
+</span><span class='line'>    - bundle exec rspec --color
+</span><span class='line'>
+</span><span class='line'>deployment:
+</span><span class='line'>  staging:
+</span><span class='line'>    branch: develop
+</span><span class='line'>    commands:
+</span><span class='line'>      - bundle exec cap staging deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>test</code> 描述要執行的測試</p>
+
+<p><code>depolyment</code> 描述要執行的部署</p>
+
+<p>使用 sidekiq，machine 要加入 redis</p>
+
+<h2>Circle CI</h2>
+
+<h3>選擇 Project</h3>
+
+<p><img src="https://jamestong10.github.io/images/posts/2017071101.jpg" alt="select gh project" /></p>
+
+<p>點選 <code>Build project</code> 會自動執行第一次建構</p>
+
+<h3>設定 AWS CodeDeploy</h3>
+
+<ul>
+<li>[AWS] 建立 User</li>
+<li>[AWS] Attach Pollcy (AmazonEC2FullAccess)</li>
+<li>[CircleCI] Project Settings > AWS CodeDeploy 貼上 AWS Key ID / Secret Access Key</li>
+</ul>
+
+
+<h3>Slack Integration</h3>
+
+<p>參考 <a href="https://circleci.com/blog/slack-integration/">slack integration</a> 教學</p>
+
+<p>將 Webhook URL 貼到 Project Settings > NOTIFICATIONS > Chat Notifications > Slack</p>
+
+<h2>運行</h2>
+
+<p>GH 建立 PR 就會自動執行 RSpec 測試，測試通過即可點選 Merge</p>
+
+<p><img src="https://jamestong10.github.io/images/posts/2017071102.jpg" alt="running status" /></p>
+
+<p>Slack 通知執行結果</p>
+
+<p><img src="https://jamestong10.github.io/images/posts/2017071103.jpg" alt="slack notification" /></p>
+
+<h2>Reference</h2>
+
+<ul>
+<li><a href="https://circleci.com/">Circle CI</a></li>
+<li><a href="http://blog.amowu.com/2015/04/devops-continuous-integration-delivery-docker-circleci-aws-beanstalk.html">DevOps：持續整合＆持續交付</a></li>
+<li><a href="http://blog.91app.com/continuous-integration-delivery/">持續性整合與發佈 (Continuous Integration / Continuous Delivery) 之相關應用</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Start and Stop EC2 Instances at Regular Intervals Using Lambda]]></title>
@@ -220,7 +369,7 @@
 
 <p>另外 spot instances 也是不錯的選擇，再找機會測試</p>
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="https://aws.amazon.com/tw/premiumsupport/knowledge-center/start-stop-lambda-cloudwatch/">start stop lambda cloudwatch</a></li>
@@ -473,7 +622,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </ul>
 
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="https://about.futurelearn.com/blog/stubs-mocks-spies-rspec/">Stubs, Mocks and Spies in RSpec</a></li>
@@ -771,7 +920,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="https://github.com/ruby/rake">RAKE – Ruby Make</a></li>
@@ -1024,7 +1173,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 
 <p>實際應用：把預覽圖片跟上傳圖片的功能提取出來，並且可個別設定內部要呈現的內容，例如：產品說明、大頭照說明等</p>
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="http://guides.rubyonrails.org/layouts_and_rendering.html#using-partials">Rails Guide - using partials</a></li>
@@ -1195,7 +1344,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 
 <p>參考 <a href="https://jamestong10.github.io/blog/2017/05/10/ruby-forwardable/">Ruby Forwardable</a></p>
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="https://github.com/rails/rails/blob/master/activesupport/lib/active_support/core_ext/module/delegation.rb">delegation.rb</a></li>
@@ -1248,7 +1397,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="https://ruby-doc.org/core-2.4.1/Object.html#method-i-tap">ruby doc - tap</a></li>
@@ -1294,7 +1443,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="https://ruby-doc.org/core-1.9.3/Array.html#method-i-fetch">ruby doc - array#fetch</a></li>
@@ -1355,7 +1504,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="http://ruby-doc.org/core-2.3.0_preview1/Array.html#method-i-dig">ruby doc - array#dig</a></li>
@@ -1402,7 +1551,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="https://apidock.com/rails/v4.2.7/Object/try">apidock - try</a></li>
@@ -1654,7 +1803,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </span><span class='line'>    font-size: $small</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="http://augus-blog.logdown.com/posts/143401-scss-tutorial">scss tutorial</a></li>
@@ -1754,7 +1903,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 
 <p><strong>主要差別在 each 是回傳self (Array、Hash)，而map 和 collect 回傳 new array</strong></p>
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="http://motion-express.com/blog/20141010-ruby-block-map-collect">常見 block 說明和應用：do, map, collect</a></li>
@@ -2541,7 +2690,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 
 <p><a href="https://jamestong10.github.io/blog/2017/06/16/rspec-double-stubs-mocks/">RSpec Double / Stubs / Mocks</a></p>
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="http://www.relishapp.com/rspec/rspec-rails/v/3-5/docs">RSpec Rails 3.5</a></li>
@@ -2636,7 +2785,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="http://api.rubyonrails.org/v4.1/classes/Module/Concerning.html">Module#Concerning</a></li>
@@ -2722,7 +2871,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="https://ruby-china.org/topics/19812">ActiveSupport::Concern 小结</a></li>
@@ -2829,7 +2978,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </ul>
 
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="http://slides.com/jaceju/design-patterns-by-examples/#/">從實例學設計模式</a></li>
@@ -2964,7 +3113,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="http://ruby-doc.org/stdlib-2.0.0/libdoc/forwardable/rdoc/Forwardable.html">ruby-doc Forwardable</a></li>
@@ -3205,7 +3354,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </span><span class='line'>&lt;/script&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<h1>References</h1>
+<h1>Reference</h1>
 
 <ul>
 <li><a href="http://rails.ruby.tw/action_controller_overview.html#session">RailsGuides session</a></li>
@@ -3279,7 +3428,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 
 <p><img src="https://jamestong10.github.io/images/posts/2017050401.jpg" alt="each devise of rwd device" /></p>
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Responsive_web_design">RWD WIKI</a></li>
@@ -3902,244 +4051,13 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </ul>
 
 
-<h2>References</h2>
+<h2>Reference</h2>
 
 <ul>
 <li><a href="https://www.vagrantup.com/">Vagrant</a></li>
 <li><a href="https://drupaltaiwan.org/forum/20141125/11378">Vagrant 安裝與建構</a></li>
 <li><a href="http://gogojimmy.net/2013/05/26/vagrant-tutorial/">Vagrant Tutorial-1</a></li>
 <li><a href="http://www.codedata.com.tw/social-coding/vagrant-tutorial-2-playing-vm-with-vagrant/">Vagrant Tutorial-2</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails 使用CarrierWave 上傳圖片 + 上傳AWS S3]]></title>
-    <link href="https://jamestong10.github.io/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3/"/>
-    <updated>2016-09-02T14:09:46+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2016/09/02/carrierwave-guide-and-integration-aws-s3</id>
-    <content type="html"><![CDATA[<!-- more -->
-
-
-<h2>功能介紹</h2>
-
-<h3>修圖軟體</h3>
-
-<ul>
-<li><a href="http://imagemagick.org/script/index.php">ImageMagick</a></li>
-<li><a href="http://www.graphicsmagick.org/">GraphicsMagick</a></li>
-</ul>
-
-
-<h3>Gems</h3>
-
-<ul>
-<li><a href="https://github.com/minimagick/minimagick">MiniMagick</a> 透過Ruby 使用ImageMagick、GraphicsMagick 的gem</li>
-<li><a href="https://github.com/rmagick/rmagick">RMagick</a> 透過Ruby 使用ImageMagick</li>
-<li><a href="https://github.com/carrierwaveuploader/carrierwave">CarrierWave</a> 上傳檔案的gem</li>
-</ul>
-
-
-<h2>ImageMagick</h2>
-
-<p>需要安裝，否則後面的圖片操作都會失敗</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew isntall imagemagick</span></code></pre></td></tr></table></div></figure>
-
-
-<p>檢查是否安裝成功</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ convert -version
-</span><span class='line'>Version: ImageMagick 6.8.9-7 Q16 x86_64 2014-09-11 http://www.imagemagick.org
-</span><span class='line'>Copyright: Copyright (C) 1999-2014 ImageMagick Studio LLC
-</span><span class='line'>Features: DPC Modules
-</span><span class='line'>Delegates: bzlib fftw freetype jng jpeg lcms ltdl lzma png tiff xml zlib</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Install Gems</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Gemfile
-</span><span class='line'># 二擇一
-</span><span class='line'>gem 'mini_magick'
-</span><span class='line'># gem 'rmagick'
-</span><span class='line'>
-</span><span class='line'>gem 'carrierwave'
-</span><span class='line'>
-</span><span class='line'>$ bundle install</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Uploader</h2>
-
-<p>建立uploader，命名爲image （自行決定, e.g.,file, photo &hellip; etc.）</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rails g uploader image</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定Uploader</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># app/uploaders/image_uploader.rb
-</span><span class='line'>
-</span><span class='line'>class ImageUploader &lt; CarrierWave::Uploader::Base
-</span><span class='line'>
-</span><span class='line'>  include CarrierWave::MiniMagick # 指定使用minimagick
-</span><span class='line'>
-</span><span class='line'>  storage :file
-</span><span class='line'>
-</span><span class='line'>  def store_dir
-</span><span class='line'>    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  # 指定圖片size (同時產生其他size :thumb, :medium)
-</span><span class='line'>  process :resize_to_fit =&gt; [800, 600]
-</span><span class='line'>
-</span><span class='line'>  version :thumb do
-</span><span class='line'>    process :resize_to_fill =&gt; [200,120]
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  version :medium do
-</span><span class='line'>    process :resize_to_fill =&gt; [400,300]
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Model</h2>
-
-<p>建立Model，命名為photo （自行決定, e.g.,file, photo, dog, cat !!?? etc.）</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rails g model photo image:string
-</span><span class='line'>$ rake db:migrate</span></code></pre></td></tr></table></div></figure>
-
-
-<p>設定 model 的uploader</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># app/models/photo.rb
-</span><span class='line'>class Photo &lt; ActiveRecord::Base
-</span><span class='line'>  mount_uploader :image, ImageUploader
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>gitignore</h2>
-
-<p>排除測試上傳的圖片</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># .gitignore
-</span><span class='line'>public/uploads</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>上傳AWS S3</h1>
-
-<h2>Install Gems</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Gemfile
-</span><span class='line'>gem 'fog', group: :production</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Uploader 設定Production 圖片透過fog 連接並儲存至AWS S3</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if Rails.env.production?
-</span><span class='line'>  storage :fog
-</span><span class='line'>else
-</span><span class='line'>  storage :file
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>CarrierWave 加入fog credentials 的設定</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># config/initializers/carrier_wave.rb
-</span><span class='line'>CarrierWave.configure do |config|
-</span><span class='line'>  if Rails.env.production?
-</span><span class='line'>    config.storage = :fog
-</span><span class='line'>    config.fog_credentials = {
-</span><span class='line'>      provider:              'AWS',
-</span><span class='line'>      aws_access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
-</span><span class='line'>      aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-</span><span class='line'>      region:                ENV['AWS_REGION']
-</span><span class='line'>    }
-</span><span class='line'>    config.fog_directory  =  ENV['AWS_S3_BUCKET_PRODUCTION']
-</span><span class='line'>  else
-</span><span class='line'>    config.storage :file
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>AWS Variables</h2>
-
-<p>列出不同VPS 如何管理AWS 的變數</p>
-
-<ul>
-<li>Heroku : Settings > Cofig Variables</li>
-<li>AWS: figrao</li>
 </ul>
 
 ]]></content>

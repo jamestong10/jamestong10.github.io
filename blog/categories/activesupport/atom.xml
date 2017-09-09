@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Activesupport | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/activesupport/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-06-29T21:32:42+08:00</updated>
+  <updated>2017-09-09T11:58:15+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -64,7 +64,7 @@ end
 end
 </code></pre>
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="http://api.rubyonrails.org/v4.1/classes/Module/Concerning.html">Module#Concerning</a></li>
@@ -118,7 +118,7 @@ module M
 end
 </code></pre>
 
-<h3>References</h3>
+<h3>Reference</h3>
 
 <ul>
 <li><a href="https://ruby-china.org/topics/19812">ActiveSupport::Concern 小结</a></li>
