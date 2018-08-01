@@ -111,15 +111,140 @@
 
 <p>原本放在 <a href="/blog/2017/05/23/rspec/">RSpec</a>，但是越寫越多，就把它獨立成一篇</p>
 
-<h2>Double / Mocks</h2>
+<h2>Double</h2>
 
-<blockquote><p>建立假物件</p></blockquote>
+<p>RSpec 裡面叫做 double（替身），目的是用來建立替身（假物件）</p>
 
-<p>RSpec 裡面叫做 double（替身），實際為 mock objects，用來建立替身（假物件）</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># 建立一個假的 User object 並設定是 admin</span>
+</span><span class='line'><span class="n">describe</span> <span class="s2">&quot;double demo&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;user is an admin&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">user</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s2">&quot;User&quot;</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;james&#39;</span><span class="p">,</span> <span class="ss">is_admin</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">is_admin</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be_truthy</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<h3>Mocks</h3>
 
-<p>「模擬」 與一個 「協作者」 的互動，設立一個 「會收到指定訊息」 的期望，去驗證互動是否真的有發生</p>
+<h3>Partial Test Doubles</h3>
+
+<p>設定 class method return value</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="s2">&quot;partial test doubles&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;partial test doubles&quot;</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">allow</span><span class="p">(</span><span class="no">User</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">receive</span><span class="p">(</span><span class="ss">:find</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="s2">&quot;100&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">User</span><span class="o">.</span><span class="n">find</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;100&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Null object doubles</h3>
+
+<p>使用 <code>as_null_object</code>，確保執行未知的 method 不會出錯誤並回傳自己</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="s2">&quot;null object doubles&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;null object doubles&quot;</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">dbl</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s2">&quot;Some Collaborator&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">as_null_object</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">dbl</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">bar</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be</span> <span class="n">dbl</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Spies</h3>
+
+<p>TBD</p>
+
+<h3>Scope</h3>
+
+<p>TBD</p>
+
+<h2>Stubs</h2>
+
+<blockquote><p>Stub 「不管邏輯、過程，只要建立假 method 並回傳資料或狀態」</p></blockquote>
+
+<p>Stub 手法用在要驗證 「回傳值」 或驗證 「狀態改變時」</p>
+
+<p>rspec 3 之後改用 <code>#allow</code> 取代 <code>#stub</code></p>
+
+<p><img src="/images/posts/2017061601.jpg" alt="stub" />
+(source: <a href="https://dev.to/milipski/test-doubles---fakes-mocks-and-stubs">test-doubles&mdash;fakes-mocks-and-stubs</a>)</p>
+
+<p>Stubs 不管 <code>#list_student_names</code> 中間執行哪些動作，只管最後回傳結果</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">ClassRoom</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;the list_student_names method should work correctly&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">student1</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s1">&#39;student&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">student2</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s1">&#39;student&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># 使用 stub 回傳假資料 (Rails 3 之前)</span>
+</span><span class='line'>    <span class="c1">#student1.stub(:name).and_return(&#39;John Smith&#39;)</span>
+</span><span class='line'>    <span class="c1">#student2.stub(:name).and_return(&#39;Jill Smith&#39;)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># 使用 allow 取代 stub 回傳假資料 (Rails 3 之後)</span>
+</span><span class='line'>    <span class="n">allow</span><span class="p">(</span><span class="n">student1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">receive</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="s1">&#39;John Smith&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">allow</span><span class="p">(</span><span class="n">student2</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">receive</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="s1">&#39;Jill Smith&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">class_room</span> <span class="o">=</span> <span class="no">ClassRoom</span><span class="o">.</span><span class="n">new</span> <span class="o">[</span><span class="n">student1</span><span class="p">,</span><span class="n">student2</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">class_room</span><span class="o">.</span><span class="n">students_count</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">class_room</span><span class="o">.</span><span class="n">list_student_names</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;John Smith,Jill Smith&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Mocks</h2>
+
+<blockquote><p>Mock 「模擬一物件有相同的介面，測試一個 「會收到指定訊息」 的期望，去驗證互動是否真的有發生」</p></blockquote>
+
+<p>Mock 的手法用在互動並取得預期結果</p>
+
+<p>使用double 建立替身，產生互動過程，提供預期結果</p>
 
 <p><img src="/images/posts/2017061602.jpg" alt="mock" />
 (source: <a href="https://dev.to/milipski/test-doubles---fakes-mocks-and-stubs">test-doubles&mdash;fakes-mocks-and-stubs</a>)</p>
@@ -184,68 +309,6 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Stubs</h2>
-
-<p>For replacing a method with code that returns a specified result.</p>
-
-<p>method 有可能去呼叫「外部物件」，Stubs 都不管，只管最後的回傳值或狀態</p>
-
-<p>如果要驗證 「回傳值」 或驗證 「狀態改變時」 ，經常會使用 Stub 手法</p>
-
-<p>rspec 3 之後改用 <code>#allow</code> 取代 <code>#stub</code></p>
-
-<blockquote><p>method 回傳假資料</p></blockquote>
-
-<p><img src="/images/posts/2017061601.jpg" alt="stub" />
-(source: <a href="https://dev.to/milipski/test-doubles---fakes-mocks-and-stubs">test-doubles&mdash;fakes-mocks-and-stubs</a>)</p>
-
-<h3>範例：</h3>
-
-<p>接著 double 的範例，加入 stub 回傳假資料</p>
-
-<p>Stubs 不管 <code>#list_student_names</code> 中間執行哪些動作，只管最後回傳結果</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">ClassRoom</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;the list_student_names method should work correctly&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">student1</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s1">&#39;student&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">student2</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="s1">&#39;student&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># 使用 stub 回傳假資料</span>
-</span><span class='line'>    <span class="n">student1</span><span class="o">.</span><span class="n">stub</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="s1">&#39;John Smith&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">student2</span><span class="o">.</span><span class="n">stub</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="s1">&#39;Jill Smith&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1"># 使用 allow 取代 stub 回傳假資料</span>
-</span><span class='line'>    <span class="n">allow</span><span class="p">(</span><span class="n">student1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">receive</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="s1">&#39;John Smith&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">allow</span><span class="p">(</span><span class="n">student2</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">receive</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="s1">&#39;Jill Smith&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">class_room</span> <span class="o">=</span> <span class="no">ClassRoom</span><span class="o">.</span><span class="n">new</span> <span class="o">[</span><span class="n">student1</span><span class="p">,</span><span class="n">student2</span><span class="o">]</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">class_room</span><span class="o">.</span><span class="n">students_count</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">class_room</span><span class="o">.</span><span class="n">list_student_names</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;John Smith,Jill Smith&#39;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
 <h2>Mocks vs. Stubs</h2>
 
 <blockquote><p>Behavioral testing vs State testing</p></blockquote>
@@ -266,12 +329,14 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <h2>Reference</h2>
 
 <ul>
+<li><a href="https://relishapp.com/rspec/rspec-mocks/v/3-6/docs/basics">Rspec Mocks 3.6</a></li>
 <li><a href="https://about.futurelearn.com/blog/stubs-mocks-spies-rspec/">Stubs, Mocks and Spies in RSpec</a></li>
 <li><a href="https://stackoverflow.com/a/17810004">whats-the-difference-between-a-mock-stub</a></li>
 <li><a href="https://stackoverflow.com/questions/7340808/whats-the-difference-between-mock-stub-and-factory-girl">What&rsquo;s the difference between mock, stub, and factory girl?</a></li>
 <li><a href="https://github.com/festime/stubs-mocks-spies-in-rspec">了解 Stubs, Mocks, and Spies</a></li>
 <li><a href="http://blog.xdite.net/posts/2016/06/11/rspec-advanced-concept-part-1">RSpec - 進階測試系列概念</a></li>
 <li><a href="https://semaphoreci.com/community/tutorials/mocking-with-rspec-doubles-and-expectations">Mocking with RSpec: Doubles and Expectations</a></li>
+<li><a href="https://stackoverflow.com/questions/5164102/mocks-and-stubs">Mocks and Stubs</a></li>
 </ul>
 
 </div>
