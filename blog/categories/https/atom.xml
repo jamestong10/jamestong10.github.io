@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Https | JT's Blog]]></title>
   <link href="https://jamestong10.github.io/blog/categories/https/atom.xml" rel="self"/>
   <link href="https://jamestong10.github.io/"/>
-  <updated>2017-09-09T11:58:15+08:00</updated>
+  <updated>2018-08-01T21:12:33+08:00</updated>
   <id>https://jamestong10.github.io/</id>
   <author>
     <name><![CDATA[James Tong]]></name>
@@ -133,60 +133,6 @@ An optional company name []:
 <span class='line-number'>61</span>
 <span class='line-number'>62</span>
 <span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$ cat server.csr&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;h1&gt;&mdash;&ndash;BEGIN CERTIFICATE REQUEST&mdash;&ndash;&lt;/h1&gt;
@@ -199,23 +145,21 @@ An optional company name []:
 </span><span class='line'>## HTTPS Setting
 </span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;h1&gt;/etc/nginx/sites-enabled/domain.conf&lt;/h1&gt;
+</span><span class='line'>&lt;h1&gt;/etc/nginx/sites-enabled/domain-name-ssl.conf&lt;/h1&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;p&gt;server {
-</span><span class='line'>    listen 80;
 </span><span class='line'>    listen 443 ssl spdy default_server;
-</span><span class='line'>    server_name domain.com;&lt;/p&gt;
+</span><span class='line'>    server_name domain-name.com;&lt;/p&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;# Tell Nginx and Passenger where your app's 'public' directory is
-</span><span class='line'>root /home/apps/myguide/current/public;
-</span><span class='line'>
-</span><span class='line'># SSL configuration
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;# SSL configuration
 </span><span class='line'># 根據之前購買的憑證，會寄送domain.crt 檔案到信箱
 </span><span class='line'># 然後把步驟一的 server.key 和 domain.crt 上傳到server /etc/ssl/
+</span><span class='line'>
 </span><span class='line'>ssl on;
 </span><span class='line'>ssl_certificate      /etc/ssl/domain.crt;
 </span><span class='line'>ssl_certificate_key  /etc/ssl/domain.key;
-</span><span class='line'># spdy_headers_comp 0;
+</span><span class='line'>
+</span><span class='line'>ssl_session_timeout  5m;
 </span><span class='line'>ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 </span><span class='line'>ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA;
 </span><span class='line'>ssl_prefer_server_ciphers on;
@@ -240,70 +184,81 @@ An optional company name []:
 </span><span class='line'>&lt;p&gt;}&lt;/p&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;pre&gt;&lt;code&gt;
-</span><span class='line'>## 加強安全性
-</span><span class='line'>
-</span><span class='line'>如果到這一步，表示你之前都已經完成了!(當然..)
-</span><span class='line'>
-</span><span class='line'>請到 [ssl labs](https://www.ssllabs.com/ssltest/index.html)  測試網站安全性
-</span><span class='line'>
-</span><span class='line'>沒看錯得到了分數 B !!
-</span><span class='line'>
-</span><span class='line'>![level B](/images/posts/2017052303.jpg)
-</span><span class='line'>
-</span><span class='line'>感謝網路大神分享文章 [用 nginx 建置一個 A+ 等級的 https 網頁伺服器](https://www.peterdavehello.org/2015/10/build-an-a-plus-best-practice-https-web-server-via-nginx-chinese-version/) 解決labs 指出需改善的問題
-</span><span class='line'>
-</span><span class='line'>__1.This server supports weak Diffie-Hellman (DH) key exchange parameters. Grade capped to B.__
+</span><span class='line'>HTTP
+</span><span class='line'>設定請獨立出來，不要與HTTPS 寫在一起，將網址轉到（301)到 https
 </span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
 </span><span class='line'>
-</span><span class='line'>&lt;h1&gt;使用 openssl 命令產升 4096-bit “Strong” Diffie Hellman Group&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;$ openssl dhparam -out dhparams.pem 4096&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;產生出來的 dhparams.pem 請把它當作你其他的 private key 一樣好好保管&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;安全起見請調整檔案的owner, group以及權限&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;$ sudo chown www-data:www-data dhparams.pem
-</span><span class='line'>$ sudo chmod 400 dhparams.pem&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;/etc/nginx/sites-enabled/myguide.conf&lt;/h1&gt;
+</span><span class='line'>&lt;h1&gt;/etc/nginx/sites-enabled/domain-name.conf&lt;/h1&gt;
 </span><span class='line'>
 </span><span class='line'>&lt;p&gt;server {
-</span><span class='line'> # &hellip;
-</span><span class='line'> ssl_certificate      /etc/ssl/domain.crt;
-</span><span class='line'> ssl_certificate_key  /etc/ssl/domain.key;
-</span><span class='line'>+ ssl_dhparam /etc/ssl/dhparams.pem;
-</span><span class='line'> # &hellip;
-</span><span class='line'>}&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;reload config&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;$ sudo service nginx reload&lt;/p&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;測試成功！！但還是拿到Rank B&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;pre&gt;&lt;code&gt;
-</span><span class='line'>__2.This server's certificate chain is incomplete__
-</span><span class='line'>
-</span><span class='line'>這是因為憑證只有最後簽發的，並未包含中間簽核單位的資訊，導致此問題出現
-</span><span class='line'>
-</span><span class='line'>憑證是跟 Comodo 購買的所以網站上可找到中間簽核單位的憑證
-</span><span class='line'>
-</span><span class='line'>- Intermediate #3 申請的憑證 www_domain_com.crt
-</span><span class='line'>- [Intermediate #2 (SHA-2)] Comodo RSA Domain Validation Secure Server CA (https://goo.gl/pNFYR8)
-</span><span class='line'>- [Intermediate #1 (SHA-2)] COMODO RSA Certification Authority (https://goo.gl/b32Q0T)
-</span><span class='line'>
-</span><span class='line'>接著把 #3, #2, #1 照順序組合在一起變成一個檔案
-</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;h1&gt;/etc/nginx/sites-enabled/domain.conf&lt;/h1&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;p&gt;server {
-</span><span class='line'> # &hellip;
-</span><span class='line'> - ssl_certificate      /etc/ssl/domain.crt;
-</span><span class='line'> + ssl_certificate      /etc/ssl/domain_bundle.crt;
-</span><span class='line'> # &hellip;
+</span><span class='line'>  listen 80 default_server;
+</span><span class='line'>  listen [::]:80 default_server;
+</span><span class='line'>  server_name _;
+</span><span class='line'>  return 301 &lt;a href="https://$host$request_uri;"&gt;https://$host$request_uri;&lt;/a&gt;
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>加強安全性</h2>
+
+<p>如果到這一步，表示你之前都已經完成了!(當然..)</p>
+
+<p>請到 <a href="https://www.ssllabs.com/ssltest/index.html">ssl labs</a>  測試網站安全性</p>
+
+<p>沒看錯得到了分數 B !!</p>
+
+<p><img src="/images/posts/2017052303.jpg" alt="level B" /></p>
+
+<p>感謝網路大神分享文章 <a href="https://www.peterdavehello.org/2015/10/build-an-a-plus-best-practice-https-web-server-via-nginx-chinese-version/">用 nginx 建置一個 A+ 等級的 https 網頁伺服器</a> 解決labs 指出需改善的問題</p>
+
+<p><strong>1.This server supports weak Diffie-Hellman (DH) key exchange parameters. Grade capped to B.</strong></p>
+
+<pre><code># 使用 openssl 命令產升 4096-bit “Strong” Diffie Hellman Group
+$ openssl dhparam -out dhparams.pem 4096
+
+# 產生出來的 dhparams.pem 請把它當作你其他的 private key 一樣好好保管
+# 安全起見請調整檔案的owner, group以及權限
+$ sudo chown www-data:www-data dhparams.pem
+$ sudo chmod 400 dhparams.pem
+
+# /etc/nginx/sites-enabled/domain-name-ssl.conf
+server {
+ # ...
+ ssl_certificate      /etc/ssl/domain.crt;
+ ssl_certificate_key  /etc/ssl/domain.key;
++ ssl_dhparam /etc/ssl/dhparams.pem;
+ # ...
+}
+
+# reload config
+$ sudo nginx -t
+$ sudo service nginx reload
+
+# 測試成功！！但還是拿到Rank B
+</code></pre>
+
+<p><strong>2.This server&rsquo;s certificate chain is incomplete</strong></p>
+
+<p>這是因為憑證只有最後簽發的，並未包含中間簽核單位的資訊，導致此問題出現</p>
+
+<p>憑證是跟 Comodo 購買的所以網站上可找到中間簽核單位的憑證</p>
+
+<ul>
+<li>Intermediate #3 申請的憑證 www_domain_com.crt</li>
+<li>[Intermediate #2 (SHA-2)] Comodo RSA Domain Validation Secure Server CA (<a href="https://goo.gl/pNFYR8">https://goo.gl/pNFYR8</a>)</li>
+<li>[Intermediate #1 (SHA-2)] COMODO RSA Certification Authority (<a href="https://goo.gl/b32Q0T">https://goo.gl/b32Q0T</a>)</li>
+</ul>
+
+
+<p>接著把 #3, #2, #1 照順序組合在一起變成一個檔案</p>
+
+<pre><code># /etc/nginx/sites-enabled/domain.conf
+
+server {
+ # ...
+ - ssl_certificate      /etc/ssl/domain.crt;
+ + ssl_certificate      /etc/ssl/domain_bundle.crt;
+ # ...
+}
+</code></pre>
 
 <p>以上問題都調整完之後，再測試一次，終於會得 A+</p>
 

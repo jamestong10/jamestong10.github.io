@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-
-  <title><![CDATA[JT's Blog]]></title>
-  <link href="https://jamestong10.github.io/atom.xml" rel="self"/>
-  <link href="https://jamestong10.github.io/"/>
-  <updated>2018-08-01T21:12:33+08:00</updated>
+  <title>JT's Blog</title>
+  <link rel="alternate" type="text/html" href="https://jamestong10.github.io/"/>
+  <link rel="self" type="application/atom+xml" href="https://jamestong10.github.io/feed/"/>
   <id>https://jamestong10.github.io/</id>
-  <author>
-    <name><![CDATA[James Tong]]></name>
-    
-  </author>
+  <updated>2017-07-11T10:52:28+08:00</updated>
   <generator uri="http://octopress.org/">Octopress</generator>
-
   
+  <rights>Copyright © 2018, James Tong</rights>
+
   <entry>
-    <title type="html"><![CDATA[Continuous Integration With Circle CI and Integrate Slack]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/07/11/continuous-integration-with-circleci/"/>
+    <title type="html">Continuous Integration With Circle CI and Integrate Slack</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/07/11/continuous-integration-with-circleci/"/>
+    
+    <id>/blog/2017/07/11/continuous-integration-with-circleci</id>
+    <published>2017-07-11T10:52:28+08:00</published>
     <updated>2017-07-11T10:52:28+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/07/11/continuous-integration-with-circleci</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <h2>持續整合 / 持續交付&amp;持續部署</h2>
@@ -31,7 +37,7 @@
 
 <h2>流程規劃</h2>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017071104.jpg" alt="work flow" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2017071104.jpg" alt="work flow" /></p>
 
 <h2>Circle CI Configuration</h2>
 
@@ -122,7 +128,7 @@
 
 <h3>選擇 Project</h3>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017071101.jpg" alt="select gh project" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2017071101.jpg" alt="select gh project" /></p>
 
 <p>點選 <code>Build project</code> 會自動執行第一次建構</p>
 
@@ -145,11 +151,11 @@
 
 <p>GH 建立 PR 就會自動執行 RSpec 測試，測試通過即可點選 Merge</p>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017071102.jpg" alt="running status" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2017071102.jpg" alt="running status" /></p>
 
 <p>Slack 通知執行結果</p>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017071103.jpg" alt="slack notification" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2017071103.jpg" alt="slack notification" /></p>
 
 <h2>Reference</h2>
 
@@ -159,15 +165,29 @@
 <li><a href="http://blog.91app.com/continuous-integration-delivery/">持續性整合與發佈 (Continuous Integration / Continuous Delivery) 之相關應用</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Start and Stop EC2 Instances at Regular Intervals Using Lambda]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/06/20/start-and-stop-ec2-instances-at-regular-intervals-using-lambda/"/>
+    <title type="html">Start and Stop EC2 Instances at Regular Intervals Using Lambda</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/06/20/start-and-stop-ec2-instances-at-regular-intervals-using-lambda/"/>
+    
+    <id>/blog/2017/06/20/start-and-stop-ec2-instances-at-regular-intervals-using-lambda</id>
+    <published>2017-06-20T22:33:56+08:00</published>
     <updated>2017-06-20T22:33:56+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/06/20/start-and-stop-ec2-instances-at-regular-intervals-using-lambda</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <h2>動機</h2>
@@ -194,19 +214,19 @@
 
 <p>先到 AWS Lambda console，選擇 blank function</p>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017062001.jpg" alt="lambda console" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2017062001.jpg" alt="lambda console" /></p>
 
 <h3>Triggers</h3>
 
 <p>選用 CloudWatch Events，trigger rule 之後再設定</p>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017062002.jpg" alt="triggers" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2017062002.jpg" alt="triggers" /></p>
 
 <h3>Lambda function</h3>
 
 <p>輸入 function name、Runtime 選擇 <strong>Python2.7</strong></p>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017062003.jpg" alt="function" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2017062003.jpg" alt="function" /></p>
 
 <p>function code 調整如下：</p>
 
@@ -253,7 +273,7 @@
 
 <p>在 role 的下拉選單，選擇 Create a custom role</p>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017062004.jpg" alt="role" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2017062004.jpg" alt="role" /></p>
 
 <p>Policy Document 調整如下：</p>
 
@@ -337,7 +357,7 @@
 
 <p>右邊設定 target，選擇 Lambda Function，指定要執行哪個 function</p>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017062005.jpg" alt="CloudWatch events rule" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2017062005.jpg" alt="CloudWatch events rule" /></p>
 
 <p>最後在設 rule name 就完成了！！</p>
 
@@ -375,15 +395,29 @@
 <li><a href="https://aws.amazon.com/tw/premiumsupport/knowledge-center/start-stop-lambda-cloudwatch/">start stop lambda cloudwatch</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Ruby Object Inspect / To_s]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/06/17/ruby-to-s-inspect/"/>
+    <title type="html">Ruby Object Inspect / To_s</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/06/17/ruby-to-s-inspect/"/>
+    
+    <id>/blog/2017/06/17/ruby-to-s-inspect</id>
+    <published>2017-06-17T17:08:26+08:00</published>
     <updated>2017-06-17T17:08:26+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/06/17/ruby-to-s-inspect</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <p>記錄 Object <code>#to_s</code> 與 <code>#inspect</code> 的比較</p>
@@ -457,18 +491,32 @@
 <li>單純只要產生字串，就使用 #to_s</li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[RSpec Double / Stubs / Mocks]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/06/16/rspec-double-stubs-mocks/"/>
+    <title type="html">RSpec Double / Stubs / Mocks</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/06/16/rspec-double-stubs-mocks/"/>
+    
+    <id>/blog/2017/06/16/rspec-double-stubs-mocks</id>
+    <published>2017-06-16T10:06:25+08:00</published>
     <updated>2017-06-16T10:06:25+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/06/16/rspec-double-stubs-mocks</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
-<p>原本放在 <a href="https://jamestong10.github.io/blog/2017/05/23/rspec/">RSpec</a>，但是越寫越多，就把它獨立成一篇</p>
+<p>原本放在 <a href="https://jamestong10.github.io//blog/2017/05/23/rspec/">RSpec</a>，但是越寫越多，就把它獨立成一篇</p>
 
 <h2>Double / Mocks</h2>
 
@@ -480,7 +528,7 @@
 
 <p>「模擬」 與一個 「協作者」 的互動，設立一個 「會收到指定訊息」 的期望，去驗證互動是否真的有發生</p>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017061602.jpg" alt="mock" />
+<p><img src="https://jamestong10.github.io//images/posts/2017061602.jpg" alt="mock" />
 (source: <a href="https://dev.to/milipski/test-doubles---fakes-mocks-and-stubs">test-doubles&mdash;fakes-mocks-and-stubs</a>)</p>
 
 <h3>範例：</h3>
@@ -555,7 +603,7 @@
 
 <blockquote><p>method 回傳假資料</p></blockquote>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017061601.jpg" alt="stub" />
+<p><img src="https://jamestong10.github.io//images/posts/2017061601.jpg" alt="stub" />
 (source: <a href="https://dev.to/milipski/test-doubles---fakes-mocks-and-stubs">test-doubles&mdash;fakes-mocks-and-stubs</a>)</p>
 
 <h3>範例：</h3>
@@ -633,15 +681,29 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="https://semaphoreci.com/community/tutorials/mocking-with-rspec-doubles-and-expectations">Mocking with RSpec: Doubles and Expectations</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Rake - Ruby Make]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/06/13/rake-ruby-make/"/>
+    <title type="html">Rake - Ruby Make</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/06/13/rake-ruby-make/"/>
+    
+    <id>/blog/2017/06/13/rake-ruby-make</id>
+    <published>2017-06-13T21:33:11+08:00</published>
     <updated>2017-06-13T21:33:11+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/06/13/rake-ruby-make</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <h2>說明</h2>
@@ -928,15 +990,29 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="https://stackoverflow.com/a/825832">how to pass command line arguments to a rake task</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Rails Partials]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/06/05/rails-partial/"/>
+    <title type="html">Rails Partials</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/06/05/rails-partial/"/>
+    
+    <id>/blog/2017/06/05/rails-partial</id>
+    <published>2017-06-05T16:41:07+08:00</published>
     <updated>2017-06-05T16:41:07+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/06/05/rails-partial</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <blockquote><p>用來簡化 View 複雜的程式邏輯</p>
@@ -1180,15 +1256,29 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="http://api.rubyonrails.org/classes/ActionView/PartialRenderer.html">Rails Classes - Action View Partials</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Rails Delegate]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/06/05/rails-delegate/"/>
+    <title type="html">Rails Delegate</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/06/05/rails-delegate/"/>
+    
+    <id>/blog/2017/06/05/rails-delegate</id>
+    <published>2017-06-05T15:34:16+08:00</published>
     <updated>2017-06-05T15:34:16+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/06/05/rails-delegate</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <blockquote><p>屬於 ActiveSupport Delegate method</p>
@@ -1303,7 +1393,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>若比較嚴謹來看，這樣是違反 <a href="https://jamestong10.github.io/blog/2017/05/15/object-orientend-design-priciples/">Lask Knowledge Priciple</a></p>
+<p>若比較嚴謹來看，這樣是違反 <a href="https://jamestong10.github.io//blog/2017/05/15/object-orientend-design-priciples/">Lask Knowledge Priciple</a></p>
 
 <p>而且 Views 看起來也不漂亮</p>
 
@@ -1342,7 +1432,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 
 <h2>Others</h2>
 
-<p>參考 <a href="https://jamestong10.github.io/blog/2017/05/10/ruby-forwardable/">Ruby Forwardable</a></p>
+<p>參考 <a href="https://jamestong10.github.io//blog/2017/05/10/ruby-forwardable/">Ruby Forwardable</a></p>
 
 <h2>Reference</h2>
 
@@ -1354,15 +1444,29 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="http://waynechu.logdown.com/posts/206252-rails-delegate">Rails Delegate</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Ruby Tap / Fetch / Dig / Try]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/06/01/ruby-tap-fetch-dig-try/"/>
+    <title type="html">Ruby Tap / Fetch / Dig / Try</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/06/01/ruby-tap-fetch-dig-try/"/>
+    
+    <id>/blog/2017/06/01/ruby-tap-fetch-dig-try</id>
+    <published>2017-06-01T14:44:42+08:00</published>
     <updated>2017-06-01T14:44:42+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/06/01/ruby-tap-fetch-dig-try</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <h2>Tap</h2>
@@ -1559,15 +1663,29 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="https://ihower.tw/rails/activesupport.html#try">ihower active support - try</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Scss and Sass]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/05/29/scss-and-sass/"/>
+    <title type="html">Scss and Sass</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/05/29/scss-and-sass/"/>
+    
+    <id>/blog/2017/05/29/scss-and-sass</id>
+    <published>2017-05-29T15:56:26+08:00</published>
     <updated>2017-05-29T15:56:26+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/05/29/scss-and-sass</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <blockquote><p>學會 scss / sass 可以加速寫 css</p>
@@ -1812,15 +1930,29 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="http://sass-lang.com/documentation/file.SASS_REFERENCE.html">sass documentation</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Ruby Map / Collect / Each]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/05/26/ruby-block-map-collect/"/>
+    <title type="html">Ruby Map / Collect / Each</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/05/26/ruby-block-map-collect/"/>
+    
+    <id>/blog/2017/05/26/ruby-block-map-collect</id>
+    <published>2017-05-26T13:51:46+08:00</published>
     <updated>2017-05-26T13:51:46+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/05/26/ruby-block-map-collect</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <h2>Map / Collect</h2>
@@ -1854,7 +1986,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>&amp; 是 <a href="https://jamestong10.github.io/blog/2016/08/10/ruby-proc-lamdba-yield/">#to_proc</a> 簡化的符號</h2>
+<h2>&amp; 是 <a href="https://jamestong10.github.io//blog/2016/08/10/ruby-proc-lamdba-yield/">#to_proc</a> 簡化的符號</h2>
 
 <p>在Rails 中，假設要取得所有User 的姓名，使用 map 的寫法如下</p>
 
@@ -1912,15 +2044,29 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="https://stackoverflow.com/questions/12084507/what-does-the-map-method-do-in-ruby">what-does-the-map-method-do-in-ruby</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Make a+ HTTPS Web Server]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/05/23/make-a-plus-https-web-server/"/>
+    <title type="html">Make a+ HTTPS Web Server</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/05/23/make-a-plus-https-web-server/"/>
+    
+    <id>/blog/2017/05/23/make-a-plus-https-web-server</id>
+    <published>2017-05-23T15:16:20+08:00</published>
     <updated>2017-05-23T15:16:20+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/05/23/make-a-plus-https-web-server</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <h2>購買憑證 / 續購憑證</h2>
@@ -1929,11 +2075,11 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 
 <p>在購買之前可以先了解 level of validation: DV, OV, EV</p>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017052301.jpg" alt="dv/ov/ev" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2017052301.jpg" alt="dv/ov/ev" /></p>
 
 <p>網頁也有詳細說明</p>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017052302.jpg" alt="instructions" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2017052302.jpg" alt="instructions" /></p>
 
 <p>購買的部分，因為太簡單了，就不再贅述</p>
 
@@ -2105,7 +2251,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 
 <p>沒看錯得到了分數 B !!</p>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017052303.jpg" alt="level B" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2017052303.jpg" alt="level B" /></p>
 
 <p>感謝網路大神分享文章 <a href="https://www.peterdavehello.org/2015/10/build-an-a-plus-best-practice-https-web-server-via-nginx-chinese-version/">用 nginx 建置一個 A+ 等級的 https 網頁伺服器</a> 解決labs 指出需改善的問題</p>
 
@@ -2192,16 +2338,30 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 
 <p>以上問題都調整完之後，再測試一次，終於會得 A+</p>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017052304.jpg" alt="level A plus" /></p>
-]]></content>
+<p><img src="https://jamestong10.github.io//images/posts/2017052304.jpg" alt="level A plus" /></p>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Using Joins and Includes to Avoid N+1 Query Problem]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem/"/>
+    <title type="html">Using Joins and Includes to Avoid N+1 Query Problem</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem/"/>
+    
+    <id>/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem</id>
+    <published>2017-05-23T14:39:53+08:00</published>
     <updated>2017-05-23T14:39:53+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/05/23/using-joins-and-includes-to-avoid-n-plus-1-query-problem</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <p>就使用上來說，要從多筆資料去找 belongs_to 的資料，似乎是不太合邏輯</p>
@@ -2307,15 +2467,29 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 
 
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[RSpec]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/05/23/rspec/"/>
+    <title type="html">RSpec</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/05/23/rspec/"/>
+    
+    <id>/blog/2017/05/23/rspec</id>
+    <published>2017-05-23T11:32:44+08:00</published>
     <updated>2017-05-23T11:32:44+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/05/23/rspec</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <h2>介紹</h2>
@@ -2705,7 +2879,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 
 <h2>進階</h2>
 
-<p><a href="https://jamestong10.github.io/blog/2017/06/16/rspec-double-stubs-mocks/">RSpec Double / Stubs / Mocks</a></p>
+<p><a href="https://jamestong10.github.io//blog/2017/06/16/rspec-double-stubs-mocks/">RSpec Double / Stubs / Mocks</a></p>
 
 <h2>Reference</h2>
 
@@ -2715,15 +2889,29 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="http://mgleon08.github.io/blog/2016/01/29/rspec-plus-factory-girl/">用 Rspec + Factory Girl + CircleCi 寫測試</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Rails Module::Concerning and ActiveSupport::Concern]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/05/18/concerns/"/>
+    <title type="html">Rails Module::Concerning and ActiveSupport::Concern</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/05/18/concerns/"/>
+    
+    <id>/blog/2017/05/18/concerns</id>
+    <published>2017-05-18T15:45:21+08:00</published>
     <updated>2017-05-18T15:45:21+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/05/18/concerns</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <h2>Module#concerning</h2>
@@ -2898,15 +3086,29 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="http://mgleon08.github.io/blog/2016/03/26/concern/">concern</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Object Oriented Design Principles - SOLID]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/05/15/object-orientend-design-priciples/"/>
+    <title type="html">Object Oriented Design Principles - SOLID</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/05/15/object-orientend-design-priciples/"/>
+    
+    <id>/blog/2017/05/15/object-orientend-design-priciples</id>
+    <published>2017-05-15T11:50:00+08:00</published>
     <updated>2017-05-15T11:50:00+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/05/15/object-orientend-design-priciples</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <p>在學習程式開發的過程，應先了解物件導向設計的五個基本原則</p>
@@ -3003,15 +3205,29 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="http://teddy-chen-tw.blogspot.tw/2014/04/solid.html">Teddy-SOLID</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Ruby Forwardable (Delegator)]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/05/10/ruby-forwardable/"/>
+    <title type="html">Ruby Forwardable (Delegator)</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/05/10/ruby-forwardable/"/>
+    
+    <id>/blog/2017/05/10/ruby-forwardable</id>
+    <published>2017-05-10T14:02:58+08:00</published>
     <updated>2017-05-10T14:02:58+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/05/10/ruby-forwardable</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <blockquote><p>ruby method 是一行程式碼且執行動作跟 method_name 相同，就可以使用 forwardable 簡化</p></blockquote>
@@ -3137,15 +3353,29 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="https://www.saturnflyer.com/blog/ruby-forwardable-deep-dive">ruby-forwardable-deep-dive</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Cookies and Sessions]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/05/09/cookies-and-sessions/"/>
+    <title type="html">Cookies and Sessions</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/05/09/cookies-and-sessions/"/>
+    
+    <id>/blog/2017/05/09/cookies-and-sessions</id>
+    <published>2017-05-09T16:21:35+08:00</published>
     <updated>2017-05-09T16:21:35+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/05/09/cookies-and-sessions</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <h1><a href="https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Cookies">Cookies</a> (Session cookies)</h1>
@@ -3381,15 +3611,29 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="http://mgleon08.github.io/blog/2016/06/12/cookie-and-session/">cookie-and-session</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[RWD Conecpt]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/05/04/rwd-conecpt/"/>
+    <title type="html">RWD Conecpt</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/05/04/rwd-conecpt/"/>
+    
+    <id>/blog/2017/05/04/rwd-conecpt</id>
+    <published>2017-05-04T17:12:09+08:00</published>
     <updated>2017-05-04T17:12:09+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/05/04/rwd-conecpt</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Content-is-like-water-1980.jpg/800px-Content-is-like-water-1980.jpg" alt="content is like water" /></p>
@@ -3443,7 +3687,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 
 <p>可以參考下圖，設計不同裝置，顯示對應的樣式</p>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017050401.jpg" alt="each devise of rwd device" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2017050401.jpg" alt="each devise of rwd device" /></p>
 
 <h2>Reference</h2>
 
@@ -3452,15 +3696,29 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="https://lintongtong.gitbooks.io/rwd/content/">RWD 概念分享</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[Learning CSS and Tips]]></title>
-    <link href="https://jamestong10.github.io/blog/2017/04/13/learning-css/"/>
+    <title type="html">Learning CSS and Tips</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2017/04/13/learning-css/"/>
+    
+    <id>/blog/2017/04/13/learning-css</id>
+    <published>2017-04-13T13:31:59+08:00</published>
     <updated>2017-04-13T13:31:59+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2017/04/13/learning-css</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
 <h2>Selector</h2>
@@ -3578,7 +3836,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 
 <p>使用<code>box-sizing:border-box</code> 之後，width, height 就會包含 padding 和border 的寬度</p>
 
-<p><img src="https://jamestong10.github.io/images/posts/2017041301.jpg" width="500" alt="border-box" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2017041301.jpg" width="500" alt="border-box" /></p>
 
 <h2>Box-shadow</h2>
 
@@ -3766,18 +4024,32 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 </span><span class='line'># 產生有透明度的顏色
 </span><span class='line'>rgba(0,0,0,0.5)</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
   <entry>
-    <title type="html"><![CDATA[使用Vagrant 操作Virtaul Boxes]]></title>
-    <link href="https://jamestong10.github.io/blog/2016/09/11/use-vagrant-to-operating-virtual-box/"/>
+    <title type="html">使用Vagrant 操作Virtaul Boxes</title>
+    
+    <link rel="alternate" type="text/html" href="https://jamestong10.github.io/blog/2016/09/11/use-vagrant-to-operating-virtual-box/"/>
+    
+    <id>/blog/2016/09/11/use-vagrant-to-operating-virtual-box</id>
+    <published>2016-09-11T00:45:21+08:00</published>
     <updated>2016-09-11T00:45:21+08:00</updated>
-    <id>https://jamestong10.github.io/blog/2016/09/11/use-vagrant-to-operating-virtual-box</id>
-    <content type="html"><![CDATA[<!-- more -->
+    <author>
+      <name>James Tong</name>
+      <uri>https://jamestong10.github.io/</uri>
+    </author>
+    <content type="html" xml:base="https://jamestong10.github.io/" >
+<![CDATA[
+
+<!-- more -->
 
 
-<p><img src="https://jamestong10.github.io/images/posts/2016091201.jpg" alt="vagrant_virtulaBox" /></p>
+<p><img src="https://jamestong10.github.io//images/posts/2016091201.jpg" alt="vagrant_virtulaBox" /></p>
 
 <h2>Why Vagrant + Virtual Box</h2>
 
@@ -4077,7 +4349,11 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <li><a href="http://www.codedata.com.tw/social-coding/vagrant-tutorial-2-playing-vm-with-vagrant/">Vagrant Tutorial-2</a></li>
 </ul>
 
-]]></content>
+
+
+
+]]>
+    </content>
   </entry>
-  
+
 </feed>
