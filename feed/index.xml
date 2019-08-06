@@ -3176,9 +3176,7 @@ Fake – a replacement object with real behaviour, but taking shortcuts that are
 <!-- more -->
 
 
-<p>在學習程式開發的過程，應先了解物件導向設計的五個基本原則</p>
-
-<p>這些原則比較偏向觀念，應用上，開發前規劃或是重構的過程調整</p>
+<p>SOLID 是物件導向設計需遵守的基本原則</p>
 
 <h2>SRP - Single Responsibility Principle SRP</h2>
 
